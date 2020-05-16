@@ -25,9 +25,10 @@ public class Main extends Application{
 		panPrincial.setCenter(new PanelCentral());
 		panPrincial.setRight(PanelDeDroite.getInstance());
 		panPrincial.setLeft(PanelDeGauche.getInstance());
-		Scene sceneFinale = new Scene(panPrincial);
+		Scene sceneFinale = new Scene(panPrincial, 1250, 750);
 		
 		primaryStage.setScene(sceneFinale);
+		primaryStage.setFullScreen(true);
 		primaryStage.show();
 	}
     

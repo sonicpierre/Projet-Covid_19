@@ -11,11 +11,14 @@ import controll.mouse.MouseController;
 
 @SuppressWarnings("serial")
 public class MapView extends JXMapViewer{
-
+	
+	private static final TileFactoryInfo NORMAL = new VirtualEarthTileFactoryInfo(VirtualEarthTileFactoryInfo.MAP);
+	private static final TileFactoryInfo SATELLITE = new VirtualEarthTileFactoryInfo(VirtualEarthTileFactoryInfo.HYBRID);
+	
     public MapView() {
-
+    	
         // Create a TileFactoryInfo for OpenStreetMap
-        TileFactoryInfo info = new VirtualEarthTileFactoryInfo(VirtualEarthTileFactoryInfo.MAP);
+        TileFactoryInfo info = NORMAL;
         DefaultTileFactory tileFactory = new DefaultTileFactory(info);
         this.setTileFactory(tileFactory);
 
@@ -28,6 +31,14 @@ public class MapView extends JXMapViewer{
         this.setZoom(13);
         this.setAddressLocation(centre);
         MouseController.MouseMapController(this);
-        
+    }
+    
+    public void changerMap() {
+    	if(this.getTileFactory().getInfo() == NORMAL) {
+    		this.setTileFactory(new DefaultTileFactory(SATELLITE));
+    	}
+    	else {
+    		this.setTileFactory(new DefaultTileFactory(NORMAL));
+    	}
     }
 }
