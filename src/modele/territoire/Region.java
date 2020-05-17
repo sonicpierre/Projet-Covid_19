@@ -2,6 +2,11 @@ package modele.territoire;
 
 import java.util.List;
 
+/**
+ * Modélise une région comme une liste de départements et un nom. On peut avoir
+ * le taux de communes confinées de la région.
+ */
+
 public class Region {
 	private String nom;
 	private List<Departement> departements;

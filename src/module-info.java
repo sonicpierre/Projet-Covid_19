@@ -6,4 +6,5 @@ module vue.main.Main {
 	requires javafx.swing;
 	requires javafx.controls;
 	requires jdk.compiler;
+	requires java.sql;
 }

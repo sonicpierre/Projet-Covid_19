@@ -12,7 +12,7 @@ public abstract class Commune {
 	private int nbDeces24h;
 	private int nbGuerison24h;
 	private ArrayList<Historique> historique;
-	
+
 	public Commune(String departement, int nbNouveauContamine24h, int nbDeces24h, int nbGuerison24h,
 			ArrayList<Historique> historique) {
 		this.departement = departement;
@@ -24,19 +24,28 @@ public abstract class Commune {
 
 	public void ajouterHistorique() {
 		boolean confine;
-		confine = this.equals((ComConf)this);
+		confine = this.equals((ComConf) this);
 		String dateStr = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 		Dates dateActuelle = new Dates(dateStr);
 		Historique hist = new Historique(nbNouveauContamine24h, nbDeces24h, nbGuerison24h, confine, dateActuelle);
 		this.historique.add(hist);
 	}
-	
+
+	public int[] statsMois() {
+		int contaminesMois = 0;
+		int decesMois = 0;
+		int guerisMois = 0;
+		for (Historique hist : historique) {
+			contaminesMois += hist.getNbContamination();
+			decesMois += hist.getNbDeces();
+			guerisMois += hist.getNbGuerison();
+		}
+		int res[] = { contaminesMois, decesMois, guerisMois };
+		return (res);
+	}
+
 	public void supprimerHistorique() {
 		this.historique.clear();
-	}
-	
-	public void statsMois() {
-		
 	}
 
 	public String getDepartement() {
