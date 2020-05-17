@@ -3,7 +3,6 @@ package vue.main;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.viewer.GeoPosition;
 
 import javafx.embed.swing.SwingNode;
