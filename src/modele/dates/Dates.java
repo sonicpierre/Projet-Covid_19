@@ -22,19 +22,6 @@ public class Dates {
 		this.estBissextile();
 	}
 
-	public void ajouterJours(int nbJours) {
-		if ((this.jour + nbJours > 28 && this.bissextile == true && this.mois == 2)
-				|| (this.jour + nbJours > 30 && estMois30(this.mois))
-				|| (this.jour + nbJours > 31 && !estMois30(this.mois))) {
-			this.jour = 1;
-			this.mois++;
-			if (this.mois > 12) {
-				this.mois = 1;
-				this.annee++;
-			}
-		}
-	}
-
 	public boolean estMois30(int mois) {
 		int[] mois30 = { 4, 6, 9, 11 };
 		for (int m : mois30) {

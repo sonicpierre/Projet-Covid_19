@@ -10,7 +10,6 @@ public class Historique {
 	private Dates date;
 
 	public Historique(int nbContamination, int nbDeces, int nbGuerison, boolean estConfine, Dates date) {
-		super();
 		this.nbContamination = nbContamination;
 		this.nbDeces = nbDeces;
 		this.nbGuerison = nbGuerison;

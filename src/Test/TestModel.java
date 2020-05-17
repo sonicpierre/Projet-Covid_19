@@ -1,9 +1,11 @@
 package Test;
 
+import modele.territoire.France;
+
 public class TestModel {
 
 	public static void main(String[] args) {
-		//créer départements, réions,..
+		France.getInstance().ajouterHistoriqueBDD();
 
 	}
 
