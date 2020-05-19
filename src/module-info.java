@@ -1,10 +1,16 @@
 module vue.main.Main {
-	exports vue.main;
-	requires javafx.graphics;
-	requires java.desktop;
+	requires transitive javafx.graphics;
+	requires transitive java.desktop;
 	requires jxmapviewer2;
-	requires javafx.swing;
-	requires javafx.controls;
+	requires transitive javafx.swing;
+	requires transitive javafx.controls;
 	requires jdk.compiler;
 	requires java.sql;
+	requires transitive javafx.base;
+	requires transitive javafx.fxml;
+	
+	
+	opens controll.main to javafx.fxml;
+	exports controll.main;
+
 }
