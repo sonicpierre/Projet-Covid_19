@@ -16,17 +16,17 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/eisti/Desktop/projet gmi2/Projet/Projet_Final/Libraire Externe/mysql-connector-java-8.0.19.jar">
+	<classpathentry kind="lib" path="/home/eisti/Travail/Java/ProjetFinal/Libraire Externe/commons-logging-1.1.1.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/eisti/Desktop/projet gmi2/Projet/Projet_Final/Libraire Externe/jxmapviewer2-2.2.jar">
+	<classpathentry kind="lib" path="/home/eisti/Travail/Java/ProjetFinal/Libraire Externe/jxmapviewer2-2.2.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/eisti/Desktop/projet gmi2/Projet/Projet_Final/Libraire Externe/commons-logging-1.1.1.jar">
+	<classpathentry kind="lib" path="/home/eisti/Travail/Java/ProjetFinal/Libraire Externe/mysql-connector-java-8.0.19.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>

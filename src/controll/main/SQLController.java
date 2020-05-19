@@ -34,7 +34,8 @@ public class SQLController implements Initializable{
 	
 	@FXML
 	protected void quitterPremiereFenetre() {
-		
+		System.out.println("Au revoir");
+		System.exit(0);
 	}
 	
 	
@@ -45,7 +46,6 @@ public class SQLController implements Initializable{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
 		
 	}
 }

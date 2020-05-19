@@ -42,13 +42,20 @@ public class Main extends Application{
 		window.setScene(scene1);
 		window.show();
 		
-		
 	}
 	
 	public static void changerFenetre() {
+		window.close();
 		window.setTitle("Projet chemin le plus court");
 		window.setScene(scene2);
 		window.centerOnScreen();
+		window.show();
 	}
-    
+	
+	
+    @Override
+    public void stop() throws Exception {
+    	super.stop();
+    	System.out.println("Au revoir");
+    }
 }

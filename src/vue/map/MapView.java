@@ -1,5 +1,7 @@
 package vue.map;
 
+import java.util.List;
+
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.VirtualEarthTileFactoryInfo;
 import org.jxmapviewer.viewer.DefaultTileFactory;
@@ -38,5 +40,9 @@ public class MapView extends JXMapViewer{
     	else {
     		this.setTileFactory(new DefaultTileFactory(NORMAL));
     	}
+    }
+    
+    public void dessinerItineraire(List<GeoPosition> listeDesVilles) {
+    	PointRoutePainter monItineraire = new PointRoutePainter(listeDesVilles, this);
     }
 }

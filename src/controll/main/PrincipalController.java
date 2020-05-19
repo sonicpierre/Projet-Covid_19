@@ -1,9 +1,13 @@
 package controll.main;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.swing.SwingUtilities;
+
+import org.jxmapviewer.viewer.GeoPosition;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -74,7 +78,21 @@ public class PrincipalController implements Initializable{
         panePrincipal.getChildren().add(swingNode);
 	}
 	
-	
+	@FXML
+	private void validationItineraire() {
+		
+		/**
+		 * Fonction Roxane à implémenter
+		 */
+		
+		List<GeoPosition> listeDePoints = new ArrayList<GeoPosition>();
+		
+		listeDePoints.add(new GeoPosition(50.63, 3.06));
+		listeDePoints.add(new GeoPosition(45.75, 4.85));
+		listeDePoints.add(new GeoPosition(45.78, 3.08));
+		
+		carte.dessinerItineraire(listeDePoints);
+	}
 	
 	
     @FXML

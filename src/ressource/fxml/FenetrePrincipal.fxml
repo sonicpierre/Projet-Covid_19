@@ -56,7 +56,7 @@
                         <TextField promptText="Arrivée" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label text="Départ" GridPane.halignment="CENTER" />
                         <Label text="Arrivée" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                        <Button mnemonicParsing="false" text="Valider" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                        <Button mnemonicParsing="false" onAction="#validationItineraire" text="Valider" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
                </children>
