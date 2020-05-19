@@ -28,7 +28,7 @@ public class SQLController implements Initializable{
 	
 	@FXML
 	public void validerConnexion() {
-		
+		Main.changerFenetre();
 	}
 	
 	

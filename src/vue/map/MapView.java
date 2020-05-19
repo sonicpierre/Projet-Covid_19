@@ -6,8 +6,6 @@ import org.jxmapviewer.viewer.DefaultTileFactory;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.TileFactoryInfo;
 
-import controll.mouse.MouseController;
-
 
 @SuppressWarnings("serial")
 public class MapView extends JXMapViewer{

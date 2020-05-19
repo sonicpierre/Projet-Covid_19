@@ -1,4 +1,4 @@
-package controll.mouse;
+package vue.map;
 
 import javax.swing.event.MouseInputListener;
 
@@ -7,9 +7,6 @@ import org.jxmapviewer.input.CenterMapListener;
 import org.jxmapviewer.input.PanKeyListener;
 import org.jxmapviewer.input.PanMouseInputListener;
 import org.jxmapviewer.input.ZoomMouseWheelListenerCursor;
-
-import vue.map.SelectionAdapter;
-import vue.map.SelectionPainter;
 
 
 public class MouseController{
