@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import modele.BDD.InitialisationBDD;
+import modele.BDD.RemplissageBDD;
 
 public class SQLController implements Initializable{
 
@@ -28,7 +30,17 @@ public class SQLController implements Initializable{
 	
 	@FXML
 	public void validerConnexion() {
-		Main.changerFenetre();
+		InitialisationBDD ini = new InitialisationBDD();
+		System.out.println(loginConnexion.getText() + passwordConnexion.getText());
+		if(ini.initialiserBDD(loginConnexion.getText(), passwordConnexion.getText())) {
+			//Faire un truc de chargement.
+			RemplissageBDD remplissage = new RemplissageBDD();
+			Main.changerFenetre();
+		} else {
+			
+		}
+		
+		
 	}
 	
 	

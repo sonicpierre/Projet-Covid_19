@@ -1,6 +1,13 @@
 package modele.BDD;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,6 +30,7 @@ public class RemplissageBDD {
 		this.importationDept();
 		this.importationVilles();
 		this.association();
+		this.importationHistorique();
 	}
 	
 	
@@ -330,6 +338,104 @@ public class RemplissageBDD {
 		}
 		// cas d'erreur
 		return(-1);
+	}
+	
+	public void importationHistorique() {
+		// On va chercher les données sur le fichier github
+		String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+		String user = this.user;
+		String passwd = this.passwd;
+		try (BufferedInputStream bis = new BufferedInputStream(new URL(
+				"https://raw.githubusercontent.com/opencovid19-fr/data/master/data-sources/sante-publique-france/covid_hospit.csv")
+						.openStream());
+				FileOutputStream fos = new FileOutputStream("dead_data.csv")) {
+			byte data[] = new byte[1024];
+			int byteContent;
+			while ((byteContent = bis.read(data, 0, 1024)) != -1) {
+				fos.write(data, 0, byteContent);
+			}
+		} catch (IOException e) {
+			e.printStackTrace(System.out);
+		}
+		// On crée la bdd
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			try (Connection conn = DriverManager.getConnection(url, user, passwd)) {
+				Statement stat = conn.createStatement();
+				stat.executeUpdate("CREATE TABLE IF NOT EXISTS Historique(" + "departement VARCHAR(3) NOT NULL,"
+						+ "date VARCHAR(10)," + "hospitalises INT," + "reanimation INT," + "gueris INT," + "morts INT,"
+						+ "CONSTRAINT pk_historique PRIMARY KEY(departement,date),"
+						+ "CONSTRAINT departmentCode FOREIGN KEY (departement) REFERENCES Departement (code) ON DELETE CASCADE);");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// On remplit la bdd
+		try {
+			File f = new File("dead_data.csv");
+			FileReader fr = new FileReader(f);
+			BufferedReader br = new BufferedReader(fr);
+			try {
+				String ligne = br.readLine();
+				String champs[] = ligne.split(";");
+				ligne = br.readLine();
+				champs = ligne.split(";");
+				String departement = champs[0];
+				String date = champs[2];
+				int hospitalises = Integer.parseInt(champs[3]);
+				int reanimation = Integer.parseInt(champs[4]);
+				int gueris = Integer.parseInt(champs[5]);
+				int morts = Integer.parseInt(champs[6]);
+				while ((ligne = br.readLine()) != null) {
+					champs = ligne.split(";");
+					System.out.println(ligne);
+					// Si on lit une ligne ayant le meme département et la même date que la
+					// précédente on augmente les compteurs
+					if (champs[0].equals(departement) && champs[2].equals(date)) {
+						hospitalises += Integer.parseInt(champs[3]);
+						reanimation += Integer.parseInt(champs[4]);
+						gueris += Integer.parseInt(champs[5]);
+						morts += Integer.parseInt(champs[6]);
+						System.out.println("a");
+					} else { // Sinon on insère dans la bdd les compteurs et on les réinitialise sur la
+								// nouvelle ligne
+						try {
+							Class.forName("com.mysql.cj.jdbc.Driver");
+							try (Connection conn = DriverManager.getConnection(url, user, passwd)) {
+								Statement stat = conn.createStatement();
+								stat.executeUpdate("INSERT IGNORE Historique VALUES(" + departement + "," + date + ","
+										+ hospitalises + "," + reanimation + "," + gueris + "," + morts + ");");
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						departement = champs[0];
+						date = champs[2];
+						hospitalises = Integer.parseInt(champs[3]);
+						reanimation = Integer.parseInt(champs[4]);
+						gueris = Integer.parseInt(champs[5]);
+						morts = Integer.parseInt(champs[6]);
+						System.out.println("b");
+					}
+				}
+				try {
+					Class.forName("com.mysql.cj.jdbc.Driver");
+					try (Connection conn = DriverManager.getConnection(url, user, passwd)) {
+						Statement stat = conn.createStatement();
+						stat.executeUpdate("INSERT IGNORE Historique VALUES(" + departement + "," + date + ","
+								+ hospitalises + "," + reanimation + "," + gueris + "," + morts + ");");
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				br.close();
+				fr.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichier introuvable");
+		}
 	}
 
 }

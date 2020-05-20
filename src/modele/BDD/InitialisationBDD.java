@@ -6,7 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class InitialisationBDD {
-	private String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	private static final String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	private static final String url2 = "jdbc:mysql://localhost/?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	public static String user;
 	public static String passwd;
 	
@@ -47,12 +48,13 @@ public class InitialisationBDD {
 	public boolean existeUser(String login, String mdp) {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			try (Connection conn = DriverManager.getConnection(url, login, mdp)) {
+			try (Connection conn = DriverManager.getConnection(url2, login, mdp)) {
 				Statement stat = conn.createStatement();
 				stat.executeUpdate("CREATE DATABASE IF NOT EXISTS France;");
 				stat.close();
 			}
 			catch (SQLException e) {
+				System.out.println("Je suis ici");
 				return(false);
 			}
 		} catch (ClassNotFoundException e) {
