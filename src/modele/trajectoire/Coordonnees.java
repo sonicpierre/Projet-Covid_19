@@ -8,6 +8,8 @@ import java.sql.Statement;
 
 import org.jxmapviewer.viewer.GeoPosition;
 
+import modele.BDD.InitialisationBDD;
+
 /** Coordonnées Gps d'une ville à partir de son nom
  * 
  *
@@ -30,8 +32,8 @@ public class Coordonnees {
 	
 	public double[] coordonneesGpsBdd(String nomVille) {
 		String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-		String user = "MoneyMan";
-		String passwd = "money";
+		String user = InitialisationBDD.user;
+		String passwd = InitialisationBDD.passwd;
 		// coordonnées
 		double lat,lng;
 		double [] coor = null;

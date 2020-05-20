@@ -6,9 +6,10 @@ import java.util.ListIterator;
 
 import org.jxmapviewer.viewer.GeoPosition;
 
+import modele.BDD.InitialisationBDD;
+
 // permet de récupérer les coordonnées de villes 
 public class Positionnement {
-	
 	// donne les coordonnées GPS des 2 villes à partir de leurs noms
 	public List<GeoPosition> positionner2Villes(String ville1, String ville2) {
 		List<String> villes = new ArrayList<String>();

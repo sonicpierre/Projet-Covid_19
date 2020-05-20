@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
 
+import modele.BDD.InitialisationBDD;
 import modele.dates.Dates;
 
 public class France {
@@ -48,8 +49,8 @@ public class France {
 
 	public void ajouterHistoriqueBDD() {
 		String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-		String user = "MoneyMan";
-		String passwd = "money";
+		String user = InitialisationBDD.user;
+		String passwd = InitialisationBDD.passwd;
 		try {
 			File f = new File("covid_hospit.csv");
 			FileReader fr = new FileReader(f);
