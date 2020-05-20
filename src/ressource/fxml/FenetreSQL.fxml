@@ -17,7 +17,7 @@
    <children>
       <TabPane prefHeight="281.0" prefWidth="403.0" stylesheets="@../css/FenetreSQL.css" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab closable="false" text="Connexion">
+          <Tab id="OngletConnection" closable="false" text="Connexion">
             <content>
               <AnchorPane id="StyleConnexion" minHeight="0.0" minWidth="0.0" prefHeight="129.0" prefWidth="329.0">
                      <children>
@@ -37,7 +37,7 @@
                               <PasswordField fx:id="passwordConnexion" promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
-                        <Label id="titre" layoutX="94.0" layoutY="14.0" text="Compte MYSQL">
+                        <Label id="titre" layoutX="80.0" layoutY="14.0" text="Compte MySQL">
                            <font>
                               <Font name="Cabin-Regular" size="20.0" />
                            </font>
@@ -52,7 +52,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Nouveau compte">
+          <Tab id="OngletNouveauCompte" text="Nouveau compte">
             <content>
               <AnchorPane id="PasswordStyle" minHeight="0.0" minWidth="0.0" prefHeight="291.0" prefWidth="295.0">
                      <children>

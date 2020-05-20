@@ -1,0 +1,21 @@
+#panPrincipal{
+	-fx-background-color : #F5F4D9;
+}
+
+#paneItineraire{
+	-fx-background-color : #3C80D1;
+	-fx-font-size: 15px;
+}
+
+
+#validerIteneraire:hover{
+	-fx-background-color : #C6EFC6;
+}
+
+#bouttonSattellite {
+	-fx-background-color : #C6EFC6;
+}
+
+#regionPan{
+	-fx-background-image: url("fond.jpg");
+}
