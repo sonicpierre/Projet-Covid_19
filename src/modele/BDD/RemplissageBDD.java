@@ -16,6 +16,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,12 +26,14 @@ public class RemplissageBDD {
 	private String passwd = InitialisationBDD.passwd;
 	
 	public RemplissageBDD() { 
-		this.clear();
+		//this.clear();
+		/*
 		this.importationRegions();
 		this.importationDept();
 		this.importationVilles();
 		this.association();
 		this.importationHistorique();
+		*/
 	}
 	
 	
@@ -437,5 +440,28 @@ public class RemplissageBDD {
 			System.out.println("Fichier introuvable");
 		}
 	}
+	
+	
+	public List<String> listeRegions() {
+        List<String> listeRegions = new ArrayList<String>();
+        String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+        String user = this.user;
+        String passwd = this.passwd;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            try (Connection conn = DriverManager.getConnection(url, user, passwd)) {
+                Statement stat = conn.createStatement();
+                ResultSet res = stat.executeQuery("SELECT nom FROM Region;");
+                while (res.next()) {
+                    listeRegions.add(res.getString(1));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return(listeRegions);
+    }
 
 }

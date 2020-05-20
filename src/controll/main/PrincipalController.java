@@ -19,7 +19,9 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
+import modele.trajectoire.Positionnement;
 import vue.map.MapView;
 
 public class PrincipalController implements Initializable{
@@ -34,13 +36,18 @@ public class PrincipalController implements Initializable{
 	
 	@FXML
 	private PieChart camembert;
-	
 
     @FXML
     private StackPane panePrincipal;
     
     @FXML
     private Button changerMap;
+    
+    @FXML
+    private TextField villeNum1;
+    
+    @FXML
+    private TextField villeNum2;
     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -80,18 +87,9 @@ public class PrincipalController implements Initializable{
 	
 	@FXML
 	private void validationItineraire() {
+		Positionnement monPos = new Positionnement();
 		
-		/**
-		 * Fonction Roxane à implémenter
-		 */
-		
-		List<GeoPosition> listeDePoints = new ArrayList<GeoPosition>();
-		
-		listeDePoints.add(new GeoPosition(50.63, 3.06));
-		listeDePoints.add(new GeoPosition(45.75, 4.85));
-		listeDePoints.add(new GeoPosition(45.78, 3.08));
-		
-		carte.dessinerItineraire(listeDePoints);
+		carte.dessinerItineraire(monPos.positionner2Villes(villeNum1.getText(), villeNum2.getText()));
 	}
 	
 	

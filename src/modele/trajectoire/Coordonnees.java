@@ -21,8 +21,8 @@ public class Coordonnees {
 		double lng, lat;
 		double[] coor = coordonneesGpsBdd(nomVille);
 		if (coor != null) {
-			lng= coor[0];
-			lat = coor[1];
+			lng= coor[1];
+			lat = coor[0];
 			pos = new GeoPosition(lat,lng);
 		} else {
 			pos = null;

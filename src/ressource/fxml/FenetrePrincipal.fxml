@@ -36,10 +36,38 @@
                         <Insets bottom="25.0" top="20.0" />
                      </padding>
                   </Label>
-                  <ScrollPane prefHeight="390.0" prefWidth="281.0">
-                    <content>
-                      <AnchorPane id="regionPan" minHeight="0.0" minWidth="0.0" prefHeight="387.0" prefWidth="262.0" />
-                    </content>
+                  <ScrollPane prefHeight="430.0" prefWidth="276.0">
+                     <content>
+                        <VBox prefHeight="498.0" prefWidth="260.0" spacing="15.0">
+                           <children>
+                              <Button mnemonicParsing="false" text="Guadeloupe" />
+                              <Button mnemonicParsing="false" text="Martinique" />
+                              <Button mnemonicParsing="false" text="Guyane" />
+                              <Button mnemonicParsing="false" text="La Réunion" />
+                              <Button mnemonicParsing="false" text="Mayotte" />
+                              <Button mnemonicParsing="false" text="Île-de-France" />
+                              <Button mnemonicParsing="false" text="Centre-Val de Loire" />
+                              <Button mnemonicParsing="false" text="Bourgogne-Franche-Comté" />
+                              <Button mnemonicParsing="false" text="Normandie" />
+                              <Button mnemonicParsing="false" text="Hauts-de-France" />
+                              <Button mnemonicParsing="false" text="Grand Est" />
+                              <Button mnemonicParsing="false" text="Pays de la Loire" />
+                              <Button mnemonicParsing="false" text="Bretagne" />
+                              <Button mnemonicParsing="false" text="Nouvelle Aquitaine" />
+                              <Button mnemonicParsing="false" text="Occitanie" />
+                              <Button mnemonicParsing="false" text="Auvergne-Rhône-Alpes" />
+                              <Button mnemonicParsing="false" text="Provence-Alpes-Côte d'Azur" />
+                              <Button mnemonicParsing="false" text="Corse" />
+                              <Button mnemonicParsing="false" text="Collectivités d'Outre-Mer" />
+                           </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets left="15.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                     </content>
                   </ScrollPane>
                   <GridPane id="paneItineraire" alignment="CENTER" prefHeight="144.0" prefWidth="280.0">
                     <columnConstraints>
@@ -52,8 +80,8 @@
                       <RowConstraints maxHeight="39.0" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <TextField promptText="Départ" GridPane.columnIndex="1" />
-                        <TextField promptText="Arrivée" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="villeNum1" promptText="Départ" GridPane.columnIndex="1" />
+                        <TextField fx:id="villeNum2" promptText="Arrivée" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <Label text="Départ" GridPane.halignment="CENTER" />
                         <Label text="Arrivée" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                         <Button id="validerIteneraire" mnemonicParsing="false" onAction="#validationItineraire" text="Valider" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
