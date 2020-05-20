@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class InitialisationBDD {
-	private static final String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	private static final String url2 = "jdbc:mysql://localhost/?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	public static String user;
 	public static String passwd;
@@ -67,9 +66,9 @@ public class InitialisationBDD {
 		// connection en tant que root pour créer l'user
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			try (Connection conn = DriverManager.getConnection(url, "root", mdpRoot)) {
+			try (Connection conn = DriverManager.getConnection(url2, "root", mdpRoot)) {
 				Statement stat = conn.createStatement();
-				int verif1 = stat.executeUpdate("CREATE USER '"+login+"'@'localhost' IDENTIFIED BY '"+mdp+"';");
+				int verif1 = stat.executeUpdate("CREATE  USER '"+login+"'@'localhost' IDENTIFIED BY '"+mdp+"';");
 				int verif2 = stat.executeUpdate("GRANT ALL PRIVILEGES ON *France* TO '"+login+"'@'localhost';");
 				stat.close();
 				if (verif1!=0 && verif2!=0) {

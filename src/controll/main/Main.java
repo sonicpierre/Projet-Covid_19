@@ -13,9 +13,9 @@ public class Main extends Application{
 
 	
     // Primary Stage
-    private static Stage window1, window2;
+    private static Stage window1;
     // Two scenes
-    private static Scene scene1, scene2;
+    private static Scene scene1;
 	
     public static void main(String[] args) { 
         launch(args); 
@@ -32,31 +32,16 @@ public class Main extends Application{
 	public void start(Stage primaryStage) throws Exception {
 		
 		
-		window1 = new Stage();
-		window1.initModality(Modality.APPLICATION_MODAL);			//Rend insencible ce qu'il y a derrière la fenêtre
+		window1 = primaryStage;
 		window1.initStyle(StageStyle.UNDECORATED);
 		window1.centerOnScreen();
-
-		
-		window2 = primaryStage;
-		window2.setTitle("Projet chemin le plus court");
-		window2.setResizable(false);
-		window2.centerOnScreen();
-		
+	
 		
 		Parent demarrage = FXMLLoader.load(getClass().getResource("/ressource/fxml/FenetreSQL.fxml"));
 		scene1 = new Scene(demarrage);
 		
-		Parent principale = FXMLLoader.load(getClass().getResource("/ressource/fxml/FenetrePrincipal.fxml"));
-		scene2 = new Scene(principale);
-		
-		window2.getIcons().add(new Image("file:lamas.jpg"));
-		
-		window2.setScene(scene2);
-		
 		window1.setScene(scene1);
-		
-		window2.show();
+
 		window1.show();
 		
 	}

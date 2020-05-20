@@ -40,25 +40,25 @@
                      <content>
                         <VBox prefHeight="498.0" prefWidth="260.0" spacing="15.0">
                            <children>
-                              <Button mnemonicParsing="false" text="Guadeloupe" />
-                              <Button mnemonicParsing="false" text="Martinique" />
-                              <Button mnemonicParsing="false" text="Guyane" />
-                              <Button mnemonicParsing="false" text="La Réunion" />
-                              <Button mnemonicParsing="false" text="Mayotte" />
-                              <Button mnemonicParsing="false" text="Île-de-France" />
-                              <Button mnemonicParsing="false" text="Centre-Val de Loire" />
-                              <Button mnemonicParsing="false" text="Bourgogne-Franche-Comté" />
-                              <Button mnemonicParsing="false" text="Normandie" />
-                              <Button mnemonicParsing="false" text="Hauts-de-France" />
-                              <Button mnemonicParsing="false" text="Grand Est" />
-                              <Button mnemonicParsing="false" text="Pays de la Loire" />
-                              <Button mnemonicParsing="false" text="Bretagne" />
-                              <Button mnemonicParsing="false" text="Nouvelle Aquitaine" />
-                              <Button mnemonicParsing="false" text="Occitanie" />
-                              <Button mnemonicParsing="false" text="Auvergne-Rhône-Alpes" />
-                              <Button mnemonicParsing="false" text="Provence-Alpes-Côte d'Azur" />
-                              <Button mnemonicParsing="false" text="Corse" />
-                              <Button mnemonicParsing="false" text="Collectivités d'Outre-Mer" />
+                              <Button mnemonicParsing="false" onAction="#modifGraph" text="Guadeloupe" />
+                              <Button mnemonicParsing="false" onAction="#modifGraph" text="Martinique" />
+                              <Button mnemonicParsing="false" onAction="#modifGraph" text="Guyane" />
+                              <Button mnemonicParsing="false" onAction="#modifGraph" text="La Réunion" />
+                              <Button mnemonicParsing="false" onAction="#modifGraph" text="Mayotte" />
+                              <Button mnemonicParsing="false" onAction="#modifGraph" text="Île-de-France" />
+                              <Button mnemonicParsing="false" onAction="#modifGraph" text="Centre-Val de Loire" />
+                              <Button mnemonicParsing="false" onAction="#modifGraph" text="Bourgogne-Franche-Comté" />
+                              <Button mnemonicParsing="false" onAction="#modifGraph" text="Normandie" />
+                              <Button mnemonicParsing="false" onAction="#modifGraph" text="Hauts-de-France" />
+                              <Button mnemonicParsing="false" onAction="#modifGraph" text="Grand Est" />
+                              <Button mnemonicParsing="false" onAction="#modifGraph" text="Pays de la Loire" />
+                              <Button mnemonicParsing="false" onAction="#modifGraph" text="Bretagne" />
+                              <Button mnemonicParsing="false" onAction="#modifGraph" text="Nouvelle Aquitaine" />
+                              <Button mnemonicParsing="false" onAction="#modifGraph" text="Occitanie" />
+                              <Button mnemonicParsing="false" onAction="#modifGraph" text="Auvergne-Rhône-Alpes" />
+                              <Button mnemonicParsing="false" onAction="#modifGraph" text="Provence-Alpes-Côte d'Azur" />
+                              <Button mnemonicParsing="false" onAction="#modifGraph" text="Corse" />
+                              <Button mnemonicParsing="false" onAction="#modifGraph" text="Collectivités d'Outre-Mer" />
                            </children>
                            <opaqueInsets>
                               <Insets />

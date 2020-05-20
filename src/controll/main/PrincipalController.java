@@ -1,13 +1,9 @@
 package controll.main;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.swing.SwingUtilities;
-
-import org.jxmapviewer.viewer.GeoPosition;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +17,7 @@ import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
+import modele.BDD.DataGraphes;
 import modele.trajectoire.Positionnement;
 import vue.map.MapView;
 
@@ -53,23 +50,8 @@ public class PrincipalController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
 		SwingNode swingNode = new SwingNode();
-		
-		Series<String, Number> series = new XYChart.Series<String, Number>();
-		
-	    series.getData().add(new XYChart.Data<String, Number>("Jan", 23));
-	    series.getData().add(new XYChart.Data<String, Number>("Feb", 14));
-	    series.getData().add(new XYChart.Data<String, Number>("Mar", 15));
-	    series.getData().add(new XYChart.Data<String, Number>("Apr", 24));
-	    series.getData().add(new XYChart.Data<String, Number>("May", 34));
-	    series.getData().add(new XYChart.Data<String, Number>("Jun", 36));
-	    series.getData().add(new XYChart.Data<String, Number>("Jul", 22));
-	    series.getData().add(new XYChart.Data<String, Number>("Aug", 45));
-	    series.getData().add(new XYChart.Data<String, Number>("Sep", 43));
-	    series.getData().add(new XYChart.Data<String, Number>("Oct", 17));
-	    series.getData().add(new XYChart.Data<String, Number>("Nov", 29));
-	    series.getData().add(new XYChart.Data<String, Number>("Dec", 25));
 	    
-	    lineChart.getData().add(series);
+	    lineChart.getData().add(DataGraphes.hospitalisesDepartement());
 	    
         ObservableList<PieChart.Data> pieChartData =
                 FXCollections.observableArrayList(
@@ -92,6 +74,10 @@ public class PrincipalController implements Initializable{
 		carte.dessinerItineraire(monPos.positionner2Villes(villeNum1.getText(), villeNum2.getText()));
 	}
 	
+	@FXML
+	private void modifGraph() {
+		
+	}
 	
     @FXML
     private void changerLaCarte() {
