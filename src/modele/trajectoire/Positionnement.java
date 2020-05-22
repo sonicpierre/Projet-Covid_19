@@ -31,7 +31,11 @@ public class Positionnement {
 		List<String> villesNonConfinees = villesNonConfineesBDD(seuils);
 		List<String> villes = calculerTrajectoire(depart,arrivee,villesNonConfinees);
 		System.out.println(villes);
-		return positionnerVilles(villes);
+		if (villes != null && villes.size()!=0) {
+			return positionnerVilles(villes);
+		} else {
+			return null;
+		}
 	}
 	
 	// donne les coordonnées GPS des n villes de la liste (à partir de leurs noms)
@@ -55,6 +59,10 @@ public class Positionnement {
 	 * @return la liste ordonnée des villes étapes de la trajectoire
 	 */
 	public List<String> calculerTrajectoire(String depart, String arrivee,List<String> listeVilles) {
+		// si une des deux villes est confinée, on ne peut pas calculer de trajectoire
+		if (!listeVilles.contains(depart) || !listeVilles.contains(arrivee)) {
+			return null;
+		}
 		// nombre de villes de la bdd
 		int n = listeVilles.size();
 		//distance minimale entre la ville de départ et la ville <NomVille,distance>
@@ -290,3 +298,4 @@ public class Positionnement {
 	}
 	
 }
+
