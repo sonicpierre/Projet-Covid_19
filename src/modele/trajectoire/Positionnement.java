@@ -1,5 +1,6 @@
 package modele.trajectoire;
 
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.jxmapviewer.viewer.GeoPosition;
 
@@ -18,9 +20,16 @@ import modele.BDD.InitialisationBDD;
 // permet de récupérer les coordonnées de villes 
 public class Positionnement {
 	
-	// donne une suite de villes (coordonnées) qui forment une trajectoire entre les deux villes données
-	public List<GeoPosition> positionnerTrajectoire(String depart, String arrivee) {
-		List<String> villes = calculerTrajectoire(depart,arrivee);
+	/** donne une suite de villes (coordonnées) qui forment une trajectoire entre les deux villes données
+	 * 
+	 * @param depart
+	 * @param arrivee
+	 * 
+	 * @return
+	 */
+	public List<GeoPosition> positionnerTrajectoire(String depart, String arrivee, HashMap<String,Integer> seuils) {
+		List<String> villesNonConfinees = villesNonConfineesBDD(seuils);
+		List<String> villes = calculerTrajectoire(depart,arrivee,villesNonConfinees);
 		System.out.println(villes);
 		return positionnerVilles(villes);
 	}
@@ -38,10 +47,14 @@ public class Positionnement {
 		return(listeCoor);
 	}
 	
-	// calcule le chemin le plus court entre 2 villes
-	public List<String> calculerTrajectoire(String depart, String arrivee) {
-		// liste des villes de la bdd
-		List<String> listeVilles = listeVillesBDD();
+	/** calcule le chemin le plus court entre 2 villes
+	 * 
+	 * @param depart
+	 * @param arrivee
+	 * @param listeVilles la liste des villes non confinées de la bdd
+	 * @return la liste ordonnée des villes étapes de la trajectoire
+	 */
+	public List<String> calculerTrajectoire(String depart, String arrivee,List<String> listeVilles) {
 		// nombre de villes de la bdd
 		int n = listeVilles.size();
 		//distance minimale entre la ville de départ et la ville <NomVille,distance>
@@ -65,7 +78,7 @@ public class Positionnement {
 		
 		// tant qu'on n'a pas visité toutes les villes
 		while (visites.size()!=n ) {
-			String villeCourante = villeDeDistanceMinimale(listeVilles,distanceMin,visites);
+			String villeCourante = villeDeDistanceMinimale(listeVilles,distanceMin,visites,listeVilles);
 			// quand on atteint l'arrivée
 			if (villeCourante.equals(arrivee)) {
 				return(reformerTrajectoire(predecesseur,depart,arrivee));
@@ -127,13 +140,14 @@ public class Positionnement {
 	 * @param visites la liste des villes déjà visitées
 	 * @return le nom de la ville non visitée la plus proche du départ
 	 */
-	public String villeDeDistanceMinimale(List<String> villes,Map<String,Double> distanceMin,List<String> visites) {
+	public String villeDeDistanceMinimale(List<String> villes,Map<String,Double> distanceMin,List<String> visites,List<String> nonConfinees) {
 		double min = Double.POSITIVE_INFINITY;
 		String villeMin = null;
 		for (int i=0; i<distanceMin.size(); i++) {
 			String v = villes.get(i);
 			double dist = distanceMin.get(v);
-			if (!visites.contains(v) && dist<min) {
+			// villeMin doit être non confinée et pas encore visitée
+			if (!visites.contains(v) && nonConfinees.contains(v) && dist<min) {
 				min = dist;
 				villeMin = v;
 			}
@@ -211,6 +225,68 @@ public class Positionnement {
 			}
 		}
 		return(trajet);
+	}
+	
+	public List<String> villesNonConfineesBDD(HashMap<String,Integer> seuils) {
+		String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+		String user = InitialisationBDD.user;
+		String passwd = InitialisationBDD.passwd;
+		
+		// liste des villes non confinées
+		List<String> villesNonConfinees = new ArrayList<String>();
+		// liste totale des villes
+		List<String> villesBDD = listeVillesBDD();
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			try (Connection conn = DriverManager.getConnection(url, user, passwd)) {
+				Statement stat = conn.createStatement();
+				// pour chaque ville, on regarde si elle est confinée
+				for (int i=0; i<villesBDD.size(); i++) {
+					String ville = villesBDD.get(i);
+					ResultSet result = stat.executeQuery("SELECT hospitalises,reanimation,morts,date FROM Historique WHERE departement=(SELECT code_dept FROM Commune WHERE nom = \""+ville+"\") ORDER BY date DESC;");
+					// on prend le premier
+					if (result.next()) {
+						// si la ville n'est pas confinée, on l'ajoute à la liste des villes non confinées
+						if (!confiner(result.getInt("hospitalises"),result.getInt("reanimation"),result.getInt("morts"),seuils)) {
+							villesNonConfinees.add(ville);
+						}
+					}
+					result.close();
+				}
+				stat.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return(villesNonConfinees);
+	}
+	
+	/** Determine si une ville/département doit être confiné ou non en fonction des seuils donnés
+	 * Si un des seuils est dépassé, la ville sera confinée
+	 * @param hospitalises dernière donné du nombre d'hospitalisation en 24h
+	 * @param reanimation dernière donné du nombre de personnes en réanimation en 24h
+	 * @param morts dernière donné du nombre de morts en 24h
+	 * @param seuils hashmap contenant les seuils recherchés
+	 * @return un booléen indicant si la ville doit être confinée ou non
+	 */
+	public boolean confiner(int hospitalises, int reanimation, int morts, HashMap<String,Integer> seuils) {
+		// liste des indicateurs à prendre en compte
+		Set<String> indicateurs = seuils.keySet();
+		// ville non confinée par défaut
+		boolean confine = false;
+		// si trop de personnes hospitalisés, la ville est confinée
+		if (indicateurs.contains("hospitalises")) {
+			confine = confine || (hospitalises >= seuils.get("hospitalises"));
+		}
+		if (indicateurs.contains("reanimation")) {
+			confine = confine || (reanimation >= seuils.get("reanimation"));
+		}
+		if (indicateurs.contains("morts")) {
+			confine = confine || (morts >= seuils.get("morts"));
+		}
+		return (confine);
 	}
 	
 }
