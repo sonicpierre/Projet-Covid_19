@@ -31,19 +31,14 @@ public class Main extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
-		
 		window1 = primaryStage;
 		window1.initStyle(StageStyle.UNDECORATED);
 		window1.centerOnScreen();
-	
 		
 		Parent demarrage = FXMLLoader.load(getClass().getResource("/ressource/fxml/FenetreSQL.fxml"));
 		scene1 = new Scene(demarrage);
-		
 		window1.setScene(scene1);
-
 		window1.show();
-		
 	}
 	
 	public static void changerFenetre() {

@@ -1,9 +1,9 @@
 #panPrincipal{
-	-fx-background-color : #F5F4D9;
+	-fx-background-color : #DEF1FB;
 }
 
 #paneItineraire{
-	-fx-background-color : #3C80D1;
+	-fx-background-color : #DEF1FB;
 	-fx-font-size: 15px;
 }
 
@@ -16,6 +16,6 @@
 	-fx-background-color : #C6EFC6;
 }
 
-#regionPan{
-	-fx-background-image: url("fond.jpg");
+#panRegion{
+    -fx-background-color: linear-gradient(to bottom, #002C9E, #DEF1FB);
 }

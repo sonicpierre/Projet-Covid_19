@@ -34,6 +34,8 @@ public class RemplissageBDD {
 		this.association();
 		this.importationHistorique();
 		*/
+		
+		System.out.println("Coucou les loulous !!");
 	}
 	
 	

@@ -1,5 +1,7 @@
 package vue.map;
 
+import java.awt.Color;
+import java.util.HashMap;
 import java.util.List;
 
 import org.jxmapviewer.JXMapViewer;
@@ -44,5 +46,13 @@ public class MapView extends JXMapViewer{
     
     public void dessinerItineraire(List<GeoPosition> listeDesVilles) {
     	PointRoutePainter monItineraire = new PointRoutePainter(listeDesVilles, this);
+    }
+    
+    public void dessinerRayon(GeoPosition ville) {
+         new KmPainter(ville,this);
+    }
+    
+    public void dessinerCercle(HashMap<GeoPosition, Double> ensembleAffichage, Color couleur) {
+    	new RegionPainter(ensembleAffichage, couleur, this);
     }
 }
