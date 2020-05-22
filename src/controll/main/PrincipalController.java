@@ -263,5 +263,7 @@ public class PrincipalController implements Initializable{
     	else
     		changerMap.setText(nomSatellite);
     }
+    
+    
 
 }

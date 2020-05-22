@@ -20,6 +20,8 @@ import modele.BDD.InitialisationBDD;
 // permet de récupérer les coordonnées de villes 
 public class Positionnement {
 	
+	private static HashMap<String,Integer> seuils;
+	
 	/** donne une suite de villes (coordonnées) qui forment une trajectoire entre les deux villes données
 	 * 
 	 * @param depart
@@ -27,7 +29,7 @@ public class Positionnement {
 	 * 
 	 * @return
 	 */
-	public List<GeoPosition> positionnerTrajectoire(String depart, String arrivee, HashMap<String,Integer> seuils) {
+	public List<GeoPosition> positionnerTrajectoire(String depart, String arrivee) {
 		List<String> villesNonConfinees = villesNonConfineesBDD(seuils);
 		List<String> villes = calculerTrajectoire(depart,arrivee,villesNonConfinees);
 		System.out.println(villes);
@@ -295,6 +297,14 @@ public class Positionnement {
 			confine = confine || (morts >= seuils.get("morts"));
 		}
 		return (confine);
+	}
+
+	public static HashMap<String, Integer> getSeuils() {
+		return seuils;
+	}
+
+	public static void setSeuils(HashMap<String, Integer> seuils) {
+		Positionnement.seuils = seuils;
 	}
 	
 }

@@ -59,6 +59,8 @@ public class MenuChoixController extends Application{
 		setRotate(LamaC2, true, 180, 14);
 		setRotate(LamaC3, true, 100, 16);
 	}
+	
+	//Changement de style
 	// Event Listener on AnchorPane.onMouseExited
 	@FXML
 	public void stop(MouseEvent event) {
@@ -110,7 +112,7 @@ public class MenuChoixController extends Application{
 	@FXML
 	public void installationBDD() {
 		//Faire un truc de chargement.
-		RemplissageBDD remplissage = new RemplissageBDD();
+		new RemplissageBDD();
 	}
 	
 	private void setRotate(Circle c, boolean reverse, int angle, int duration) {

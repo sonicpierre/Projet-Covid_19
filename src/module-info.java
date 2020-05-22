@@ -9,7 +9,6 @@ module vue.main.Main {
 	requires transitive javafx.base;
 	requires transitive javafx.fxml;
 	
-	
 	opens controll.main to javafx.fxml;
 	exports controll.main;
 

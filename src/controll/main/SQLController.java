@@ -68,14 +68,13 @@ public class SQLController extends Application implements Initializable{
 	@FXML
 	protected void quitterPremiereFenetre() {
 		System.out.println("Au revoir");
-		System.exit(0);
 	}
 	
 	
 	@FXML
 	protected void validerCreation() {
 		ini.creerUser(loginNouveau.getText(), passwordNouveau.getText(), passwordRoot.getText());
-		RemplissageBDD remplissage = new RemplissageBDD();
+		new RemplissageBDD();
 	}
 
 	//Ici on génère la deuxième fenêtre

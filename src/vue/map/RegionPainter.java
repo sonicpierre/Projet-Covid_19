@@ -36,7 +36,7 @@ public class RegionPainter implements Painter<JXMapViewer>{
         // original list do not have an effect here
         this.region = region;
         this.couleur = couleur;
-        this.carte = carte;
+        this.setCarte(carte);
         
    	 	List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
         painters.add(this);
@@ -91,4 +91,12 @@ public class RegionPainter implements Painter<JXMapViewer>{
 			g.fillOval(lastX - (distance / 2), lastY - (distance / 2), distance, distance);       		
     	 }
      }
+
+	public JXMapViewer getCarte() {
+		return carte;
+	}
+
+	public void setCarte(JXMapViewer carte) {
+		this.carte = carte;
+	}
 }

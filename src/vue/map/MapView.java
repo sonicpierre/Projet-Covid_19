@@ -45,7 +45,7 @@ public class MapView extends JXMapViewer{
     }
     
     public void dessinerItineraire(List<GeoPosition> listeDesVilles) {
-    	PointRoutePainter monItineraire = new PointRoutePainter(listeDesVilles, this);
+    	new PointRoutePainter(listeDesVilles, this);
     }
     
     public void dessinerRayon(GeoPosition ville) {
