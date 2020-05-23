@@ -39,9 +39,8 @@ public class Main extends Application{
 		window1.show();
 	}
 	
-	public static void changerFenetre() {
+	public static void quitterFenetre() {
 		window1.close();
-
 	}
 	
 	

@@ -1,20 +1,29 @@
 package controll.main;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.swing.SwingUtilities;
 
+import org.jxmapviewer.viewer.GeoPosition;
+
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import modele.BDD.DataGraphes;
 import modele.BDD.RepresentationSurCarte;
 import modele.trajectoire.Coordonnees;
@@ -25,7 +34,7 @@ public class PrincipalController implements Initializable{
 	
 	private MapView carte = new MapView(); 
 	private Positionnement monPos = new Positionnement();
-
+	private static Stage window = new Stage();
 	
 	private static final String nomSatellite = "Satellite";
 	private static final String nomClassique = "Classique";
@@ -58,6 +67,9 @@ public class PrincipalController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
+		window.setTitle("Choix seuils");
+		window.initModality(Modality.APPLICATION_MODAL);
+		
 		SwingNode swingNode = new SwingNode();
 		
 	    lineChart.getData().addAll(DataGraphes.guerisRegion(), DataGraphes.hospitalisesRegion(), DataGraphes.reanimesRegion(), DataGraphes.mortsRegion());
@@ -70,6 +82,22 @@ public class PrincipalController implements Initializable{
 	}
 	
 	@FXML
+	private void fenetreConfinement() {
+
+		Parent principale;
+		try {
+			principale = FXMLLoader.load(getClass().getResource("/ressource/fxml/choixSeuil.fxml"));
+			Scene scene = new Scene(principale);
+			window.setResizable(false);
+			window.setScene(scene);
+			window.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@FXML
 	private void retourEtatInitial() {
 		lineChart.getData().setAll(DataGraphes.guerisRegion(), DataGraphes.hospitalisesRegion(), DataGraphes.reanimesRegion(), DataGraphes.mortsRegion());
 		camembert.setData(DataGraphes.statsQuotidiennes());
@@ -78,7 +106,16 @@ public class PrincipalController implements Initializable{
 	
 	@FXML
 	private void validationItineraire() {
-		carte.dessinerItineraire(monPos.positionnerTrajectoire(villeNum1.getText(), villeNum2.getText()));
+		List<GeoPosition> itineraire = monPos.positionnerTrajectoire(villeNum1.getText(), villeNum2.getText());
+		if(itineraire != null) {
+			carte.dessinerItineraire(itineraire);
+			villeNum1.setStyle("-fx-background-color : white;");
+			villeNum2.setStyle("-fx-background-color : white;");
+		}
+		else {
+			villeNum1.setStyle("-fx-background-color : red;");
+			villeNum2.setStyle("-fx-background-color : red;");
+		}
 	}
 	
 	@FXML
@@ -263,7 +300,19 @@ public class PrincipalController implements Initializable{
     	else
     		changerMap.setText(nomSatellite);
     }
-    
-    
 
+	public static Stage getWindow() {
+		return window;
+	}
+
+	@FXML
+	private void revenirEnArriere() {
+		MenuChoixController.getWindow().close();
+		SQLController.getFenetre().show();
+	}
+	
+	public static void setWindow(Stage window) {
+		PrincipalController.window = window;
+	}
+    
 }

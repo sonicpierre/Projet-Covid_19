@@ -1,9 +1,13 @@
 package controll.main;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.animation.RotateTransition;
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -14,11 +18,12 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import modele.BDD.RemplissageBDD;
 
-public class MenuChoixController extends Application{
+public class MenuChoixController implements Initializable{
 	
 	private RotateTransition rot;
 		
 	private static Stage window = new Stage();
+	
 	
 	@FXML
 	private AnchorPane PanMap;
@@ -96,12 +101,19 @@ public class MenuChoixController extends Application{
 	
 	@FXML
 	public void lancerLaMap() {
+		SQLController.getFenetre().close();
+		Parent principale;
 		try {
-			this.start(window);
-		} catch (Exception e) {
+			principale = FXMLLoader.load(getClass().getResource("/ressource/fxml/FenetrePrincipal.fxml"));
+			Scene scene = new Scene(principale);
+			window.setTitle("Lamamap");
+			window.setResizable(true);
+			window.setScene(scene);
+			window.show();
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}	
 	}
 	
 	
@@ -112,12 +124,12 @@ public class MenuChoixController extends Application{
 	@FXML
 	public void installationBDD() {
 		//Faire un truc de chargement.
+		System.out.println("hello");
 		new RemplissageBDD();
 	}
 	
 	private void setRotate(Circle c, boolean reverse, int angle, int duration) {
-		rot = new RotateTransition(Duration.seconds(duration),c);
-		
+		rot = new RotateTransition(Duration.seconds(duration),c);		
 		rot.setAutoReverse(reverse);
 		rot.setByAngle(angle);
 		rot.setDelay(Duration.seconds(0));
@@ -125,12 +137,20 @@ public class MenuChoixController extends Application{
 		rot.setCycleCount(28);
 		rot.play();
 	}
+
 	@Override
-	public void start(Stage arg0) throws Exception {
-		Parent principale = FXMLLoader.load(getClass().getResource("/ressource/fxml/FenetrePrincipal.fxml"));
-		Scene scene = new Scene(principale);
-		window.setTitle("Lamamap");
-		SQLController.getFenetre().setScene(scene);
-		SQLController.getFenetre().centerOnScreen();
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		// TODO Auto-generated method stub
+		
 	}
+
+	public static Stage getWindow() {
+		return window;
+	}
+
+	public static void setWindow(Stage window) {
+		MenuChoixController.window = window;
+	}
+	
+	
 }

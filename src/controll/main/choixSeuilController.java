@@ -22,9 +22,13 @@ public class choixSeuilController {
 	@FXML
 	public void validationSeuil(MouseEvent event) {
 		HashMap<String, Integer> monHashi = new HashMap<String, Integer>();
-		monHashi.put("hospitalises", Integer.parseInt(labelHospitalise.getText()));
-		monHashi.put("reanimation", Integer.parseInt(labelReanimation.getText()));
-		monHashi.put("morts", Integer.parseInt(labelMort.getText()));
+		if(!labelHospitalise.getText().equals(""))
+			monHashi.put("hospitalises", Integer.parseInt(labelHospitalise.getText()));
+		if(!labelReanimation.getText().equals(""))
+			monHashi.put("reanimation", Integer.parseInt(labelReanimation.getText()));
+		if(!labelMort.getText().equals(""))
+			monHashi.put("morts", Integer.parseInt(labelMort.getText()));
 		Positionnement.setSeuils(monHashi);
+		PrincipalController.getWindow().close();
 	}
 }

@@ -1,6 +1,5 @@
 package modele.trajectoire;
 
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -30,6 +29,9 @@ public class Positionnement {
 	 * @return
 	 */
 	public List<GeoPosition> positionnerTrajectoire(String depart, String arrivee) {
+		//Si jamais aucun seuil n'a été défini.
+		if(seuils == null)
+			seuils = new HashMap<String, Integer>();
 		List<String> villesNonConfinees = villesNonConfineesBDD(seuils);
 		List<String> villes = calculerTrajectoire(depart,arrivee,villesNonConfinees);
 		System.out.println(villes);

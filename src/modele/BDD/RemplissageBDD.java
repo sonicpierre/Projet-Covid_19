@@ -26,14 +26,12 @@ public class RemplissageBDD {
 	private String passwd = InitialisationBDD.passwd;
 	
 	public RemplissageBDD() { 
-		//this.clear();
-		/*
+		this.clear();
 		this.importationRegions();
 		this.importationDept();
 		this.importationVilles();
 		this.association();
 		this.importationHistorique();
-		*/
 		
 		System.out.println("Coucou les loulous !!");
 	}
