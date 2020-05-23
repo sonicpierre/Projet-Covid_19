@@ -344,10 +344,28 @@ public class RemplissageBDD {
 	}
 	
 	public void importationHistorique() {
-		// On va chercher les données sur le fichier github
 		String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 		String user = this.user;
 		String passwd = this.passwd;
+		int nbLigne = 0;
+		// On récupère la dernière ligne du fichier pour pas avoir à tout recharger
+		try {
+			File file = new File("dead_data.csv");
+			FileReader freader = new FileReader(file);
+			BufferedReader breader = new BufferedReader(freader);
+			try {
+				while (breader.readLine() != null) {
+					nbLigne++;
+				}
+				breader.close();
+				freader.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichier introuvable");
+		}
+		// On va chercher les données sur le fichier github
 		try (BufferedInputStream bis = new BufferedInputStream(new URL(
 				"https://raw.githubusercontent.com/opencovid19-fr/data/master/data-sources/sante-publique-france/covid_hospit.csv")
 						.openStream());
@@ -379,16 +397,25 @@ public class RemplissageBDD {
 			FileReader fr = new FileReader(f);
 			BufferedReader br = new BufferedReader(fr);
 			try {
-				String ligne = br.readLine();
-				String champs[] = ligne.split(";");
-				ligne = br.readLine();
+				for (int i = 0; i < nbLigne + 1; i++) {
+					br.readLine();
+				}
+				String ligne;
+				String champs[];
+				String departement = "";
+				String date = "";
+				int hospitalises = 0;
+				int reanimation = 0;
+				int gueris = 0;
+				int morts = 0;
+				ligne=br.readLine();
 				champs = ligne.split(";");
-				String departement = champs[0];
-				String date = champs[2];
-				int hospitalises = Integer.parseInt(champs[3]);
-				int reanimation = Integer.parseInt(champs[4]);
-				int gueris = Integer.parseInt(champs[5]);
-				int morts = Integer.parseInt(champs[6]);
+				departement = champs[0];
+				date = champs[2];
+				hospitalises = Integer.parseInt(champs[3]);
+				reanimation = Integer.parseInt(champs[4]);
+				gueris = Integer.parseInt(champs[5]);
+				morts = Integer.parseInt(champs[6]);
 				while ((ligne = br.readLine()) != null) {
 					champs = ligne.split(";");
 					System.out.println(ligne);
@@ -440,7 +467,6 @@ public class RemplissageBDD {
 			System.out.println("Fichier introuvable");
 		}
 	}
-	
 	
 	public List<String> listeRegions() {
         List<String> listeRegions = new ArrayList<String>();
