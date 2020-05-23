@@ -27,11 +27,17 @@ public class RemplissageBDD {
 	
 	public RemplissageBDD() { 
 		this.clear();
+		System.out.println("Nettoyé");
 		this.importationRegions();
+		System.out.println("Régionné");
 		this.importationDept();
+		System.out.println("Départementé");
 		this.importationVilles();
+		System.out.println("Villé");
 		this.association();
+		System.out.println("Associationné");
 		this.importationHistorique();
+		System.out.println("Historiqué");
 		
 		System.out.println("Coucou les loulous !!");
 	}
@@ -43,6 +49,7 @@ public class RemplissageBDD {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			try (Connection conn = DriverManager.getConnection(url, user, passwd)) {
 				Statement stat = conn.createStatement();
+				stat.executeUpdate("DROP TABLE IF EXISTS Historique;");
 				stat.executeUpdate("DROP TABLE IF EXISTS Adjacence;");
 				stat.executeUpdate("DROP TABLE IF EXISTS Commune;");
 				stat.executeUpdate("DROP TABLE IF EXISTS Departement;");
@@ -343,6 +350,7 @@ public class RemplissageBDD {
 		return(-1);
 	}
 	
+	
 	public void importationHistorique() {
 		String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 		String user = this.user;
@@ -467,7 +475,6 @@ public class RemplissageBDD {
 			System.out.println("Fichier introuvable");
 		}
 	}
-	
 	public List<String> listeRegions() {
         List<String> listeRegions = new ArrayList<String>();
         String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
@@ -489,5 +496,4 @@ public class RemplissageBDD {
         }
         return(listeRegions);
     }
-
 }

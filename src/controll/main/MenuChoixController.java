@@ -11,10 +11,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import modele.BDD.RemplissageBDD;
 
@@ -22,8 +25,12 @@ public class MenuChoixController implements Initializable{
 	
 	private RotateTransition rot;
 		
-	private static Stage window = new Stage();
+	private static Stage windowMap = new Stage();
+	private static Stage windowDataMining = new Stage();
+	private static Stage windowInstallation = new Stage();
 	
+	@FXML
+	private ProgressBar progressionChargementBDD;
 	
 	@FXML
 	private AnchorPane PanMap;
@@ -77,8 +84,6 @@ public class MenuChoixController implements Initializable{
 		
 	}
 	
-	
-	
 	// Event Listener on AnchorPane.onMouseEntered
 	@FXML
 	public void play2(MouseEvent event) {
@@ -96,7 +101,6 @@ public class MenuChoixController implements Initializable{
 		setRotate(VieC11, true, 0, 7);
 		setRotate(VieC21, true, 0, 14);
 		setRotate(VieC31, true, 0, 16);
-		
 	}
 	
 	@FXML
@@ -106,16 +110,31 @@ public class MenuChoixController implements Initializable{
 		try {
 			principale = FXMLLoader.load(getClass().getResource("/ressource/fxml/FenetrePrincipal.fxml"));
 			Scene scene = new Scene(principale);
-			window.setTitle("Lamamap");
-			window.setResizable(true);
-			window.setScene(scene);
-			window.show();
+			windowMap.setTitle("Lamamap");
+			windowMap.setResizable(true);
+			windowMap.setScene(scene);
+			windowMap.show();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}
 	}
 	
+	@FXML
+	public void lancementPrediction() {
+		SQLController.getFenetre().close();
+		Parent principale;
+		try {
+			principale = FXMLLoader.load(getClass().getResource("/ressource/fxml/FenetreDataMining.fxml"));
+			Scene scene = new Scene(principale);
+			windowDataMining.setScene(scene);
+			windowDataMining.setResizable(false);
+			windowDataMining.show();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * Permet d'installer qd on le veut.
@@ -124,8 +143,23 @@ public class MenuChoixController implements Initializable{
 	@FXML
 	public void installationBDD() {
 		//Faire un truc de chargement.
-		System.out.println("hello");
-		new RemplissageBDD();
+		Parent principale;
+		try {
+			principale = FXMLLoader.load(getClass().getResource("/ressource/fxml/chargement.fxml"));
+			Scene scene = new Scene(principale);
+			windowInstallation.setScene(scene);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		windowInstallation.show();
+		
+		new Thread(()->{
+			javafx.application.Platform.runLater(()-> {
+					new RemplissageBDD();
+					windowInstallation.close();
+			});
+		}).start();
 	}
 	
 	private void setRotate(Circle c, boolean reverse, int angle, int duration) {
@@ -140,17 +174,17 @@ public class MenuChoixController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-		
+		windowInstallation.initStyle(StageStyle.UNDECORATED);
+		windowInstallation.initModality(Modality.APPLICATION_MODAL);
+		windowDataMining.setTitle("Etude prédictives");
 	}
 
 	public static Stage getWindow() {
-		return window;
+		return windowMap;
 	}
 
 	public static void setWindow(Stage window) {
-		MenuChoixController.window = window;
+		MenuChoixController.windowMap = window;
 	}
-	
 	
 }
