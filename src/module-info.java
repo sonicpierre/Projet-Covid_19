@@ -8,6 +8,7 @@ module vue.main.Main {
 	requires java.sql;
 	requires transitive javafx.base;
 	requires transitive javafx.fxml;
+	requires javafx.web;
 	
 	opens controll.main to javafx.fxml;
 	exports controll.main;

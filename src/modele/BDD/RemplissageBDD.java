@@ -27,11 +27,17 @@ public class RemplissageBDD {
 	
 	public RemplissageBDD() { 
 		this.clear();
+		System.out.println("Nettoyé");
 		this.importationRegions();
+		System.out.println("Régionné");
 		this.importationDept();
+		System.out.println("Départementé");
 		this.importationVilles();
+		System.out.println("Villé");
 		this.association();
+		System.out.println("Associationné");
 		this.importationHistorique();
+		System.out.println("Historiqué");
 		
 		System.out.println("Coucou les loulous !!");
 	}
@@ -43,6 +49,7 @@ public class RemplissageBDD {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			try (Connection conn = DriverManager.getConnection(url, user, passwd)) {
 				Statement stat = conn.createStatement();
+				stat.executeUpdate("DROP TABLE IF EXISTS Historique;");
 				stat.executeUpdate("DROP TABLE IF EXISTS Adjacence;");
 				stat.executeUpdate("DROP TABLE IF EXISTS Commune;");
 				stat.executeUpdate("DROP TABLE IF EXISTS Departement;");
@@ -343,11 +350,27 @@ public class RemplissageBDD {
 		return(-1);
 	}
 	
+	
 	public void importationHistorique() {
+		int nbLigne = 0;
+		// On récupère la dernière ligne du fichier pour pas avoir à tout recharger
+		try {
+			File file = new File("dead_data.csv");
+			FileReader freader = new FileReader(file);
+			BufferedReader breader = new BufferedReader(freader);
+			try {
+				while (breader.readLine() != null) {
+					nbLigne++;
+				}
+				breader.close();
+				freader.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichier introuvable");
+		}
 		// On va chercher les données sur le fichier github
-		String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-		String user = this.user;
-		String passwd = this.passwd;
 		try (BufferedInputStream bis = new BufferedInputStream(new URL(
 				"https://raw.githubusercontent.com/opencovid19-fr/data/master/data-sources/sante-publique-france/covid_hospit.csv")
 						.openStream());
@@ -379,8 +402,11 @@ public class RemplissageBDD {
 			FileReader fr = new FileReader(f);
 			BufferedReader br = new BufferedReader(fr);
 			try {
-				String ligne = br.readLine();
-				String champs[] = ligne.split(";");
+				for (int i=0;i<nbLigne-1;i++) {
+					br.readLine();
+				}
+				String ligne;
+				String champs[];
 				ligne = br.readLine();
 				champs = ligne.split(";");
 				String departement = champs[0];
@@ -441,7 +467,6 @@ public class RemplissageBDD {
 		}
 	}
 	
-	
 	public List<String> listeRegions() {
         List<String> listeRegions = new ArrayList<String>();
         String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
@@ -463,5 +488,4 @@ public class RemplissageBDD {
         }
         return(listeRegions);
     }
-
 }

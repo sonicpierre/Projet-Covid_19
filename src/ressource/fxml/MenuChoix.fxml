@@ -41,7 +41,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </AnchorPane>
-                <AnchorPane fx:id="PanPrediction" minHeight="0.0" minWidth="0.0" onMouseEntered="#play2" onMouseExited="#stop2" prefHeight="413.0" prefWidth="177.0" style="-fx-background-color: #6B8AB4;">
+                <AnchorPane fx:id="PanPrediction" minHeight="0.0" minWidth="0.0" onMouseClicked="#lancementPrediction" onMouseEntered="#play2" onMouseExited="#stop2" prefHeight="413.0" prefWidth="177.0" style="-fx-background-color: #6B8AB4;">
                      <children>
                         <Label fx:id="LaberPrediction" layoutX="42.0" layoutY="219.0" text="Prédis Moi Ma Vie" textFill="#bad0a8">
                            <font>
