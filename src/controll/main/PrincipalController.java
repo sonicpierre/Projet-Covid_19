@@ -1,6 +1,7 @@
 package controll.main;
 
 import java.awt.Color;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -67,6 +68,17 @@ public class PrincipalController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
+		Parent principale;
+		try {
+			principale = FXMLLoader.load(getClass().getResource("/ressource/fxml/choixSeuil.fxml"));
+			Scene scene = new Scene(principale);
+			window.setResizable(false);
+			window.setScene(scene);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		window.setTitle("Choix seuils");
 		window.initModality(Modality.APPLICATION_MODAL);
 		
@@ -83,18 +95,7 @@ public class PrincipalController implements Initializable{
 	
 	@FXML
 	private void fenetreConfinement() {
-
-		Parent principale;
-		try {
-			principale = FXMLLoader.load(getClass().getResource("/ressource/fxml/choixSeuil.fxml"));
-			Scene scene = new Scene(principale);
-			window.setResizable(false);
-			window.setScene(scene);
-			window.show();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		window.show();
 	}
 	
 	@FXML
