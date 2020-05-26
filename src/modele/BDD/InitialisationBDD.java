@@ -63,25 +63,26 @@ public class InitialisationBDD {
 	}
 	
 	public boolean creerUser(String login, String mdp, String mdpRoot) {
-		// connection en tant que root pour créer l'user
+		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			try (Connection conn = DriverManager.getConnection(url2, "root", mdpRoot)) {
-				Statement stat = conn.createStatement();
-				int verif1 = stat.executeUpdate("CREATE  USER '"+login+"'@'localhost' IDENTIFIED BY '"+mdp+"';");
-				int verif2 = stat.executeUpdate("GRANT ALL PRIVILEGES ON *France* TO '"+login+"'@'localhost';");
-				stat.close();
-				if (verif1!=0 && verif2!=0) {
-					return(true);
-				}
-				
+
+		try(Connection conn = DriverManager.getConnection(url2, "root", mdpRoot)){
+			System.out.println("Connexion effective !");
+		
+			Statement stat = conn.createStatement();
+			
+			stat.executeUpdate("CREATE USER IF NOT EXISTS '"+ login +"'@'localhost' IDENTIFIED BY '" + mdp + "'");
+			
+			stat.executeUpdate("GRANT ALL PRIVILEGES ON *.* TO '" + login + "'@'localhost'");
+			return true;
+
 			}
-			catch (SQLException e) {
-				e.printStackTrace();
-			}
-		} catch (ClassNotFoundException e) {
+		
+		}catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
+			return false;
 		}
-		return(false);
+		
 	}
 }

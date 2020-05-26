@@ -11,22 +11,50 @@ import javafx.scene.web.WebView;
 
 public class FenetreDataMiningController implements Initializable{
 	
-
+	
 	@FXML
-	private WebView visionEtudes;
+	private WebView etudeFrance;
+	@FXML
+	private WebView etudeAquitaine;
+	@FXML
+	private WebView etudeCoreeState;
+	@FXML
+	private WebView etudeCoreeModele;
+
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		File file = new File("Data_Viz_survie.html");
-		URL url;
 		try {
-			url = file.toURI().toURL();
-			visionEtudes.getEngine().load(url.toString());
+			
+			File file = new File("Etudes/Prédiction_survie.html");
+			URL url= file.toURI().toURL();
+			etudeCoreeModele.getEngine().load(url.toString());
+			
+			file = new File("Etudes/Data_Viz_survie.html");
+			url= file.toURI().toURL();
+			etudeCoreeState.getEngine().load(url.toString());
+			
+			/*
+			file = new File("Etudes/Prédiction_survie.html");
+			url= file.toURI().toURL();
+			etudeCoreeModele.getEngine().load(url.toString());
+			
+			file = new File("Etudes/Prédiction_survie.html");
+			url= file.toURI().toURL();
+			etudeCoreeModele.getEngine().load(url.toString());
+			*/
+			
+			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+	}
+	
+	@FXML
+	private void retourMenu() {
+		MenuChoixController.getWindowDataMining().close();
+		SQLController.getFenetre().show();
 	}
 
 }

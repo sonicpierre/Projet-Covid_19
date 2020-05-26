@@ -1,7 +1,6 @@
 package controll.main;
 
 import java.awt.Color;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -30,15 +29,45 @@ import modele.BDD.RepresentationSurCarte;
 import modele.trajectoire.Coordonnees;
 import modele.trajectoire.Positionnement;
 import vue.map.MapView;
+
+/**
+ *La classe <b>PrincipalController</b> est la classe avec la carte et les graphiques liés.
+ *Elle est découpé en 3 parties :
+ * <lu>
+ * <li>Une partie à gauche contenant la liste des régions, un menu itinéraire et enfin un menu pour tracer un rayon de 100 km autour de sa ville</li>
+ * <li>Au centre la carte qui s'adapte avec différentes options pour visualiser sur celle-ci directement, mort, hospitalisé, cas actifs</li>
+ * <li>A droite on retrouve les graphiques qui correspondent tout d'abord à la France puis aux régions en particulier</li>
+ * </p>
+ *@author VIRGAUX Pierre
+ *@version 2.0
+ **/
+
 @SuppressWarnings("unchecked")
 public class PrincipalController implements Initializable{
 	
-	private MapView carte = new MapView(); 
+	/**
+	 * @see MapView();
+	 */
+	private MapView carte = new MapView();
+	
+	/**
+	 * @see Positionnement
+	 */
 	private Positionnement monPos = new Positionnement();
-	private static Stage window = new Stage();
+	
+	/**
+	 * Fenêtre qui contiendra les seuils pour construire les itinéraires
+	 */
+	private static final Stage window = new Stage();
+	
+	/**
+	 * Permet ici de changer le label du boutton entre Classique et Satellite
+	 */
 	
 	private static final String nomSatellite = "Satellite";
 	private static final String nomClassique = "Classique";
+	
+	//Ici la librairie JavaFX permet de faire de jolis graphiques.
 	
 	@FXML
 	private LineChart<String, Number> lineChart;
@@ -48,6 +77,8 @@ public class PrincipalController implements Initializable{
 
     @FXML
     private StackPane panePrincipal;
+    
+    //On a ici les différentes composantes pour faire le menu itinéraire
     
     @FXML
     private Button changerMap;
@@ -80,23 +111,36 @@ public class PrincipalController implements Initializable{
 		}
 		
 		window.setTitle("Choix seuils");
+		//Permet de rendre la carte insensible derrière la fenêtre du choix des seuils
 		window.initModality(Modality.APPLICATION_MODAL);
 		
+		//La carte utilise Swing donc on est obligé de définir un SwingNode qui donne la possibilité de mettre la carte
 		SwingNode swingNode = new SwingNode();
 		
+		//Permet de définir les données globales propres à la France pour le graphique avec des lignes et le graphique camembert.
 	    lineChart.getData().addAll(DataGraphes.guerisRegion(), DataGraphes.hospitalisesRegion(), DataGraphes.reanimesRegion(), DataGraphes.mortsRegion());
-	    
         camembert.setData(DataGraphes.statsQuotidiennes());
+        
+        //Au lancement de la carte on veut directement la représentation du nombre de morts.
         carte.dessinerCercle(RepresentationSurCarte.cercleMortsVille(), new Color(Color.RED.getRed(),Color.RED.getGreen(),Color.RED.getBlue(),80));
         
+        //On remplie le Swing Node avec la carte.
 	    SwingUtilities.invokeLater(()->swingNode.setContent(carte));
         panePrincipal.getChildren().add(swingNode);
 	}
+	
+	/**
+	 * Permet de lancer la fenêtre qui donne la possibilité de faire varier les seuils.
+	 */
 	
 	@FXML
 	private void fenetreConfinement() {
 		window.show();
 	}
+	
+	/**
+	 * Permet de retrouver les graphes de la France en général
+	 */
 	
 	@FXML
 	private void retourEtatInitial() {
@@ -105,8 +149,14 @@ public class PrincipalController implements Initializable{
 		labelRegion.setText("Region");
 	}
 	
+	/**
+	 * Permet de faire l'itinéraire et de l'afficher sur la carte.
+	 * @see Positionnement
+	 */
+	
 	@FXML
 	private void validationItineraire() {
+		//On vérifie que l'itinéraire n'est pas nul
 		List<GeoPosition> itineraire = monPos.positionnerTrajectoire(villeNum1.getText(), villeNum2.getText());
 		if(itineraire != null) {
 			carte.dessinerItineraire(itineraire);
@@ -114,10 +164,16 @@ public class PrincipalController implements Initializable{
 			villeNum2.setStyle("-fx-background-color : white;");
 		}
 		else {
+			//Si il est nul on color en rouge pour montrer qu'il y a une erreur.
 			villeNum1.setStyle("-fx-background-color : red;");
 			villeNum2.setStyle("-fx-background-color : red;");
 		}
 	}
+	
+	/**
+	 * Ces trois fonctions permettent de dessiner sur la carte et de visualiser directement le nombre de morts, guerris et cas actifs.
+	 * @see MapView
+	 */
 	
 	@FXML
 	private void mortAction() {
@@ -133,6 +189,12 @@ public class PrincipalController implements Initializable{
 	private void actifAction() {
 		carte.dessinerCercle(RepresentationSurCarte.cercleActifsVille(), new Color(Color.ORANGE.getRed(),Color.ORANGE.getGreen(),Color.ORANGE.getBlue(),80));
 	}
+	
+	/**
+	 * Ici on a les différents bouttons et leur lien au modèle pour récupérer les données qui serviront à la construction des graphiques.
+	 * Le code est un peu répétitif mais permet de ne pas mélanger la vue du controller
+	 * @see DataGraphes
+	 */
 	
 	@FXML
 	private void modifGraphGuadeloupe() {
@@ -287,12 +349,22 @@ public class PrincipalController implements Initializable{
 		labelRegion.setText("France");
 	}
 	
+	/**
+	 * Permet ici d'avoir le rayon de 100 km autour d'une ville souhaité.
+	 * @see MapView 
+	 */
+	
 	@FXML
 	private void validerRayon() {
 		Coordonnees coordonnee = new Coordonnees(text100.getText());
 		if(coordonnee!= null)
 			carte.dessinerRayon(coordonnee.getPos());
 	}
+	
+	/**
+	 * Cette fonction va permettre de passer d'une carte de type classique à une carte satellite.
+	 * @see MapView
+	 */
 	
     @FXML
     private void changerLaCarte() {
@@ -306,15 +378,14 @@ public class PrincipalController implements Initializable{
 	public static Stage getWindow() {
 		return window;
 	}
+	
+	/**
+	 * Cette fonction permet de revenir au menu de choix pour aller voir les études data.
+	 */
 
 	@FXML
 	private void revenirEnArriere() {
 		MenuChoixController.getWindow().close();
 		SQLController.getFenetre().show();
 	}
-	
-	public static void setWindow(Stage window) {
-		PrincipalController.window = window;
-	}
-    
 }

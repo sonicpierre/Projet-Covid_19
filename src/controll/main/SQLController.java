@@ -15,7 +15,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import modele.BDD.InitialisationBDD;
-import modele.BDD.RemplissageBDD;
 
 public class SQLController implements Initializable{
 
@@ -43,40 +42,34 @@ public class SQLController implements Initializable{
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		fenetre.setTitle("Projet chemin le plus court");
+		fenetre.setResizable(false);
+		fenetre.centerOnScreen();
+		fenetre.getIcons().add(new Image("file:lamas.jpg"));
 		
+		Parent principale;
+		try {
+			principale = FXMLLoader.load(getClass().getResource("/ressource/fxml/MenuChoix.fxml"));
+			Scene scene2 = new Scene(principale);
+			fenetre.getIcons().add(new Image("file:lamas.jpg"));
+			fenetre.setScene(scene2);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 	}
 	
 	
 	@FXML
 	public void validerConnexion() {
 		if(ini.initialiserBDD(loginConnexion.getText(), passwordConnexion.getText())) {
-			chargement.setVisible(true);
-			
 			Main.quitterFenetre();
-			
-			fenetre.setTitle("Projet chemin le plus court");
-			fenetre.setResizable(false);
-			fenetre.centerOnScreen();
-			fenetre.getIcons().add(new Image("file:lamas.jpg"));
-			
-			Parent principale;
-			try {
-				principale = FXMLLoader.load(getClass().getResource("/ressource/fxml/MenuChoix.fxml"));
-				Scene scene2 = new Scene(principale);
-				fenetre.getIcons().add(new Image("file:lamas.jpg"));
-				fenetre.setScene(scene2);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
 			fenetre.show();
 		} else {
 			loginConnexion.setStyle("-fx-background-color : #DE7272;");
 			passwordConnexion.setStyle("-fx-background-color : #DE7272;");
 		}
 	}
-	
 	
 	@FXML
 	protected void quitterPremiereFenetre() {
@@ -87,9 +80,13 @@ public class SQLController implements Initializable{
 	
 	@FXML
 	protected void validerCreation() {
-		ini.creerUser(loginNouveau.getText(), passwordNouveau.getText(), passwordRoot.getText());
+		if(ini.creerUser(loginNouveau.getText(), passwordNouveau.getText(), passwordRoot.getText())) {
+			Main.quitterFenetre();
+			fenetre.show();
+		} else {
+			passwordRoot.setStyle("-fx-background-color : #DE7272;");
+		}
 	}
-
 
 	public static Stage getFenetre() {
 		return fenetre;
