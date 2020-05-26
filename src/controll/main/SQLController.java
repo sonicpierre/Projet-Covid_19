@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -89,7 +88,6 @@ public class SQLController implements Initializable{
 	@FXML
 	protected void validerCreation() {
 		ini.creerUser(loginNouveau.getText(), passwordNouveau.getText(), passwordRoot.getText());
-		new RemplissageBDD();
 	}
 
 

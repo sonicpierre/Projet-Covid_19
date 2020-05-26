@@ -14,6 +14,7 @@ import java.util.Set;
 
 import org.jxmapviewer.viewer.GeoPosition;
 
+import controll.main.ChoixSeuilController;
 import modele.BDD.InitialisationBDD;
 
 // permet de récupérer les coordonnées de villes 
@@ -34,7 +35,6 @@ public class Positionnement {
 			seuils = new HashMap<String, Integer>();
 		List<String> villesNonConfinees = villesNonConfineesBDD(seuils);
 		List<String> villes = calculerTrajectoire(depart,arrivee,villesNonConfinees);
-		System.out.println(villes);
 		if (villes != null && villes.size()!=0) {
 			return positionnerVilles(villes);
 		} else {

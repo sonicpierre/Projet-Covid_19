@@ -20,31 +20,56 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import controll.main.MenuChoixController;
+import javafx.concurrent.Task;
+import javafx.scene.control.ProgressBar;
+
 public class RemplissageBDD {
-	private String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-	private String user = InitialisationBDD.user;
-	private String passwd = InitialisationBDD.passwd;
 	
-	public RemplissageBDD() { 
-		this.clear();
-		System.out.println("Nettoyé");
-		this.importationRegions();
-		System.out.println("Régionné");
-		this.importationDept();
-		System.out.println("Départementé");
-		this.importationVilles();
-		System.out.println("Villé");
-		this.association();
-		System.out.println("Associationné");
-		this.importationHistorique();
-		System.out.println("Historiqué");
+	ProgressBar maProgresseBarre;
+	
+	private static String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	private static String user = InitialisationBDD.user;
+	private static String passwd = InitialisationBDD.passwd;
+	
+	public RemplissageBDD(ProgressBar progresseBarre) {
+		maProgresseBarre = progresseBarre;
 		
-		System.out.println("Coucou les loulous !!");
+		Task<Void> task = new Task<Void>() {
+		    @Override public Void call() {
+		    	updateProgress(0, 6);
+		    	//RemplissageBDD.clear();
+				System.out.println("Nettoyé");
+				updateProgress(1, 6);
+				RemplissageBDD.importationRegions();
+				System.out.println("Régionné");
+				updateProgress(2, 6);
+				RemplissageBDD.importationDept();
+				System.out.println("Départementé");
+				updateProgress(3, 6);
+				RemplissageBDD.importationVilles();
+				System.out.println("Villé");
+				updateProgress(4, 6);
+				RemplissageBDD.association();
+				System.out.println("Associationné");
+				updateProgress(5, 6);
+				RemplissageBDD.importationHistorique();
+				System.out.println("Historiqué");
+				
+				System.out.println("Coucou les loulous !!");
+		    	
+		        return null;
+		    }
+		};
+		
+		task.setOnSucceeded(e->MenuChoixController.getWindowInstallation().close());
+		progresseBarre.progressProperty().bind(task.progressProperty());
+		new Thread(task).start();
 	}
 	
 	
 	// écrase les tables pré-existantes 
-	public void clear() {
+	public static void clear() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			try (Connection conn = DriverManager.getConnection(url, user, passwd)) {
@@ -64,7 +89,7 @@ public class RemplissageBDD {
 		}
 	}
 	
-	public void importationRegions() {
+	public static void importationRegions() {
 		// fichier source
 		// https://www.data.gouv.fr/fr/datasets/regions-departements-villes-et-villages-de-france-et-doutre-mer/
 		Path filepath = Paths.get("data/regions.csv");
@@ -117,7 +142,7 @@ public class RemplissageBDD {
 		
 	}
 	
-	public void importationDept() {
+	public static void importationDept() {
 		// fichier source
 		// https://www.data.gouv.fr/fr/datasets/regions-departements-villes-et-villages-de-france-et-doutre-mer/
 		Path filepath = Paths.get("data/departments.csv");
@@ -174,7 +199,7 @@ public class RemplissageBDD {
 	}
 	
 	// importation des villes en se limitant aux prefectures Françaises
-	public void importationVilles() {
+	public static void importationVilles() {
 		// fichier des prefectures
 		Path filepath0 = Paths.get("data/prefectures.csv");
 		// map de toutes les prefectures indexées sur le code du département correspondant
@@ -260,7 +285,7 @@ public class RemplissageBDD {
 	
 	
 	
-	public void association() {
+	public static void association() {
 		Path filepath = Paths.get("data/adjacences.txt");
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -313,7 +338,7 @@ public class RemplissageBDD {
 		}
 	}
 	
-	public double calculDistance(String code1, String code2) {
+	public static double calculDistance(String code1, String code2) {
 		// coordonnées
 		double x1, x2, y1, y2;
 		try {
@@ -351,10 +376,10 @@ public class RemplissageBDD {
 	}
 	
 	
-	public void importationHistorique() {
+	public static void importationHistorique() {
 		String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-		String user = this.user;
-		String passwd = this.passwd;
+		String user = RemplissageBDD.user;
+		String passwd = RemplissageBDD.passwd;
 		int nbLigne = 0;
 		// On récupère la dernière ligne du fichier pour pas avoir à tout recharger
 		try {
@@ -475,11 +500,11 @@ public class RemplissageBDD {
 			System.out.println("Fichier introuvable");
 		}
 	}
-	public List<String> listeRegions() {
+	public static List<String> listeRegions() {
         List<String> listeRegions = new ArrayList<String>();
         String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-        String user = this.user;
-        String passwd = this.passwd;
+        String user = RemplissageBDD.user;
+        String passwd = RemplissageBDD.passwd;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             try (Connection conn = DriverManager.getConnection(url, user, passwd)) {
