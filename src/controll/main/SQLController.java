@@ -88,7 +88,6 @@ public class SQLController implements Initializable{
 	@FXML
 	protected void validerCreation() {
 		ini.creerUser(loginNouveau.getText(), passwordNouveau.getText(), passwordRoot.getText());
-		new RemplissageBDD();
 	}
 
 

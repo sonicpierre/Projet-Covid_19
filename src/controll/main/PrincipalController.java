@@ -289,8 +289,9 @@ public class PrincipalController implements Initializable{
 	
 	@FXML
 	private void validerRayon() {
-		Coordonnees mesCoord = new Coordonnees(text100.getText());
-		carte.dessinerRayon(mesCoord.getPos());
+		Coordonnees coordonnee = new Coordonnees(text100.getText());
+		if(coordonnee!= null)
+			carte.dessinerRayon(coordonnee.getPos());
 	}
 	
     @FXML

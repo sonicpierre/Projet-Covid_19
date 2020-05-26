@@ -19,18 +19,18 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import modele.BDD.RemplissageBDD;
 
 public class MenuChoixController implements Initializable{
 	
 	private RotateTransition rot;
 		
 	private static Stage windowMap = new Stage();
-	private static Stage windowDataMining = new Stage();
 	private static Stage windowInstallation = new Stage();
+	private static Stage windowDataMining = new Stage();
+
 	
 	@FXML
-	private ProgressBar progressionChargementBDD;
+	private ProgressBar progression;
 	
 	@FXML
 	private AnchorPane PanMap;
@@ -142,25 +142,18 @@ public class MenuChoixController implements Initializable{
 	
 	@FXML
 	public void installationBDD() {
-		//Faire un truc de chargement.
 		Parent principale;
 		try {
 			principale = FXMLLoader.load(getClass().getResource("/ressource/fxml/chargement.fxml"));
 			Scene scene = new Scene(principale);
 			windowInstallation.setScene(scene);
+			windowInstallation.centerOnScreen();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		windowInstallation.show();
-		
-		new Thread(()->{
-			javafx.application.Platform.runLater(()-> {
-					new RemplissageBDD();
-					windowInstallation.close();
-			});
-		}).start();
 	}
+	
 	
 	private void setRotate(Circle c, boolean reverse, int angle, int duration) {
 		rot = new RotateTransition(Duration.seconds(duration),c);		
@@ -176,6 +169,7 @@ public class MenuChoixController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		windowInstallation.initStyle(StageStyle.UNDECORATED);
 		windowInstallation.initModality(Modality.APPLICATION_MODAL);
+		
 		windowDataMining.setTitle("Etude prédictives");
 	}
 
@@ -186,5 +180,14 @@ public class MenuChoixController implements Initializable{
 	public static void setWindow(Stage window) {
 		MenuChoixController.windowMap = window;
 	}
+
+	public static Stage getWindowInstallation() {
+		return windowInstallation;
+	}
+
+	public static void setWindowInstallation(Stage windowInstallation) {
+		MenuChoixController.windowInstallation = windowInstallation;
+	}
+	
 	
 }
