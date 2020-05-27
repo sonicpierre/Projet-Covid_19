@@ -29,8 +29,8 @@ public class Coordonnees {
 		double lng, lat;
 		double[] coor = coordonneesGpsBdd(nomVille);
 		if (coor != null) {
-			lng= coor[1];
 			lat = coor[0];
+			lng= coor[1];
 			pos = new GeoPosition(lat,lng);
 		} else {
 			pos = null;
@@ -38,6 +38,7 @@ public class Coordonnees {
 		
 	}
 	
+
 	/**
 	 * Permet de récupérer depuis la BDD les coordonnées voulues
 	 * 
@@ -74,12 +75,15 @@ public class Coordonnees {
 		return(coor);
 	}
 
-	/**
-	 * @return la position GPS
+
+	/** getteur donne les coordonnées de l'objet
+	 * 
+	 * @return les coordonnées
 	 */
-	
+
 	public GeoPosition getPos() {
 		return pos;
 	}
+
 	
 }

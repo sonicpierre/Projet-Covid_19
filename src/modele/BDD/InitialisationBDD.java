@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
 /**
  *La classe <b>InitialisationBDD</b> est la classe qui permet de se connecter avec un utilisateur MySQL ou d'en créer un.
  *@author Roxane Chatry
@@ -12,13 +13,32 @@ import java.sql.Statement;
  **/
 
 public class InitialisationBDD {
+	
+	/**
+	 * url d'accès à la bdd sans table 
+	 */
 	private static final String url = "jdbc:mysql://localhost/?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	/**
+	 * nom d'utilisateur
+	 */
+
 	public static String user;
+	/**
+	 * mot de passe utilisateur
+	 */
 	public static String passwd;
 	
+	/** définit le mot de passe utilisateur
+	 * 
+	 * @param mdp la mot de passe à utiliser
+	 */
 	private void setPasswd(String mdp) {
 		InitialisationBDD.passwd = mdp;
 	}
+	/** définit le nom d'utilisateur
+	 * 
+	 * @param login le nom à utiliser
+	 */
 	private void setUser(String login) {
 		InitialisationBDD.user = login;
 	}
@@ -31,7 +51,13 @@ public class InitialisationBDD {
 	 * @return boolean indiquant si l'initialisation c'est bien passée
 	 */
 	
-	// constructeur 
+	/**
+	 * initialise la bdd avec les données utilisateur fournies, dans le cas où il faut créer un user (mot de passe root donné)
+	 * @param login le nom d'utilisateur
+	 * @param mdp le mot de passe utilisateur
+	 * @param mdpRoot el mot de passe root
+	 * @return un booléen indiquant que tout a fonctionné
+	 */
 	public boolean initialiserBDD(String login, String mdp, String mdpRoot) { 
 		// vérification que l'user n'existe pas 
 		boolean existe = this.existeUser(login, mdp);
@@ -55,6 +81,12 @@ public class InitialisationBDD {
 	 * @return vrai si l'utilisateur c'est bien initialisé, faux sinon
 	 */
 
+	/** 
+	 * Initialise la bdd avec les données utilisateurs fournies si l'utilisateur existe déjà (pas de mot de passe root fourni)
+	 * @param login le nom utilisateur
+	 * @param mdp le mot de passe utilisateur
+	 * @return un booléen indiquant que tout a fonctionné
+	 */
 	public boolean initialiserBDD(String login, String mdp) { 
 		if (this.existeUser(login,mdp)) {
 			this.setUser(login);
@@ -70,7 +102,7 @@ public class InitialisationBDD {
 	 * @param mdp
 	 * @return boolean qui indique si l'utilisateur existe ou non
 	 */
-	
+
 	public boolean existeUser(String login, String mdp) {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -88,6 +120,7 @@ public class InitialisationBDD {
 		}
 		return(true);
 	}
+
 	
 	/**
 	 * Permet de créer un utilisateur et lui partager les droits sur une BDD
@@ -97,7 +130,7 @@ public class InitialisationBDD {
 	 * @param mdpRoot
 	 * @return vrai si tout c'est bien passé et false sinon
 	 */
-	
+
 	public boolean creerUser(String login, String mdp, String mdpRoot) {
 		
 		try {
