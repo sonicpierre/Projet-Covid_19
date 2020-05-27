@@ -15,14 +15,21 @@ import modele.BDD.InitialisationBDD;
  *
  */
 public class Coordonnees {
+	/** objet du type Geoposition qui contient les coordonnées gps 
+	 * 
+	 */
 	private GeoPosition pos;
 	
+	/** constructeur des coordonnées de la ville de nom donné
+	 * 
+	 * @param nomVille
+	 */
 	public Coordonnees(String nomVille) {
 		double lng, lat;
 		double[] coor = coordonneesGpsBdd(nomVille);
 		if (coor != null) {
-			lng= coor[1];
 			lat = coor[0];
+			lng= coor[1];
 			pos = new GeoPosition(lat,lng);
 		} else {
 			pos = null;
@@ -30,6 +37,11 @@ public class Coordonnees {
 		
 	}
 	
+	/** récupère les coordonnées gps d'une ville dans la bdd 
+	 * 
+	 * @param nomVille le nom de la ville 
+	 * @return [latitude,longitude] les coordonnées gps
+	 */
 	public double[] coordonneesGpsBdd(String nomVille) {
 		String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 		String user = InitialisationBDD.user;
@@ -59,11 +71,18 @@ public class Coordonnees {
 		return(coor);
 	}
 
-	
+	/** getteur donne les coordonnées de l'objet
+	 * 
+	 * @return les coordonnées
+	 */
 	public GeoPosition getPos() {
 		return pos;
 	}
 
+	/** change les coordonnées de l'objet
+	 * 
+	 * @param pos les coordonnées
+	 */
 	public void setPos(GeoPosition pos) {
 		this.pos = pos;
 	}
