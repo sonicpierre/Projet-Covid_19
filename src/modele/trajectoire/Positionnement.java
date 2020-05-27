@@ -17,17 +17,24 @@ import org.jxmapviewer.viewer.GeoPosition;
 import controll.main.ChoixSeuilController;
 import modele.BDD.InitialisationBDD;
 
-// permet de récupérer les coordonnées de villes 
+/**
+ *La classe <b>Positionnement</b> permet de récupérer les coordonnées de villes.
+ *@author Roxane Chatry
+ *@version 1.0
+ **/
+
+
 public class Positionnement {
 	
 	private static HashMap<String,Integer> seuils;
 	
-	/** donne une suite de villes (coordonnées) qui forment une trajectoire entre les deux villes données
+	/** 
+	 * Donne une suite de villes (coordonnées) qui forment une trajectoire entre les deux villes données
 	 * 
 	 * @param depart
 	 * @param arrivee
 	 * 
-	 * @return
+	 * @return la listes des villes pour l'itinéraire
 	 */
 	public List<GeoPosition> positionnerTrajectoire(String depart, String arrivee) {
 		//Si jamais aucun seuil n'a été défini.
@@ -42,7 +49,12 @@ public class Positionnement {
 		}
 	}
 	
-	// donne les coordonnées GPS des n villes de la liste (à partir de leurs noms)
+	/**
+	 * Donne les coordonnées GPS des n villes de la liste (à partir de leurs noms)
+	 * @param villes
+	 * @return la liste des différentes coordonnées
+	 */
+	
 	public List<GeoPosition> positionnerVilles(List<String> villes) {
 		ListIterator<String> it = villes.listIterator();
 		List<GeoPosition> listeCoor = new ArrayList<GeoPosition>();

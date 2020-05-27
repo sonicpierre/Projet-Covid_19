@@ -10,12 +10,36 @@ import org.jxmapviewer.viewer.DefaultTileFactory;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.TileFactoryInfo;
 
+/**
+ *La classe <b>MapView</b> est la classe qui permet de gérer toutes les fonctionnalités liées à la carte.
+ *On peut à partir de cette classe faire de nombreuses opérations :
+ * <lu>
+ * <li>On peut dessiner sur la map des cercles avec un rayon proportionnel au nombre de morts, hospitalisés, ou patient en rea</li>
+ * <li>On peut dessiner un itinéraire en passant par chacune des préfectures</li>
+ * <li>On peut changer le style de la carte</li>
+ * <li>On peut dessiner un cercle de 100 km autour d'une ville</li>
+ * </lu>
+ * </p>
+ *
+ *@author VIRGAUX Pierre
+ *@version 2.0
+ **/
+
 
 @SuppressWarnings("serial")
 public class MapView extends JXMapViewer{
 	
+	/**
+	 * Ici on a 2 types de carte, la carte satellite et la carte classique tirées d'OSM.
+	 */
+	
 	private static final TileFactoryInfo NORMAL = new VirtualEarthTileFactoryInfo(VirtualEarthTileFactoryInfo.MAP);
 	private static final TileFactoryInfo SATELLITE = new VirtualEarthTileFactoryInfo(VirtualEarthTileFactoryInfo.HYBRID);
+	
+	/**
+	 * Ici il s'agit du constructeur qui donne les informations principales sur la carte.
+	 * @see MouseController
+	 */
 	
     public MapView() {
     	
@@ -30,10 +54,15 @@ public class MapView extends JXMapViewer{
         // Set the focus
         GeoPosition centre = new GeoPosition(46.65, 2.56);
 
+        //Set the zoom
         this.setZoom(13);
         this.setAddressLocation(centre);
         MouseController.MouseMapController(this);
     }
+    
+    /**
+     * Cette fonction permet de passer d'un style de map à un autre
+     */
     
     public void changerMap() {
     	if(this.getTileFactory().getInfo() == NORMAL) {
@@ -44,13 +73,32 @@ public class MapView extends JXMapViewer{
     	}
     }
     
+    /**
+     * Cette fonction permet de dessiner un itinéraire d'un point A à un point B.
+     * @see PointRoutePainter
+     * @param listeDesVilles On a la liste des points intermédiaires qui constituent le chemin.
+     */
+    
     public void dessinerItineraire(List<GeoPosition> listeDesVilles) {
     	new PointRoutePainter(listeDesVilles, this);
     }
     
+    /**
+     * Permet de dessiner le rayon autour d'une ville donnée
+     * @see KmPainter
+     * @param ville identifié par sa longitude et latitude
+     */
+    
     public void dessinerRayon(GeoPosition ville) {
          new KmPainter(ville,this);
     }
+    
+    /**
+     * Permet de dessiner des cercles de taille différentes sur les villes.
+     * @see RegionPainter
+     * @param ensembleAffichage Associe à chaque ville un coefficient qui détermine le diamètre du cercle.
+     * @param couleur la couleur du cercle voulue
+     */
     
     public void dessinerCercle(HashMap<GeoPosition, Double> ensembleAffichage, Color couleur) {
     	new RegionPainter(ensembleAffichage, couleur, this);

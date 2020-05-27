@@ -34,6 +34,16 @@
                         <WebView fx:id="etudeCoreeModele" prefHeight="633.0" prefWidth="824.0" />
                      </content>
                   </Tab>
+                  <Tab closable="false" text="Etat-Unis statistique">
+                     <content>
+                        <WebView fx:id="etudeEtatUnisStat" prefHeight="633.0" prefWidth="824.0" />
+                     </content>
+                  </Tab>
+                  <Tab closable="false" text="Etats-Unis Modèle">
+                     <content>
+                        <WebView fx:id="etudeEtatUnisModele" prefHeight="633.0" prefWidth="824.0" />
+                     </content>
+                  </Tab>
                </tabs>
             </TabPane>
             <Button mnemonicParsing="false" onAction="#retourMenu" prefHeight="26.0" prefWidth="102.0" text="Back" StackPane.alignment="TOP_LEFT">

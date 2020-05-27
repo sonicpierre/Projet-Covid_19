@@ -8,9 +8,18 @@ import org.jxmapviewer.input.PanKeyListener;
 import org.jxmapviewer.input.PanMouseInputListener;
 import org.jxmapviewer.input.ZoomMouseWheelListenerCursor;
 
+/**
+ *La classe <b>MouseController</b> permet de gérer toutes les intéractions de l'utilisateur avec l'interface.
+ *@author VIRGAUX Pierre
+ *@version 2.0
+ **/
 
 public class MouseController{
 
+	/**
+	 * Lie la mape au mouse controller.
+	 * @param map
+	 */
 	public static void MouseMapController(JXMapViewer map) {
 	     // Add interactions
         MouseInputListener mia = new PanMouseInputListener(map);

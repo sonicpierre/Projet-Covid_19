@@ -13,6 +13,18 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 
+/**
+ *La classe <b>DataGraphes</b> est la classe qui permet de faire les graphiques.
+ *Elle permet entre autre :
+ * <lu>
+ * <li>De représenter les statistiques générales pour la France</li>
+ * <li>De représenter les statistiques pour chacunes des régions</li>
+ * </lu>
+ * </p>
+ *@author Julien Buisson-Chabot
+ *@version 1.0
+ **/
+
 public class DataGraphes {
 	/**
 	 * On initialise les variables d'accès à la BDD

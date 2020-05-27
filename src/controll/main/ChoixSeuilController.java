@@ -17,11 +17,27 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import modele.trajectoire.Positionnement;
 
+/**
+ *La classe <b>ChoixSeuilController</b> est la classe qui permet de choisir les différents seuils pour tracer les itinéraires.
+ *On rentre le nombre de morts, hospitalisé et patient en rea à un jour donné et l'itinéraire s'adapte.
+ *Cette classe enregistre les seuils dans un fichier pour que l'utilisateur n'ai pas à les rerentrer à chaque fois.
+ *@author VIRGAUX Pierre
+ *@version 2.0
+ **/
+
+
 public class ChoixSeuilController implements Serializable, Initializable{
 	
 	private static final long serialVersionUID = 7484054558935679617L;
 	
+	//Cette variable permet de lier chacun des champs à un nombre, comme ça, il est possible de laisser un champ vide.
 	private HashMap<String, Integer> monHashi;
+	
+	/**
+	 * On a les différents textes field qui permettent de rentrer les seuils. Ces attributs ne sont pas serialisables donc on est obligé de mettre transcient
+	 * sinon on a des problèmes de lecture et d'écriture.
+	 */
+	
 	
 	@FXML
 	private transient TextField labelHospitalise;
@@ -30,7 +46,11 @@ public class ChoixSeuilController implements Serializable, Initializable{
 	@FXML
 	private transient TextField labelMort;
 
-	// Event Listener on Button.onMouseClicked
+	/**
+	 * Au moment de la validation des seuils une nouvelle HashMap est créée et sauvegardée pour une autre utilisation du programme.
+	 * @param event
+	 */
+	
 	@FXML
 	public void validationSeuil(MouseEvent event) {
 		
@@ -107,11 +127,11 @@ public class ChoixSeuilController implements Serializable, Initializable{
 	/**
 	 *Utilisation de la serialization pour charger l'objet et le mettre à jour selon le procédé suivant :
 	 *<ul>
-	 *<li>Initialisation de la lecture d'une personne déjà inscrite</li>
+	 *<li>Initialisation de la lecture du ChoixSeuilController</li>
 	 *<li>Indexation du fichier de lecture</li>
 	 *<li>Lecture du flux et affichage de la confirmation du chargement</li>
 	 *<li>Fermeture du flux</li>
-	 *@return Personne inscrite dans le fichier
+	 *@return Objet ChoixSeuilController
 	 *</ul>
 	 **/
 	

@@ -17,26 +17,38 @@ import org.jxmapviewer.painter.CompoundPainter;
 import org.jxmapviewer.painter.Painter;
 import org.jxmapviewer.viewer.GeoPosition;
 
+/**
+ *La classe <b>RegionPainter</b> est la classe permettant de dessiner sur chacunes des villes pour représenter le nombre de mort, réanimation, hospitalisé.
+ *@author VIRGAUX Pierre
+ *@version 2.0
+ **/
+
 public class RegionPainter implements Painter<JXMapViewer>{
 	
     private boolean antiAlias = true;
 
-    private HashMap<GeoPosition, Double> region;
-
-    private Color couleur;
+    //Ici on a la liste des villes identifiée par longitude et latitude associées avec un coefficient qui permet de d'avoir des cercles adaptées à chacunes 
     
-    private JXMapViewer carte;
+    private HashMap<GeoPosition, Double> villes;
+
+    //On a choisi de mettre différentes couleurs en fonction de ce qu'on représente, rouge -> mort, orange -> actif, vert -> guerri
+    
+    private final Color couleur;
+    
+    private final JXMapViewer carte;
     
     /**
-     * @param track the track
+     * On crée l'objet et on en profite pour dessiner directement sur la carte
+     * 
+     * @param villes prends en compte les différentes villes sur lesquelles on va dessiner les cercles.
+     * @param couleur définie la couleur des cercles voulus
+     * @param carte
      */
-    public RegionPainter(HashMap<GeoPosition, Double> region, Color couleur, JXMapViewer carte)
+    public RegionPainter(HashMap<GeoPosition, Double> villes, Color couleur, JXMapViewer carte)
     {
-        // copy the list so that changes in the 
-        // original list do not have an effect here
-        this.region = region;
+        this.villes = villes;
         this.couleur = couleur;
-        this.setCarte(carte);
+        this.carte = carte;
         
    	 	List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
         painters.add(this);
@@ -60,15 +72,23 @@ public class RegionPainter implements Painter<JXMapViewer>{
         // do the drawing
         g.setColor(couleur);
 
-        drawCircles(g, map, largeur);
+        drawCircles(g, map);
         
         g.dispose();
     }
 
+    /**
+     * On dessine sur chacunes des cartes les cercles correspondants à l'état de la maladie
+     * 
+     * @param g objet graphique qui nous donne la possibilité de dessiner
+     * @param map carte sur laquelle on dessine
+     */
     
-    private void drawCircles(Graphics2D g, JXMapViewer map, int diametre)
+    private void drawCircles(Graphics2D g, JXMapViewer map)
     {
-		Set<Entry<GeoPosition, Double>> set = region.entrySet();
+    	// Ce système permet d'itérer la Hash Map
+    	
+		Set<Entry<GeoPosition, Double>> set = villes.entrySet();
 		Iterator<Entry<GeoPosition, Double>> monIterateur = set.iterator();
 		int lastX;
 		int lastY;
@@ -81,22 +101,25 @@ public class RegionPainter implements Painter<JXMapViewer>{
 			lastX = (int) pt.getX();
 			lastY = (int) pt.getY();
 			
-		    //On calibre par rapport à une distance connue
+		    //On calibre par rapport à une distance connue qui correspondra au diamètre maximum que peut avoir un cercle
 		    GeoPosition maDeusiemeGeo = new GeoPosition(e.getKey().getLatitude(), e.getKey().getLongitude() + 2.2);
 		    
 		    Point2D pt2 = map.getTileFactory().geoToPixel(maDeusiemeGeo, map.getZoom());
 		    int distance = (int) Math.sqrt(Math.pow((pt.getX() - pt2.getX()), 2) + Math.pow((pt.getY() - pt2.getY()), 2));
 			distance = (int) (distance * e.getValue());
 		    
+			//On dessine en pensant bien à recentrer le cercle
 			g.fillOval(lastX - (distance / 2), lastY - (distance / 2), distance, distance);       		
     	 }
      }
+    
+    /**
+     * Permet de récupérer la carte.
+     * @return carte
+     */
 
 	public JXMapViewer getCarte() {
 		return carte;
 	}
 
-	public void setCarte(JXMapViewer carte) {
-		this.carte = carte;
-	}
 }

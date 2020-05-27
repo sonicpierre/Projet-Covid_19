@@ -37,6 +37,7 @@ import vue.map.MapView;
  * <li>Une partie à gauche contenant la liste des régions, un menu itinéraire et enfin un menu pour tracer un rayon de 100 km autour de sa ville</li>
  * <li>Au centre la carte qui s'adapte avec différentes options pour visualiser sur celle-ci directement, mort, hospitalisé, cas actifs</li>
  * <li>A droite on retrouve les graphiques qui correspondent tout d'abord à la France puis aux régions en particulier</li>
+ * </lu>
  * </p>
  *@author VIRGAUX Pierre
  *@version 2.0
@@ -95,6 +96,10 @@ public class PrincipalController implements Initializable{
     @FXML
     private Label labelRegion;
     
+    /**
+     * Permet ici d'effectuer des opérations avant de lancer la fenêtre. On essaie d'en faire le plus possible avant de la lancer pour éviter que ça rame pour
+     * charger les fenêtres derrière.
+     */
     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {

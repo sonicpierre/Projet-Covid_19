@@ -1,0 +1,1 @@
+moduleSearchIndex = [{"l":"vue.main.Main"}]

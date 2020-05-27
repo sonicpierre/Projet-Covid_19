@@ -10,12 +10,20 @@ import org.jxmapviewer.viewer.GeoPosition;
 
 import modele.BDD.InitialisationBDD;
 
-/** Coordonnées Gps d'une ville à partir de son nom
- * 
- *
- */
+/**
+ *La classe <b>Coordonnees</b> donne les coordonnées Gps d'une ville à partir de son nom.
+ *@author Roxane Chatry
+ *@version 1.0
+ **/
+
 public class Coordonnees {
-	private GeoPosition pos;
+	private final GeoPosition pos;
+	
+	
+	/**
+	 * Construit l'objet qui permet de nous donner la Geoposition si la ville existe 
+	 * @param nomVille
+	 */
 	
 	public Coordonnees(String nomVille) {
 		double lng, lat;
@@ -29,6 +37,13 @@ public class Coordonnees {
 		}
 		
 	}
+	
+	/**
+	 * Permet de récupérer depuis la BDD les coordonnées voulues
+	 * 
+	 * @param nomVille
+	 * @return un tableau statique avec la longitude et la latitude
+	 */
 	
 	public double[] coordonneesGpsBdd(String nomVille) {
 		String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
@@ -59,13 +74,12 @@ public class Coordonnees {
 		return(coor);
 	}
 
+	/**
+	 * @return la position GPS
+	 */
 	
 	public GeoPosition getPos() {
 		return pos;
-	}
-
-	public void setPos(GeoPosition pos) {
-		this.pos = pos;
 	}
 	
 }

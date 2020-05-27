@@ -10,6 +10,13 @@ import java.util.HashMap;
 
 import org.jxmapviewer.viewer.GeoPosition;
 
+/**
+ *La classe <b>ReprésentationSurCarte</b> est la classe qui permet de dessiner les cercles en fonction de l'avancement de l'épidémie dans les différentes villes.
+ *@author Julien Buisson-Chabot
+ *@version 1.0
+ **/
+
+
 public class RepresentationSurCarte {
 	/**
 	 * On initialise les variables d'accès à la BDD

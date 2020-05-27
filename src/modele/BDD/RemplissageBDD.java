@@ -24,8 +24,25 @@ import controll.main.MenuChoixController;
 import javafx.concurrent.Task;
 import javafx.scene.control.ProgressBar;
 
+/**
+ * La classe <b>RemplissageBDD</b> est la classe qui permet de remplir la BDD à partir des csv.
+ * Cette classe fait les différentes opérations :
+ * <lu>
+ * <li>Créer la table Région et la remplir</li>
+ * <li>Créer la table département et la remplir</li>
+ * <li>Créer la table ville la remplir</li>
+ * <li>Faire les association entre villes et département</li>
+ * <li>Créer la table historique et la remplir</li>
+ * </lu>
+ * </p>
+ *
+ *@author Roxane Chatry
+ *@version 1.0
+ **/
+
+
 public class RemplissageBDD {
-	ProgressBar maProgresseBarre;
+	private ProgressBar maProgresseBarre;
 	/**
 	 * On initialise les variables d'accès à la BDD qui ont été mis en place au moment du login de l'utilisateur.
 	 */
@@ -33,9 +50,18 @@ public class RemplissageBDD {
 	private static String user = InitialisationBDD.user;
 	private static String passwd = InitialisationBDD.passwd;
 
+	/**
+	 * Le chargement de la BDD se fait directement à la création de la classe.
+	 * @param progresseBarre montre l'avancement de l'installation
+	 */
+	
 	public RemplissageBDD(ProgressBar progresseBarre) {
 		maProgresseBarre = progresseBarre;
 
+		/**
+		 * Ici on définit une tache qui va se dérouler sur un autre Thread pour évider de faire freeze la fenêtre graphique.
+		 */
+		
 		Task<Void> task = new Task<Void>() {
 			@Override
 			public Void call() {
@@ -58,12 +84,14 @@ public class RemplissageBDD {
 				RemplissageBDD.importationHistorique();
 				System.out.println("Historiqué");
 
-				System.out.println("Coucou les loulous !!");
-
 				return null;
 			}
 		};
 
+		/**
+		 * On lance le thread.
+		 */
+		
 		task.setOnSucceeded(e -> MenuChoixController.getWindowInstallation().close());
 		progresseBarre.progressProperty().bind(task.progressProperty());
 		new Thread(task).start();
