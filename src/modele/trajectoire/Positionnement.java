@@ -14,20 +14,26 @@ import java.util.Set;
 
 import org.jxmapviewer.viewer.GeoPosition;
 
-import controll.main.ChoixSeuilController;
 import modele.BDD.InitialisationBDD;
 
-// permet de récupérer les coordonnées de villes 
+/** permet de mettre en place une trajectoire entre 2 villes, dans l'objectif de l'afficher
+ *
+ */
 public class Positionnement {
 	
+	/** les seuils de détermination si une ville est confinée ou non
+	 * 
+	 */
 	private static HashMap<String,Integer> seuils;
+
 	
 	/** donne une suite de villes (coordonnées) qui forment une trajectoire entre les deux villes données
 	 * 
-	 * @param depart
-	 * @param arrivee
+	 * @param depart la ville de départ
+	 * @param arrivee la ville d'arrivée
+	 * @param seuils une HashMap contenant les seuils de confinement demandés par l'utilisateur 
 	 * 
-	 * @return
+	 * @return la liste des coordonnées des villes ou null si le trajet est impossible 
 	 */
 	public List<GeoPosition> positionnerTrajectoire(String depart, String arrivee) {
 		//Si jamais aucun seuil n'a été défini.
@@ -42,7 +48,11 @@ public class Positionnement {
 		}
 	}
 	
-	// donne les coordonnées GPS des n villes de la liste (à partir de leurs noms)
+	/** donne les coordonnées GPS des n villes de la liste (à partir de leurs noms)
+	 * 
+	 * @param villes la liste des noms des villes à positionner
+	 * @return la liste de leurs coordonnées gps
+	 */
 	public List<GeoPosition> positionnerVilles(List<String> villes) {
 		ListIterator<String> it = villes.listIterator();
 		List<GeoPosition> listeCoor = new ArrayList<GeoPosition>();
@@ -55,12 +65,12 @@ public class Positionnement {
 		return(listeCoor);
 	}
 	
-	/** calcule le chemin le plus court entre 2 villes
+	/** calcule le chemin le plus court entre 2 villes par l'algorithme de Dijkstra
 	 * 
-	 * @param depart
-	 * @param arrivee
+	 * @param depart le nom de la ville de départ
+	 * @param arrivee le nom de la ville d'arrivée
 	 * @param listeVilles la liste des villes non confinées de la bdd
-	 * @return la liste ordonnée des villes étapes de la trajectoire
+	 * @return la liste ordonnée des villes étapes de la trajectoire (leurs noms) ou null si le trajet est impossible
 	 */
 	public List<String> calculerTrajectoire(String depart, String arrivee,List<String> listeVilles) {
 		// si une des deux villes est confinée, on ne peut pas calculer de trajectoire
@@ -90,27 +100,33 @@ public class Positionnement {
 		
 		// tant qu'on n'a pas visité toutes les villes
 		while (visites.size()!=n ) {
-			String villeCourante = villeDeDistanceMinimale(listeVilles,distanceMin,visites,listeVilles);
+			String villeCourante = villeDeDistanceMinimale(listeVilles,distanceMin,visites);
 			// quand on atteint l'arrivée
 			if (villeCourante.equals(arrivee)) {
 				return(reformerTrajectoire(predecesseur,depart,arrivee));
 			}
-			// ajout de la ville à la liste des villes déjà visitées
-			visites.add(villeCourante);
-			// liste des villes adjacentes à villeCourante
-			List<String> adjacents = villesAdjacentesBDD(villeCourante);
-			for (int i=0;i<n;i++) {
-				String ville = listeVilles.get(i);
-				// si la ville est adjacente à la ville courante
-				if (adjacents.contains(ville)) {
-					// distance de depart à ville en passant par villeCourante
-					double dist = distanceMin.get(villeCourante)+distanceBDD(villeCourante,ville);
-					// mise à jour des valeurs si le chemin est meilleur
-					if (dist<distanceMin.get(ville)) {
-						predecesseur.replace(ville,villeCourante);
-						distanceMin.replace(ville, dist);
+			
+			if (villeCourante != null) {
+				// ajout de la ville à la liste des villes déjà visitées
+				visites.add(villeCourante);
+				// liste des villes adjacentes à villeCourante
+				List<String> adjacents = villesAdjacentesBDD(villeCourante);
+				for (int i=0;i<n;i++) {
+					String ville = listeVilles.get(i);
+					// si la ville est adjacente à la ville courante
+					if (adjacents.contains(ville)) {
+						// distance de depart à ville en passant par villeCourante
+						double dist = distanceMin.get(villeCourante)+distanceBDD(villeCourante,ville);
+						// mise à jour des valeurs si le chemin est meilleur
+						if (dist<distanceMin.get(ville)) {
+							predecesseur.replace(ville,villeCourante);
+							distanceMin.replace(ville, dist);
+						}
 					}
 				}
+			} else {
+				// si la recherche de ville adjacente la plus proche n'a pas aboutit
+				return(null);
 			}
 		}
 		// cas d'erreur : aucun trajet possible
@@ -148,18 +164,19 @@ public class Positionnement {
 	
 	/** donne la ville non visitée de distance minimale
 	 * 
+	 * @param villes la liste des villes non confinnées 
 	 * @param distanceMin la Map des distances minimales
 	 * @param visites la liste des villes déjà visitées
-	 * @return le nom de la ville non visitée la plus proche du départ
+	 * @return le nom de la ville non visitée la plus proche du départ ou null si pas de ville possible
 	 */
-	public String villeDeDistanceMinimale(List<String> villes,Map<String,Double> distanceMin,List<String> visites,List<String> nonConfinees) {
+	public String villeDeDistanceMinimale(List<String> villes,Map<String,Double> distanceMin,List<String> visites) {
 		double min = Double.POSITIVE_INFINITY;
 		String villeMin = null;
 		for (int i=0; i<distanceMin.size(); i++) {
 			String v = villes.get(i);
 			double dist = distanceMin.get(v);
-			// villeMin doit être non confinée et pas encore visitée
-			if (!visites.contains(v) && nonConfinees.contains(v) && dist<min) {
+			// villeMin doit être pas encore visitée
+			if (!visites.contains(v) && dist<min) {
 				min = dist;
 				villeMin = v;
 			}
@@ -197,6 +214,12 @@ public class Positionnement {
 		return(villes);
 	}
 	
+	/** recherche dans la bdd la distance entre deux villes adjacentes
+	 * 
+	 * @param ville1 le nom de la première ville
+	 * @param ville2 le nom de la seconde ville
+	 * @return la distance entre les deux 
+	 */
 	public double distanceBDD(String ville1, String ville2) {
 		String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 		String user = InitialisationBDD.user;
@@ -205,7 +228,6 @@ public class Positionnement {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			try (Connection conn = DriverManager.getConnection(url, user, passwd)) {
 				Statement stat = conn.createStatement();
-				// coordonnées de la première ville (une ville = un département dans notre modèle)
 				ResultSet result = stat.executeQuery("SELECT distance FROM Adjacence WHERE ( code1 = (SELECT code_dept FROM Commune WHERE nom=\""+ville1+"\") AND code2 = (SELECT code_dept FROM Commune WHERE nom=\""+ville2+"\"));");
 				if (result.next()) {
 					return (result.getDouble("distance"));
@@ -223,7 +245,13 @@ public class Positionnement {
 	}
 	
 	
-	
+	/** reforme la trajectoire à partir de l'état final de l'algorithme de Dijkstra 
+	 * 
+	 * @param predecesseur la map des prédécesseurs de chaque ville déjà visitée
+	 * @param depart la ville de départ
+	 * @param arrivee la ville d'arrivée
+	 * @return la liste des noms des villes formant la trajectoire entre les deux villes (dans le sens inverse)
+	 */
 	public List<String> reformerTrajectoire(Map<String,String> predecesseur,String depart,String arrivee) {
 		List<String> trajet = new ArrayList<String>();
 		String villeCourante;
@@ -239,6 +267,11 @@ public class Positionnement {
 		return(trajet);
 	}
 	
+	/** recherche dans la bdd la liste des villes non confinées en fonction des seuils donnés par l'utilisateur
+	 * 
+	 * @param seuils la HashMap des seuils <indicateur,valeurSeuil>
+	 * @return la liste des noms des villes qui ne sont pas confinées à la dernière date des données de la bdd et selon les seuils donnés
+	 */
 	public List<String> villesNonConfineesBDD(HashMap<String,Integer> seuils) {
 		String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 		String user = InitialisationBDD.user;
@@ -281,7 +314,7 @@ public class Positionnement {
 	 * @param reanimation dernière donné du nombre de personnes en réanimation en 24h
 	 * @param morts dernière donné du nombre de morts en 24h
 	 * @param seuils hashmap contenant les seuils recherchés
-	 * @return un booléen indicant si la ville doit être confinée ou non
+	 * @return un booléen indiquant si la ville doit être confinée ou non
 	 */
 	public boolean confiner(int hospitalises, int reanimation, int morts, HashMap<String,Integer> seuils) {
 		// liste des indicateurs à prendre en compte
@@ -300,14 +333,21 @@ public class Positionnement {
 		}
 		return (confine);
 	}
-
+	
+	 /** donne la map des seuils
+	  * 
+	  * @return les seuils
+	  */
 	public static HashMap<String, Integer> getSeuils() {
 		return seuils;
 	}
-
+	
+	/** set la Map des seuils
+	 * 
+	 * @param seuils
+	 */
 	public static void setSeuils(HashMap<String, Integer> seuils) {
 		Positionnement.seuils = seuils;
 	}
-	
 }
 
