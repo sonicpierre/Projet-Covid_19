@@ -297,7 +297,7 @@ public class Positionnement {
 	
 	/** recherche dans la bdd la liste des villes non confinées en fonction des seuils donnés par l'utilisateur
 	 * 
-	 * @param seuils la HashMap des seuils <indicateur,valeurSeuil>
+	 * @param seuils la HashMap des seuils(indicateur,valeurSeuil)
 	 * @return la liste des noms des villes qui ne sont pas confinées à la dernière date des données de la bdd et selon les seuils donnés
 	 */
 	public List<String> villesNonConfineesBDD(HashMap<String,Integer> seuils) {
@@ -319,7 +319,7 @@ public class Positionnement {
 	
 	/** Forme une répartition des villes en 3 catégories en fonction des seuils donnés
 	 * 
-	 * @param seuils la HashMap des seuils <indicateur,valeurSeuil>
+	 * @param seuils la HashMap des seuils (indicateur,valeurSeuil)
 	 * @return la hashMap contenant toute les villes de la bdd liées à un entier indiquant son niveau d'atteinte par l'épidémie (1 faible à 3 élevé)
 	 */
 	public HashMap<String,Integer> repartitionVilles(HashMap<String,Integer> seuils) {

@@ -1,13 +1,12 @@
 package vue.map;
 
 import java.awt.Color;
-import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.VirtualEarthTileFactoryInfo;
@@ -24,6 +23,7 @@ import org.jxmapviewer.viewer.WaypointPainter;
  * <li>On peut dessiner un itinéraire en passant par chacune des préfectures</li>
  * <li>On peut changer le style de la carte</li>
  * <li>On peut dessiner un cercle de 100 km autour d'une ville</li>
+ * <li>Permet de mettre un marqueur sur les villes confiné, presque déconfiné et non confinées.</li>
  * </lu>
  * </p>
  *
@@ -123,11 +123,11 @@ public class MapView extends JXMapViewer{
 		  while(monIterateur.hasNext()){
 			Entry<GeoPosition, Integer> e = monIterateur.next();
 			if((e.getValue() == 3)&& confineActive )
-				waypoints.add(new MyWaypoint("C", Color.RED, e.getKey()));
+				waypoints.add(new MyWaypoint("C", new Color(Color.RED.getRed(),Color.RED.getGreen(),Color.RED.getBlue(),95), e.getKey()));
 			if((e.getValue() == 2)&& presqueActive)
-				waypoints.add(new MyWaypoint("D", Color.ORANGE, e.getKey()));
+				waypoints.add(new MyWaypoint("D", new Color(Color.ORANGE.getRed(),Color.ORANGE.getGreen(),Color.ORANGE.getBlue(),80), e.getKey()));
 			if((e.getValue() == 1) && nonConfActive)
-				waypoints.add(new MyWaypoint("L", Color.GREEN, e.getKey()));
+				waypoints.add(new MyWaypoint("L", new Color(Color.GREEN.getRed(),Color.GREEN.getGreen(),Color.GREEN.getBlue(),80), e.getKey()));
 		  }
 		  
         // Create a waypoint painter that takes all the waypoints

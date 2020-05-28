@@ -65,6 +65,7 @@ public class ChoixSeuilController implements Serializable, Initializable{
 		this.sauvegarder();
 		Positionnement.setSeuils(monHashi);
 		PrincipalController.getWindow().close();
+		PrincipalController.setHashiCheck(PrincipalController.getMonPos().positionnerVillesConfinees());
 	}
 	
 	/**

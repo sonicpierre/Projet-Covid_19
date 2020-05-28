@@ -3,6 +3,7 @@ package controll.main;
 import java.awt.Color;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -56,7 +57,7 @@ public class PrincipalController implements Initializable{
 	/**
 	 * @see Positionnement
 	 */
-	private Positionnement monPos = new Positionnement();
+	private static Positionnement monPos = new Positionnement();
 	
 	/**
 	 * Fenêtre qui contiendra les seuils pour construire les itinéraires
@@ -109,6 +110,8 @@ public class PrincipalController implements Initializable{
     @FXML
     private CheckBox checkConfine;
     
+    private static HashMap<GeoPosition, Integer> hashiCheck;
+    
     private boolean confineVisible, presqueVisible, nonConfineVisible;
     
     /**
@@ -119,10 +122,12 @@ public class PrincipalController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
+		//Au début quand on lance la fenêtre aucune des cases n'est sélectionnée
+		
 		this.confineVisible = false;
 		this.presqueVisible = false;
 		this.nonConfineVisible = false;
-		
+			
 		Parent principale;
 		try {
 			principale = FXMLLoader.load(getClass().getResource("/ressource/fxml/choixSeuil.fxml"));
@@ -149,6 +154,9 @@ public class PrincipalController implements Initializable{
 	    SwingUtilities.invokeLater(()->swingNode.setContent(carte));
         panePrincipal.getChildren().add(swingNode);
         
+        //On charge la hashmap correspondant avec les différent waypoints et leurs couleurs 1 pour rouge, 2 pour orange et 3 pour vert
+        
+		hashiCheck = monPos.positionnerVillesConfinees();
 	}
 	
 	/**
@@ -161,7 +169,7 @@ public class PrincipalController implements Initializable{
 		Task<Void> task = new Task<Void>() {
 			@Override
 			public Void call() {
-				carte.signalerLesConfines(monPos.positionnerVillesConfinees(), confineVisible, presqueVisible, nonConfineVisible);
+				carte.signalerLesConfines(hashiCheck, confineVisible, presqueVisible, nonConfineVisible);
 				return null;
 			}
 		};
@@ -179,7 +187,7 @@ public class PrincipalController implements Initializable{
 		Task<Void> task = new Task<Void>() {
 			@Override
 			public Void call() {
-				carte.signalerLesConfines(monPos.positionnerVillesConfinees(), confineVisible, presqueVisible, nonConfineVisible);
+				carte.signalerLesConfines(hashiCheck, confineVisible, presqueVisible, nonConfineVisible);
 				return null;
 			}
 		};
@@ -197,7 +205,7 @@ public class PrincipalController implements Initializable{
 		Task<Void> task = new Task<Void>() {
 			@Override
 			public Void call() {
-				carte.signalerLesConfines(monPos.positionnerVillesConfinees(), confineVisible, presqueVisible, nonConfineVisible);
+				carte.signalerLesConfines(hashiCheck, confineVisible, presqueVisible, nonConfineVisible);
 				return null;
 			}
 		};
@@ -208,6 +216,10 @@ public class PrincipalController implements Initializable{
 			this.setConfineVisible(false);
 		new Thread(task).start();
 	}
+	
+	/**
+	 * Permet de remettre toutes les cases en déselectionnées. Ce qui utile quand on appuie sur d'autre bouttons.
+	 */
 	
 	private void remiseAZero() {
 		this.checkConfine.setSelected(false);
@@ -510,6 +522,26 @@ public class PrincipalController implements Initializable{
 
 	public void setNonConfineVisible(boolean nonConfineVisible) {
 		this.nonConfineVisible = nonConfineVisible;
+	}
+
+	public static HashMap<GeoPosition, Integer> getHashiCheck() {
+		return hashiCheck;
+	}
+
+	/**
+	 * Va permettre de changer la HashMap à distance et en particulier à partir du controller de la fenêtre des seuils.
+	 * @param hashiCheck renvoie la hashMap correspondante.
+	 */
+	public static void setHashiCheck(HashMap<GeoPosition, Integer> hashiCheck) {
+		PrincipalController.hashiCheck = hashiCheck;
+	}
+
+	public static Positionnement getMonPos() {
+		return monPos;
+	}
+
+	public static void setMonPos(Positionnement monPos) {
+		PrincipalController.monPos = monPos;
 	}
 	
 }
