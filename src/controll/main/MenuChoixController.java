@@ -200,6 +200,7 @@ public class MenuChoixController implements Initializable{
 	
 	@FXML
 	public void installationBDD() {
+		chargementController.setTypeInstalation("Installation");
 		Parent principale;
 		try {
 			principale = FXMLLoader.load(getClass().getResource("/ressource/fxml/chargement.fxml"));
@@ -211,6 +212,22 @@ public class MenuChoixController implements Initializable{
 			e.printStackTrace();
 		}
 	}
+	
+	@FXML
+	public void miseAJourBDD() {
+		chargementController.setTypeInstalation("MiseAJour");
+		Parent principale;
+		try {
+			principale = FXMLLoader.load(getClass().getResource("/ressource/fxml/chargement.fxml"));
+			Scene scene = new Scene(principale);
+			windowInstallation.setScene(scene);
+			windowInstallation.centerOnScreen();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 
 	/**
 	 * Cette fonction permet d'animer les cercles

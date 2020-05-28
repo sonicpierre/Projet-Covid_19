@@ -58,9 +58,21 @@
                   </AnchorPane>
               </items>
             </SplitPane>
-            <Pane layoutX="200.0" layoutY="72.0" onMouseClicked="#installationBDD" prefHeight="86.0" prefWidth="600.0" style="-fx-background-color: A7C3E9;">
+            <Pane layoutX="200.0" layoutY="72.0" onMouseClicked="#installationBDD" prefHeight="86.0" prefWidth="295.0" style="-fx-background-color: A7C3E9;">
                <children>
-                  <Label layoutX="89.0" layoutY="28.0" text="Installer ou mettre à jour la BDD" textFill="#518073">
+                  <Label layoutX="89.0" layoutY="28.0" text="Installer" textFill="#518073">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
+               </children>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Pane>
+            <Pane layoutX="505.0" layoutY="72.0" onMouseClicked="#miseAJourBDD" prefHeight="86.0" prefWidth="295.0" style="-fx-background-color: A7C3E9;">
+               <children>
+                  <Label alignment="CENTER" layoutX="40.0" layoutY="28.0" prefHeight="31.0" prefWidth="239.0" text="Mettre à jour" textFill="#518073">
                      <font>
                         <Font size="26.0" />
                      </font>

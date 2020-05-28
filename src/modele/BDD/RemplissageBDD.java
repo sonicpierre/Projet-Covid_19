@@ -46,7 +46,8 @@ public class RemplissageBDD {
 	/**
 	 * On initialise les variables d'accès à la BDD qui ont été mis en place au moment du login de l'utilisateur.
 	 */
-	private static String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	private static final String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	private static final String url2 = "jdbc:mysql://localhost/?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	private static String user = InitialisationBDD.user;
 	private static String passwd = InitialisationBDD.passwd;
 
@@ -94,7 +95,6 @@ public class RemplissageBDD {
 				updateProgress(5, 6);
 				RemplissageBDD.importationHistorique();
 				System.out.println("Historiqué");
-
 				return null;
 			}
 		};
@@ -102,7 +102,7 @@ public class RemplissageBDD {
 		/**
 		 * On lance le thread.
 		 */
-		if(type.equals("Instalation")) {
+		if(type.equals("Installation")) {
 			task.setOnSucceeded(e -> MenuChoixController.getWindowInstallation().close());
 			progresseBarre.progressProperty().bind(task.progressProperty());
 			new Thread(task).start();
@@ -120,15 +120,21 @@ public class RemplissageBDD {
 	 * Ecrase les tables pré-existantes
 	 */
 	public static void clear() {
+		File file = new File("dead_data.csv");
+		if(file.exists())
+			file.delete();
+			try {
+				file.createNewFile();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			try (Connection conn = DriverManager.getConnection(url, user, passwd)) {
+			try (Connection conn = DriverManager.getConnection(url2, user, passwd)) {
 				Statement stat = conn.createStatement();
-				stat.executeUpdate("DROP TABLE IF EXISTS Historique;");
-				stat.executeUpdate("DROP TABLE IF EXISTS Adjacence;");
-				stat.executeUpdate("DROP TABLE IF EXISTS Commune;");
-				stat.executeUpdate("DROP TABLE IF EXISTS Departement;");
-				stat.executeUpdate("DROP TABLE IF EXISTS Region;");
+				stat.executeUpdate("DROP database if exists France;");
+				stat.executeUpdate("CREATE DATABASE IF NOT EXISTS France;");
 				stat.close();
 			} catch (SQLException e) {
 				e.printStackTrace();

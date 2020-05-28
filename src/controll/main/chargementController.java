@@ -10,6 +10,7 @@ import modele.BDD.RemplissageBDD;
 
 public class chargementController implements Initializable{
 	
+	private static String typeInstalation;
 	
 	@FXML
 	private ProgressBar progression;
@@ -17,7 +18,15 @@ public class chargementController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		MenuChoixController.getWindowInstallation().show();
-		new RemplissageBDD(progression);
+		new RemplissageBDD(progression, typeInstalation);
+	}
+
+	public static String getTypeInstalation() {
+		return typeInstalation;
+	}
+
+	public static void setTypeInstalation(String typeInstalation) {
+		chargementController.typeInstalation = typeInstalation;
 	}
 	
 	
