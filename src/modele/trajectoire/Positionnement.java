@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -51,29 +52,27 @@ public class Positionnement {
 		}
 	}
 	
-	/** Donne la liste des coordonnées des villes confinées selon les seuils donnés
+	/** Donne la liste des coordonnées des villes et leur niveau d'atteinte par l'épidémie
 	 * 
-	 * @return la liste des coordonnées des villes
+	 * @return la map des coordonnées des villes associées à un entier entre 1 et 3 indiquant leur niveau d'épidémie
 	 */
-	public List<GeoPosition> positionnerVillesConfinees() {
+	public HashMap<GeoPosition,Integer> positionnerVillesConfinees() {
 		//Si jamais aucun seuil n'a été défini.
 		if(seuils == null)
 			seuils = new HashMap<String, Integer>();
-		List<String> villesNonConfinees = villesNonConfineesBDD(seuils);
-		List<String> villesBDD = listeVillesBDD();
-		List<String> villesConfinees =  new ArrayList<String>();
-		ListIterator<String> it = villesBDD.listIterator();
+		// répartition des villes en 3 niveau d'épidémie
+		HashMap<String,Integer> repartition = repartitionVilles(seuils);
+		Set<String> villes = repartition.keySet();
+		// Map des positions géographiques des villes à placer et niveau associé
+		HashMap<GeoPosition,Integer> coord = new HashMap<GeoPosition,Integer>();
+		Iterator<String> it = villes.iterator();
 		while (it.hasNext()) {
 			String v = it.next();
-			if (!villesNonConfinees.contains(v)) {
-				villesConfinees.add(v);
-			}
+			Coordonnees coordonnee = new Coordonnees(v);
+			GeoPosition pos = coordonnee.getPos();
+			coord.put(pos,repartition.get(v));
 		}
-		if (villesConfinees != null && villesConfinees.size()!=0) {
-			return positionnerVilles(villesConfinees);
-		} else {
-			return null;
-		}
+		return(coord);
 	}
 
 	/**
@@ -302,14 +301,48 @@ public class Positionnement {
 	 * @return la liste des noms des villes qui ne sont pas confinées à la dernière date des données de la bdd et selon les seuils donnés
 	 */
 	public List<String> villesNonConfineesBDD(HashMap<String,Integer> seuils) {
-		String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-		String user = InitialisationBDD.user;
-		String passwd = InitialisationBDD.passwd;
-		
 		// liste des villes non confinées
 		List<String> villesNonConfinees = new ArrayList<String>();
 		// liste totale des villes
 		List<String> villesBDD = listeVillesBDD();
+		// répartition des villes par rapport au seuil
+		HashMap<String,Integer> repartition = repartitionVilles(seuils);
+		for (int i=0; i<villesBDD.size(); i++) {
+			String ville = villesBDD.get(i);
+			// si la ville n'est pas confinée (niveau 1 ou 2)
+			if (repartition.get(ville)!=3) {
+				villesNonConfinees.add(ville);
+			}	
+		}
+		return(villesNonConfinees);
+	}
+	
+	/** Forme une répartition des villes en 3 catégories en fonction des seuils donnés
+	 * 
+	 * @param seuils la HashMap des seuils <indicateur,valeurSeuil>
+	 * @return la hashMap contenant toute les villes de la bdd liées à un entier indiquant son niveau d'atteinte par l'épidémie (1 faible à 3 élevé)
+	 */
+	public HashMap<String,Integer> repartitionVilles(HashMap<String,Integer> seuils) {
+		String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+		String user = InitialisationBDD.user;
+		String passwd = InitialisationBDD.passwd;
+		
+		// Villes triées selon leur position par rapport au seuil
+		HashMap<String,Integer> villesTriees = new HashMap<String,Integer>();
+		// liste totale des villes
+		List<String> villesBDD = listeVillesBDD();
+		
+		// HashMap des demi-seuils
+		HashMap<String,Integer> demiSeuils = new HashMap<String,Integer>();
+		if (seuils.keySet().contains("morts")) {
+			demiSeuils.put("morts", seuils.get("morts")/2);
+		}
+		if (seuils.keySet().contains("reanimation")) {
+			demiSeuils.put("reanimation", seuils.get("reanimation")/2);
+		}
+		if (seuils.keySet().contains("hospitalises")) {
+			demiSeuils.put("hospitalises", seuils.get("hospitalises")/2);
+		}
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			try (Connection conn = DriverManager.getConnection(url, user, passwd)) {
@@ -320,9 +353,14 @@ public class Positionnement {
 					ResultSet result = stat.executeQuery("SELECT hospitalises,reanimation,morts,date FROM Historique WHERE departement=(SELECT code_dept FROM Commune WHERE nom = \""+ville+"\") ORDER BY date DESC;");
 					// on prend le premier
 					if (result.next()) {
-						// si la ville n'est pas confinée, on l'ajoute à la liste des villes non confinées
-						if (!confiner(result.getInt("hospitalises"),result.getInt("reanimation"),result.getInt("morts"),seuils)) {
-							villesNonConfinees.add(ville);
+						// ville confinée = état 3 (rouge)
+						if (confiner(result.getInt("hospitalises"),result.getInt("reanimation"),result.getInt("morts"),seuils)) {
+							villesTriees.put(ville, 3);
+						// ville confinée pour le demi-seuil = état 2 (orange)
+						} else if (confiner(result.getInt("hospitalises"),result.getInt("reanimation"),result.getInt("morts"),demiSeuils)) {
+							villesTriees.put(ville,2);
+						} else {
+							villesTriees.put(ville,1);
 						}
 					}
 					result.close();
@@ -334,7 +372,7 @@ public class Positionnement {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		return(villesNonConfinees);
+		return(villesTriees);
 	}
 	
 	/** Determine si une ville/département doit être confiné ou non en fonction des seuils donnés
