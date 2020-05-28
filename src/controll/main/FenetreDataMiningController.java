@@ -30,11 +30,11 @@ public class FenetreDataMiningController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
 			
-			File file = new File("Etudes/Prédiction_survie.html");
+			File file = new File("Etudes/Prédiction_Coree.html");
 			URL url= file.toURI().toURL();
 			etudeCoreeModele.getEngine().load(url.toString());
 			
-			file = new File("Etudes/Data_Viz_survie.html");
+			file = new File("Etudes/Data_Viz_Coree.html");
 			url= file.toURI().toURL();
 			etudeCoreeState.getEngine().load(url.toString());
 			
