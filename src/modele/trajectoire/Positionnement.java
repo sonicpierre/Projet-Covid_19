@@ -36,8 +36,7 @@ public class Positionnement {
 	 * 
 	 * @param depart la ville de départ
 	 * @param arrivee la ville d'arrivée
-	 * @param seuils une HashMap contenant les seuils de confinement demandés par l'utilisateur 
-	 * 
+	 * @return la liste des coordonnées des villes formant la trajectoire
 	 */
 	public List<GeoPosition> positionnerTrajectoire(String depart, String arrivee) {
 		//Si jamais aucun seuil n'a été défini.
@@ -47,6 +46,31 @@ public class Positionnement {
 		List<String> villes = calculerTrajectoire(depart,arrivee,villesNonConfinees);
 		if (villes != null && villes.size()!=0) {
 			return positionnerVilles(villes);
+		} else {
+			return null;
+		}
+	}
+	
+	/** Donne la liste des coordonnées des villes confinées selon les seuils donnés
+	 * 
+	 * @return la liste des coordonnées des villes
+	 */
+	public List<GeoPosition> positionnerVillesConfinees() {
+		//Si jamais aucun seuil n'a été défini.
+		if(seuils == null)
+			seuils = new HashMap<String, Integer>();
+		List<String> villesNonConfinees = villesNonConfineesBDD(seuils);
+		List<String> villesBDD = listeVillesBDD();
+		List<String> villesConfinees =  new ArrayList<String>();
+		ListIterator<String> it = villesBDD.listIterator();
+		while (it.hasNext()) {
+			String v = it.next();
+			if (!villesNonConfinees.contains(v)) {
+				villesConfinees.add(v);
+			}
+		}
+		if (villesConfinees != null && villesConfinees.size()!=0) {
+			return positionnerVilles(villesConfinees);
 		} else {
 			return null;
 		}
