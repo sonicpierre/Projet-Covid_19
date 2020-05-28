@@ -308,8 +308,8 @@ public class PrincipalController implements Initializable{
 	@FXML
 	private void modifGraphAquitaine() {
 		lineChart.getData().clear();
-		lineChart.getData().addAll(DataGraphes.guerisRegion("Nouvelle Aquitaine"), DataGraphes.reanimesRegion("Nouvelle Aquitaine"), DataGraphes.mortsRegion("Nouvelle Aquitaine"), DataGraphes.hospitalisesRegion("Nouvelle Aquitaine"));
-		camembert.setData(DataGraphes.statsQuotidiennes("Nouvelle Aquitaine"));
+		lineChart.getData().addAll(DataGraphes.guerisRegion("Nouvelle-Aquitaine"), DataGraphes.reanimesRegion("Nouvelle-Aquitaine"), DataGraphes.mortsRegion("Nouvelle-Aquitaine"), DataGraphes.hospitalisesRegion("Nouvelle-Aquitaine"));
+		camembert.setData(DataGraphes.statsQuotidiennes("Nouvelle-Aquitaine"));
 		labelRegion.setText("France");
 	}
 	

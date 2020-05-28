@@ -215,7 +215,7 @@
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor></Button>
-                        <Label layoutX="762.0" layoutY="11.0" text="Titre">
+                        <Label layoutX="690.0" layoutY="11.0" text="Covid Coyote">
                            <font>
                               <Font size="33.0" />
                            </font>

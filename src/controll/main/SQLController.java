@@ -16,6 +16,13 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import modele.BDD.InitialisationBDD;
 
+/**
+ *La classe <b>SQLController</b> est la classe qui permet de se connecter ou créer un utilisateur.
+ *@author Virgaux Pierre
+ *@version 1.0
+ **/
+
+
 public class SQLController implements Initializable{
 
 	private InitialisationBDD ini = new InitialisationBDD();

@@ -11,7 +11,6 @@ import javafx.scene.web.WebView;
 
 public class FenetreDataMiningController implements Initializable{
 	
-	
 	@FXML
 	private WebView etudeFrance;
 	@FXML
