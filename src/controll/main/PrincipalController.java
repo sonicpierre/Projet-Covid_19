@@ -170,8 +170,8 @@ public class PrincipalController implements Initializable{
 		}
 		else {
 			//Si il est nul on color en rouge pour montrer qu'il y a une erreur.
-			villeNum1.setStyle("-fx-background-color : red;");
-			villeNum2.setStyle("-fx-background-color : red;");
+			villeNum1.setStyle("-fx-background-color : #FF5F45;");
+			villeNum2.setStyle("-fx-background-color : #FF5F45;");
 		}
 	}
 	
@@ -362,8 +362,12 @@ public class PrincipalController implements Initializable{
 	@FXML
 	private void validerRayon() {
 		Coordonnees coordonnee = new Coordonnees(text100.getText());
-		if(coordonnee!= null)
+		if(coordonnee.getPos()!= null) {
 			carte.dessinerRayon(coordonnee.getPos());
+			text100.setStyle("-fx-background-color: white;");
+		}
+		else
+			text100.setStyle("-fx-background-color: #FF5F45;");
 	}
 	
 	/**

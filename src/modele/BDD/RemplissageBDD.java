@@ -55,7 +55,7 @@ public class RemplissageBDD {
 	 * @param progresseBarre montre l'avancement de l'installation
 	 */
 	
-	public RemplissageBDD(ProgressBar progresseBarre) {
+	public RemplissageBDD(ProgressBar progresseBarre, String type) {
 		maProgresseBarre = progresseBarre;
 
 		/**
@@ -66,7 +66,7 @@ public class RemplissageBDD {
 			@Override
 			public Void call() {
 				updateProgress(0, 6);
-				// RemplissageBDD.clear();
+				RemplissageBDD.clear();
 				System.out.println("Nettoyé");
 				updateProgress(1, 6);
 				RemplissageBDD.importationRegions();
@@ -87,14 +87,33 @@ public class RemplissageBDD {
 				return null;
 			}
 		};
+		
+		Task<Void> task2 = new Task<Void>() {
+			@Override
+			public Void call() {
+				updateProgress(5, 6);
+				RemplissageBDD.importationHistorique();
+				System.out.println("Historiqué");
+
+				return null;
+			}
+		};
 
 		/**
 		 * On lance le thread.
 		 */
-		
-		task.setOnSucceeded(e -> MenuChoixController.getWindowInstallation().close());
-		progresseBarre.progressProperty().bind(task.progressProperty());
-		new Thread(task).start();
+		if(type.equals("Instalation")) {
+			task.setOnSucceeded(e -> MenuChoixController.getWindowInstallation().close());
+			progresseBarre.progressProperty().bind(task.progressProperty());
+			new Thread(task).start();
+		}
+		else if(type.equals("MiseAJour")) {
+			task2.setOnSucceeded(e -> MenuChoixController.getWindowInstallation().close());
+			progresseBarre.progressProperty().bind(task.progressProperty());
+			new Thread(task2).start();
+		}
+			
+			
 	}
 
 	/**
