@@ -19,6 +19,11 @@
                         <WebView fx:id="etudeFrance" prefHeight="633.0" prefWidth="824.0" />
                      </content>
                   </Tab>
+                  <Tab closable="false" text="Modèle France">
+                     <content>
+                        <WebView fx:id="modeleFrance" prefHeight="633.0" prefWidth="824.0" />
+                     </content>
+                  </Tab>
                   <Tab closable="false" text="Nouvelle Aquitaine">
                      <content>
                         <WebView fx:id="etudeAquitaine" prefHeight="633.0" prefWidth="824.0" />
@@ -46,7 +51,7 @@
                   </Tab>
                </tabs>
             </TabPane>
-            <Button mnemonicParsing="false" onAction="#retourMenu" prefHeight="26.0" prefWidth="102.0" text="Back" StackPane.alignment="TOP_LEFT">
+            <Button mnemonicParsing="false" onAction="#retourMenu" prefHeight="35.0" prefWidth="102.0" text="Back" StackPane.alignment="TOP_LEFT">
                <StackPane.margin>
                   <Insets left="10.0" top="10.0" />
                </StackPane.margin>

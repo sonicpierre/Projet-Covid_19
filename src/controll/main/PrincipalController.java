@@ -10,6 +10,7 @@ import javax.swing.SwingUtilities;
 
 import org.jxmapviewer.viewer.GeoPosition;
 
+import javafx.concurrent.Task;
 import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
@@ -96,6 +98,19 @@ public class PrincipalController implements Initializable{
     @FXML
     private Label labelRegion;
     
+    //Pour représenter les villes confinées, presque confinées et non confinées on a mis en place des checks box
+    
+    @FXML
+    private CheckBox checkNonConfine;
+    
+    @FXML
+    private CheckBox checkPresqueConfine;
+    
+    @FXML
+    private CheckBox checkConfine;
+    
+    private boolean confineVisible, presqueVisible, nonConfineVisible;
+    
     /**
      * Permet ici d'effectuer des opérations avant de lancer la fenêtre. On essaie d'en faire le plus possible avant de la lancer pour éviter que ça rame pour
      * charger les fenêtres derrière.
@@ -103,6 +118,10 @@ public class PrincipalController implements Initializable{
     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		
+		this.confineVisible = false;
+		this.presqueVisible = false;
+		this.nonConfineVisible = false;
 		
 		Parent principale;
 		try {
@@ -126,12 +145,74 @@ public class PrincipalController implements Initializable{
 	    lineChart.getData().addAll(DataGraphes.guerisRegion(), DataGraphes.hospitalisesRegion(), DataGraphes.reanimesRegion(), DataGraphes.mortsRegion());
         camembert.setData(DataGraphes.statsQuotidiennes());
         
-        //Au lancement de la carte on veut directement la représentation du nombre de morts.
-        carte.dessinerCercle(RepresentationSurCarte.cercleMortsVille(), new Color(Color.RED.getRed(),Color.RED.getGreen(),Color.RED.getBlue(),80));
-        
         //On remplie le Swing Node avec la carte.
 	    SwingUtilities.invokeLater(()->swingNode.setContent(carte));
         panePrincipal.getChildren().add(swingNode);
+        
+	}
+	
+	/**
+	 * Ici on a les fonctions qui permettent de gérer les différentes check boxes on peut ainsi voir en détail les villes confinée ou non.
+	 */
+	
+	@FXML
+	private void nonConfinesAction() {
+		
+		Task<Void> task = new Task<Void>() {
+			@Override
+			public Void call() {
+				carte.signalerLesConfines(monPos.positionnerVillesConfinees(), confineVisible, presqueVisible, nonConfineVisible);
+				return null;
+			}
+		};
+		
+		if(checkNonConfine.isSelected())
+			this.setNonConfineVisible(true);
+		else
+			this.setNonConfineVisible(false);
+		new Thread(task).start();
+	}
+	
+	@FXML
+	private void presquDeconfineAction() {
+		
+		Task<Void> task = new Task<Void>() {
+			@Override
+			public Void call() {
+				carte.signalerLesConfines(monPos.positionnerVillesConfinees(), confineVisible, presqueVisible, nonConfineVisible);
+				return null;
+			}
+		};
+		
+		if(checkPresqueConfine.isSelected())
+			this.setPresqueVisible(true);
+		else
+			this.setPresqueVisible(false);
+		new Thread(task).start();
+	}
+	
+	@FXML
+	private void confineAction() {
+		
+		Task<Void> task = new Task<Void>() {
+			@Override
+			public Void call() {
+				carte.signalerLesConfines(monPos.positionnerVillesConfinees(), confineVisible, presqueVisible, nonConfineVisible);
+				return null;
+			}
+		};
+		
+		if(checkConfine.isSelected())
+			this.setConfineVisible(true);
+		else
+			this.setConfineVisible(false);
+		new Thread(task).start();
+	}
+	
+	private void remiseAZero() {
+		this.checkConfine.setSelected(false);
+		this.checkNonConfine.setSelected(false);
+		this.checkPresqueConfine.setSelected(false);
 	}
 	
 	/**
@@ -140,6 +221,7 @@ public class PrincipalController implements Initializable{
 	
 	@FXML
 	private void fenetreConfinement() {
+		this.remiseAZero();
 		window.show();
 	}
 	
@@ -183,16 +265,19 @@ public class PrincipalController implements Initializable{
 	@FXML
 	private void mortAction() {
 		carte.dessinerCercle(RepresentationSurCarte.cercleMortsVille(), new Color(Color.RED.getRed(),Color.RED.getGreen(),Color.RED.getBlue(),80));
+		this.remiseAZero();
 	}
 	
 	@FXML
 	private void guerriAction() {
 		carte.dessinerCercle(RepresentationSurCarte.cercleGuerisVille(), new Color(Color.GREEN.getRed(),Color.GREEN.getGreen(),Color.GREEN.getBlue(),80));
+		this.remiseAZero();
 	}
 	
 	@FXML
 	private void actifAction() {
 		carte.dessinerCercle(RepresentationSurCarte.cercleActifsVille(), new Color(Color.ORANGE.getRed(),Color.ORANGE.getGreen(),Color.ORANGE.getBlue(),80));
+		this.remiseAZero();
 	}
 	
 	/**
@@ -368,6 +453,7 @@ public class PrincipalController implements Initializable{
 		}
 		else
 			text100.setStyle("-fx-background-color: #FF5F45;");
+		this.remiseAZero();
 	}
 	
 	/**
@@ -397,4 +483,33 @@ public class PrincipalController implements Initializable{
 		MenuChoixController.getWindow().close();
 		SQLController.getFenetre().show();
 	}
+
+	public boolean isPresqueVisible() {
+		return presqueVisible;
+	}
+
+	public void setPresqueVisible(boolean presqueVisible) {
+		this.presqueVisible = presqueVisible;
+	}
+
+	public CheckBox getCheckNonConfine() {
+		return checkNonConfine;
+	}
+
+	public boolean isConfineVisible() {
+		return confineVisible;
+	}
+
+	public void setConfineVisible(boolean confineVisible) {
+		this.confineVisible = confineVisible;
+	}
+
+	public boolean isNonConfineVisible() {
+		return nonConfineVisible;
+	}
+
+	public void setNonConfineVisible(boolean nonConfineVisible) {
+		this.nonConfineVisible = nonConfineVisible;
+	}
+	
 }

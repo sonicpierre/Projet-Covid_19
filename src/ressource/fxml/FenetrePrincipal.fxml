@@ -7,6 +7,7 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
@@ -151,12 +152,12 @@
                <center>
                   <Pane prefHeight="773.0" prefWidth="817.0" BorderPane.alignment="CENTER">
                      <children>
-                        <StackPane fx:id="panePrincipal" layoutX="-1.0" prefHeight="773.0" prefWidth="822.0">
+                        <StackPane fx:id="panePrincipal" prefHeight="773.0" prefWidth="821.0">
                            <cursor>
                               <Cursor fx:constant="MOVE" />
                            </cursor>
                         </StackPane>
-                        <StackPane prefHeight="37.0" prefWidth="229.0">
+                        <StackPane prefHeight="54.0" prefWidth="272.0">
                         	<children>
                         		<Button id="bouttonSattellite" fx:id="changerMap" mnemonicParsing="false" onAction="#changerLaCarte" prefHeight="20.0" prefWidth="100.0" text="Satellite">
                                  <StackPane.margin>
@@ -201,6 +202,29 @@
                                           <Insets bottom="8.0" left="15.0" right="15.0" top="8.0" />
                                        </padding>
                                     </Button>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </StackPane>
+                        <StackPane layoutX="14.0" layoutY="670.0" prefHeight="103.0" prefWidth="168.0">
+                           <children>
+                              <VBox prefHeight="103.0" prefWidth="179.0" spacing="20.0">
+                                 <children>
+                                    <CheckBox fx:id="checkNonConfine" mnemonicParsing="false" onAction="#nonConfinesAction" text="Non Confinée" textFill="#59833d">
+                                       <font>
+                                          <Font name="System Bold Italic" size="13.0" />
+                                       </font>
+                                    </CheckBox>
+                                    <CheckBox fx:id="checkPresqueConfine" mnemonicParsing="false" onAction="#presquDeconfineAction" text="Presque déconfiné" textFill="#c6a544">
+                                       <font>
+                                          <Font name="System Bold" size="13.0" />
+                                       </font>
+                                    </CheckBox>
+                                    <CheckBox fx:id="checkConfine" mnemonicParsing="false" onAction="#confineAction" text="Confinée" textFill="#c95a5a">
+                                       <font>
+                                          <Font name="System Bold" size="13.0" />
+                                       </font>
+                                    </CheckBox>
                                  </children>
                               </VBox>
                            </children>

@@ -5,8 +5,10 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -16,6 +18,8 @@ import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.painter.CompoundPainter;
 import org.jxmapviewer.painter.Painter;
 import org.jxmapviewer.viewer.GeoPosition;
+import org.jxmapviewer.viewer.Waypoint;
+import org.jxmapviewer.viewer.WaypointPainter;
 
 /**
  *La classe <b>RegionPainter</b> est la classe permettant de dessiner sur chacunes des villes pour représenter le nombre de mort, réanimation, hospitalisé.
@@ -50,8 +54,16 @@ public class RegionPainter implements Painter<JXMapViewer>{
         this.couleur = couleur;
         this.carte = carte;
         
+        
+        MyWaypoint monPoint = new MyWaypoint("C", Color.RED, new GeoPosition(46.65, 2.56));
+        
+       
+        
+        
    	 	List<Painter<JXMapViewer>> painters = new ArrayList<Painter<JXMapViewer>>();
         painters.add(this);
+        
+        
 
         CompoundPainter<JXMapViewer> painter = new CompoundPainter<JXMapViewer>(painters);
         carte.setOverlayPainter(painter);

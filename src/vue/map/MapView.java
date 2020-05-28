@@ -1,14 +1,20 @@
 package vue.map;
 
 import java.awt.Color;
+import java.awt.geom.Point2D;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.VirtualEarthTileFactoryInfo;
 import org.jxmapviewer.viewer.DefaultTileFactory;
 import org.jxmapviewer.viewer.GeoPosition;
 import org.jxmapviewer.viewer.TileFactoryInfo;
+import org.jxmapviewer.viewer.WaypointPainter;
 
 /**
  *La classe <b>MapView</b> est la classe qui permet de gérer toutes les fonctionnalités liées à la carte.
@@ -28,6 +34,8 @@ import org.jxmapviewer.viewer.TileFactoryInfo;
 
 @SuppressWarnings("serial")
 public class MapView extends JXMapViewer{
+	
+	
 	
 	/**
 	 * Ici on a 2 types de carte, la carte satellite et la carte classique tirées d'OSM.
@@ -103,4 +111,30 @@ public class MapView extends JXMapViewer{
     public void dessinerCercle(HashMap<GeoPosition, Double> ensembleAffichage, Color couleur) {
     	new RegionPainter(ensembleAffichage, couleur, this);
     }
+    
+    public void signalerLesConfines(HashMap<GeoPosition, Integer> maListeConfinee, boolean confineActive, boolean presqueActive, boolean nonConfActive) {
+        
+        // Create waypoints from the geo-positions
+        Set<MyWaypoint> waypoints = new HashSet<MyWaypoint>();
+        
+    	Set<Entry<GeoPosition, Integer>> set = maListeConfinee.entrySet();
+		Iterator<Entry<GeoPosition, Integer>> monIterateur = set.iterator();
+		
+		  while(monIterateur.hasNext()){
+			Entry<GeoPosition, Integer> e = monIterateur.next();
+			if((e.getValue() == 3)&& confineActive )
+				waypoints.add(new MyWaypoint("C", Color.RED, e.getKey()));
+			if((e.getValue() == 2)&& presqueActive)
+				waypoints.add(new MyWaypoint("D", Color.ORANGE, e.getKey()));
+			if((e.getValue() == 1) && nonConfActive)
+				waypoints.add(new MyWaypoint("L", Color.GREEN, e.getKey()));
+		  }
+		  
+        // Create a waypoint painter that takes all the waypoints
+        WaypointPainter<MyWaypoint> waypointPainter = new WaypointPainter<MyWaypoint>();
+        waypointPainter.setWaypoints(waypoints);
+        waypointPainter.setRenderer(new FancyWaypointRenderer());
+
+        this.setOverlayPainter(waypointPainter);
+	}
 }

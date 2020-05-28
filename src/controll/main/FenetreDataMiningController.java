@@ -14,6 +14,8 @@ public class FenetreDataMiningController implements Initializable{
 	@FXML
 	private WebView etudeFrance;
 	@FXML
+	private WebView modeleFrance;
+	@FXML
 	private WebView etudeAquitaine;
 	@FXML
 	private WebView etudeCoreeState;
@@ -41,11 +43,14 @@ public class FenetreDataMiningController implements Initializable{
 			url= file.toURI().toURL();
 			etudeEtatUnisStat.getEngine().load(url.toString());
 			
-			/*
-			file = new File("Etudes/Prédiction_survie.html");
+			file = new File("Etudes/Prediction_FR.html");
 			url= file.toURI().toURL();
-			etudeCoreeModele.getEngine().load(url.toString());
+			modeleFrance.getEngine().load(url.toString());
 			
+			file = new File("Etudes/Data_Viz_France.html");
+			url= file.toURI().toURL();
+			etudeFrance.getEngine().load(url.toString());
+			/*
 			file = new File("Etudes/Prédiction_survie.html");
 			url= file.toURI().toURL();
 			etudeCoreeModele.getEngine().load(url.toString());

@@ -9,6 +9,7 @@ module vue.main.Main {
 	requires transitive javafx.fxml;
 	requires javafx.web;
 	requires jxmapviewer2;
+	requires commons.logging;
 	
 	opens controll.main to javafx.fxml;
 	exports controll.main;
