@@ -93,6 +93,8 @@ public class MenuChoixController implements Initializable{
 	 * Cette méthode qui est hérité de Initialize permet de mettre des paramètres à la fenêtre avant qu'elle soit liée au fichier FXML. 
 	 */
 	
+	private static Scene sceneMap;
+	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		windowInstallation.initStyle(StageStyle.UNDECORATED);
@@ -161,10 +163,10 @@ public class MenuChoixController implements Initializable{
 		Parent principale;
 		try {
 			principale = FXMLLoader.load(getClass().getResource("/ressource/fxml/FenetrePrincipal.fxml"));
-			Scene scene = new Scene(principale);
+			sceneMap = new Scene(principale);
 			windowMap.setTitle("Lamamap");
 			windowMap.setResizable(true);
-			windowMap.setScene(scene);
+			windowMap.setScene(sceneMap);
 			windowMap.show();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -274,4 +276,13 @@ public class MenuChoixController implements Initializable{
 	public static Stage getWindowDataMining() {
 		return windowDataMining;
 	}
+
+	public static Scene getSceneMap() {
+		return sceneMap;
+	}
+
+	public static void setSceneMap(Scene sceneMap) {
+		MenuChoixController.sceneMap = sceneMap;
+	}
+	
 }

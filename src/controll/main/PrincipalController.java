@@ -16,6 +16,7 @@ import javafx.embed.swing.SwingNode;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
@@ -183,7 +184,6 @@ public class PrincipalController implements Initializable{
 	
 	@FXML
 	private void presquDeconfineAction() {
-		
 		Task<Void> task = new Task<Void>() {
 			@Override
 			public Void call() {
@@ -225,6 +225,10 @@ public class PrincipalController implements Initializable{
 		this.checkConfine.setSelected(false);
 		this.checkNonConfine.setSelected(false);
 		this.checkPresqueConfine.setSelected(false);
+		this.confineVisible = false;
+		this.presqueVisible = false;
+		this.nonConfineVisible = false;
+		carte.signalerLesConfines(hashiCheck, confineVisible, presqueVisible, nonConfineVisible);
 	}
 	
 	/**
@@ -249,24 +253,35 @@ public class PrincipalController implements Initializable{
 	}
 	
 	/**
-	 * Permet de faire l'itinéraire et de l'afficher sur la carte.
+	 * Permet de faire l'itinéraire et de l'afficher sur la carte. On récupère la scène pour mettre le bon curseur dessus.
 	 * @see Positionnement
 	 */
 	
 	@FXML
 	private void validationItineraire() {
 		//On vérifie que l'itinéraire n'est pas nul
-		List<GeoPosition> itineraire = monPos.positionnerTrajectoire(villeNum1.getText(), villeNum2.getText());
-		if(itineraire != null) {
-			carte.dessinerItineraire(itineraire);
-			villeNum1.setStyle("-fx-background-color : white;");
-			villeNum2.setStyle("-fx-background-color : white;");
-		}
-		else {
-			//Si il est nul on color en rouge pour montrer qu'il y a une erreur.
-			villeNum1.setStyle("-fx-background-color : #FF5F45;");
-			villeNum2.setStyle("-fx-background-color : #FF5F45;");
-		}
+		Task<Void> task = new Task<Void>() {
+			@Override
+			public Void call() {
+				MenuChoixController.getSceneMap().setCursor(Cursor.WAIT);
+				List<GeoPosition> itineraire = monPos.positionnerTrajectoire(villeNum1.getText(), villeNum2.getText());
+				MenuChoixController.getSceneMap().setCursor(Cursor.DEFAULT);
+				if(itineraire != null) {
+					carte.dessinerItineraire(itineraire);
+
+					villeNum1.setStyle("-fx-background-color : white;");
+					villeNum2.setStyle("-fx-background-color : white;");
+				}
+				else {
+					//Si il est nul on color en rouge pour montrer qu'il y a une erreur.
+					villeNum1.setStyle("-fx-background-color : #FF5F45;");
+					villeNum2.setStyle("-fx-background-color : #FF5F45;");
+				}
+				return null;
+			}
+		};
+		new Thread(task).start();
+
 	}
 	
 	/**
@@ -276,20 +291,20 @@ public class PrincipalController implements Initializable{
 	
 	@FXML
 	private void mortAction() {
-		carte.dessinerCercle(RepresentationSurCarte.cercleMortsVille(), new Color(Color.RED.getRed(),Color.RED.getGreen(),Color.RED.getBlue(),80));
 		this.remiseAZero();
+		carte.dessinerCercle(RepresentationSurCarte.cercleMortsVille(), new Color(Color.RED.getRed(),Color.RED.getGreen(),Color.RED.getBlue(),80));
 	}
 	
 	@FXML
 	private void guerriAction() {
-		carte.dessinerCercle(RepresentationSurCarte.cercleGuerisVille(), new Color(Color.GREEN.getRed(),Color.GREEN.getGreen(),Color.GREEN.getBlue(),80));
 		this.remiseAZero();
+		carte.dessinerCercle(RepresentationSurCarte.cercleGuerisVille(), new Color(Color.GREEN.getRed(),Color.GREEN.getGreen(),Color.GREEN.getBlue(),80));	
 	}
 	
 	@FXML
 	private void actifAction() {
-		carte.dessinerCercle(RepresentationSurCarte.cercleActifsVille(), new Color(Color.ORANGE.getRed(),Color.ORANGE.getGreen(),Color.ORANGE.getBlue(),80));
 		this.remiseAZero();
+		carte.dessinerCercle(RepresentationSurCarte.cercleActifsVille(), new Color(Color.ORANGE.getRed(),Color.ORANGE.getGreen(),Color.ORANGE.getBlue(),80));
 	}
 	
 	/**
