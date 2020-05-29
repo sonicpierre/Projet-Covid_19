@@ -361,8 +361,8 @@ public class RemplissageBDD {
 
 	/**
 	 * Crée et remplit la table des adjacences entre communes (et donc entre
-	 * départements dans notre modèle) qui indique si deux communes (déparements)
-	 * sont adjacents
+	 * départements dans notre modèle) qui indique si deux communes (départements)
+	 * sont adjacentes
 	 */
 	public static void association() {
 		Path filepath = Paths.get("data/adjacences.txt");
@@ -415,13 +415,17 @@ public class RemplissageBDD {
 	}
 
 	/**
-	 * Calcule la distance entre deux villes
+	 * Calcule la distance entre deux villes à partir de leurs codes de déparement
 	 */
 	public static double calculDistance(String code1, String code2) {
 		/**
 		 * Les coordonnées des villes
 		 */
 		double x1, x2, y1, y2;
+		/**
+		 * Rayon de la terre
+		 */
+		double R = 6371;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			try (Connection conn = DriverManager.getConnection(url, user, passwd)) {
@@ -433,27 +437,27 @@ public class RemplissageBDD {
 				ResultSet result = stat
 						.executeQuery("SELECT gps_lat,gps_lng FROM Commune WHERE code_dept=\"" + code1 + "\";");
 				if (result.next()) {
-					y1 = result.getDouble("gps_lat");
-					x1 = result.getDouble("gps_lng");
+					x1 = result.getDouble("gps_lat");
+					y1 = result.getDouble("gps_lng");
 				} else {
 					return (-1);
 				}
 				result.close();
 				/**
-				 * On récupère les coordonées de la seconde ville (associée à son déparement
+				 * On récupère les coordonées de la seconde ville (associée à son département
 				 * dans notre modèle)
 				 */
 				ResultSet result2 = stat
 						.executeQuery("SELECT gps_lat,gps_lng FROM Commune WHERE code_dept=\"" + code2 + "\";");
 				if (result2.next()) {
-					y2 = result2.getDouble("gps_lat");
-					x2 = result2.getDouble("gps_lng");
+					x2 = result2.getDouble("gps_lat");
+					y2 = result2.getDouble("gps_lng");
 				} else {
 					return (-1);
 				}
 				result2.close();
 				stat.close();
-				return (Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)));
+				return (R*Math.acos(Math.sin(x1*Math.PI/180)*Math.sin(x2*Math.PI/180) + Math.cos(x1*Math.PI/180)*Math.cos(x2*Math.PI/180)*Math.cos((y1-y2)*Math.PI/180)));
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
