@@ -1,12 +1,17 @@
 package controll.main;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.web.WebView;
 
 /**
@@ -49,6 +54,19 @@ public class FenetreDataMiningController implements Initializable{
 	private WebView etudeEtatUnisModele;
 	@FXML
 	private WebView etudeNouvelleAquitaine;
+	@FXML
+	private TextField labelDepartement;
+	@FXML
+	private TextField labelHospitalise;
+	@FXML
+	private TextField labelGuerri;
+	@FXML
+	private TextField labelRea;
+	@FXML
+	private TextField labelJour;
+	@FXML
+	private Label labelRes;
+	
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -83,6 +101,37 @@ public class FenetreDataMiningController implements Initializable{
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	private void lancerPrediction() {
+		if((labelDepartement.getText().length()!=0)&&(labelGuerri.getText().length()!=0)&&(labelHospitalise.getText().length()!=0)&&(labelJour.getText().length()!=0)&&(labelDepartement.getText().length()!=0)&&(labelRea.getText().length()!=0)) {
+			String pythonScriptPath = "main.py";
+			String[] cmd = new String[7];
+			cmd[0] = "python3";
+			cmd[1] = pythonScriptPath;
+			cmd[2] = labelDepartement.getText();
+			cmd[3] = labelJour.getText();
+			cmd[4] = labelHospitalise.getText();
+			cmd[5] = labelRea.getText();
+			cmd[6] = labelGuerri.getText();
+			Runtime rt = Runtime.getRuntime();
+			try {
+				Process pr = rt.exec(cmd);
+				
+				// retrieve output from python script
+				BufferedReader bfr = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+				String line = "";
+				while((line = bfr.readLine()) != null) {
+				// display each output line form python script
+					labelRes.setText(line + " morts");
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 	}
 	

@@ -13,7 +13,4 @@ module vue.main.Main {
 	
 	opens controll.main to javafx.fxml;
 	exports controll.main;
-	exports modele.BDD;
-	exports modele.trajectoire;
-	exports vue.map;
 }

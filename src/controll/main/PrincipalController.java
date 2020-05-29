@@ -2,6 +2,7 @@ package controll.main;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -262,6 +263,7 @@ public class PrincipalController implements Initializable{
 	 * @see Positionnement
 	 */
 	
+	@SuppressWarnings("deprecation")
 	@FXML
 	private void validationItineraire() {
 		//On vérifie que l'itinéraire n'est pas nul
@@ -280,8 +282,9 @@ public class PrincipalController implements Initializable{
 			villeNum1.setStyle("-fx-background-color : #FF5F45;");
 			villeNum2.setStyle("-fx-background-color : #FF5F45;");
 		}
-		
-		kmMarqueur.setText(Positionnement.getDistance() + " km");
+		BigDecimal bd = new BigDecimal(Positionnement.getDistance());
+		bd= bd.setScale(1,BigDecimal.ROUND_DOWN);
+		kmMarqueur.setText(bd.doubleValue() + " km");
 	}
 	
 	/**

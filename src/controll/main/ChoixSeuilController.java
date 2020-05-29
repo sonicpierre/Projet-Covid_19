@@ -45,7 +45,46 @@ public class ChoixSeuilController implements Serializable, Initializable{
 	private transient TextField labelReanimation;
 	@FXML
 	private transient TextField labelMort;
-
+	@FXML
+	private transient TextField labelHospitalisePourcentage;
+	@FXML
+	private transient TextField labelReanimationPourcentage;
+	@FXML
+	private transient TextField labelMortPourcentage;
+	
+	/**
+	 * Permet de disable l'ensemble des texte fields d'un côté ou de l'autre en fonction d'où on écrit.
+	 */
+	
+	@FXML
+	private void actionGaucheChiffre() {
+		if((labelHospitalise.getText().length()!=0)||(labelMort.getText().length()!=0)||(labelReanimation.getText().length()!=0)) {
+			labelHospitalisePourcentage.setDisable(true);
+			labelMortPourcentage.setDisable(true);
+			labelReanimationPourcentage.setDisable(true);
+		}
+		else {
+			labelHospitalisePourcentage.setDisable(false);
+			labelMortPourcentage.setDisable(false);
+			labelReanimationPourcentage.setDisable(false);
+		}
+			
+	}
+	
+	@FXML
+	private void actionDroitPourcentage() {
+		if((labelHospitalisePourcentage.getText().length()!=0)||(labelMortPourcentage.getText().length()!=0)||(labelReanimationPourcentage.getText().length()!=0)) {
+			labelHospitalise.setDisable(true);
+			labelMort.setDisable(true);
+			labelReanimation.setDisable(true);
+		}
+		else {
+			labelHospitalise.setDisable(false);
+			labelMort.setDisable(false);
+			labelReanimation.setDisable(false);
+		}
+	}
+	
 	/**
 	 * Au moment de la validation des seuils une nouvelle HashMap est créée et sauvegardée pour une autre utilisation du programme.
 	 * @param event
@@ -56,11 +95,11 @@ public class ChoixSeuilController implements Serializable, Initializable{
 		
 		monHashi = new HashMap<String, Integer>();
 		
-		if(!labelHospitalise.getText().equals(""))
+		if(labelHospitalise.getText().length()!=0)
 			monHashi.put("hospitalises", Integer.parseInt(labelHospitalise.getText()));
-		if(!labelReanimation.getText().equals(""))
+		if(labelReanimation.getText().length()!=0)
 			monHashi.put("reanimation", Integer.parseInt(labelReanimation.getText()));
-		if(!labelMort.getText().equals(""))
+		if(labelMort.getText().length()!=0)
 			monHashi.put("morts", Integer.parseInt(labelMort.getText()));
 		this.sauvegarder();
 		Positionnement.setSeuils(monHashi);
