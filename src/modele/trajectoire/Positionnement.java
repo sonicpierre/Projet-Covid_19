@@ -321,6 +321,7 @@ public class Positionnement {
 	 * 
 	 * @param seuils la HashMap des seuils (indicateur,valeurSeuil)
 	 * @return la hashMap contenant toute les villes de la bdd liées à un entier indiquant son niveau d'atteinte par l'épidémie (1 faible à 3 élevé)
+	 * si pas de données sur une ville, elle est de niveau 0
 	 */
 	public HashMap<String,Integer> repartitionVilles(HashMap<String,Integer> seuils) {
 		String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
@@ -362,7 +363,11 @@ public class Positionnement {
 						} else {
 							villesTriees.put(ville,1);
 						}
+					// si pas de données pour la ville
+					} else {
+						villesTriees.put(ville,0);
 					}
+					
 					result.close();
 				}
 				stat.close();
