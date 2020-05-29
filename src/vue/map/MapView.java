@@ -99,6 +99,7 @@ public class MapView extends JXMapViewer{
     
     public void dessinerRayon(GeoPosition ville) {
          new KmPainter(ville,this);
+         System.out.println("helllo");
     }
     
     /**

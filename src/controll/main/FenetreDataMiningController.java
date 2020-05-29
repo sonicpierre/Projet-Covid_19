@@ -25,7 +25,8 @@ public class FenetreDataMiningController implements Initializable{
 	private WebView etudeEtatUnisStat;
 	@FXML
 	private WebView etudeEtatUnisModele;
-
+	@FXML
+	private WebView etudeNouvelleAquitaine;
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -50,11 +51,11 @@ public class FenetreDataMiningController implements Initializable{
 			file = new File("Etudes/Data_Viz_France.html");
 			url= file.toURI().toURL();
 			etudeFrance.getEngine().load(url.toString());
-			/*
-			file = new File("Etudes/Prédiction_survie.html");
+			
+			file = new File("Etudes/Data_Viz_Aquitaine.html");
 			url= file.toURI().toURL();
-			etudeCoreeModele.getEngine().load(url.toString());
-			*/
+			etudeNouvelleAquitaine.getEngine().load(url.toString());
+			
 			
 			
 		} catch (MalformedURLException e) {

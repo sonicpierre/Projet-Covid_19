@@ -26,6 +26,11 @@
                   </Tab>
                   <Tab closable="false" text="Nouvelle Aquitaine">
                      <content>
+                        <WebView fx:id="etudeNouvelleAquitaine" prefHeight="633.0" prefWidth="824.0" />
+                     </content>
+                  </Tab>
+                  <Tab closable="false" text="Nouvelle Aquitaine">
+                     <content>
                         <WebView fx:id="etudeAquitaine" prefHeight="633.0" prefWidth="824.0" />
                      </content>
                   </Tab>

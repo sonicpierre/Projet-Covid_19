@@ -475,12 +475,12 @@ public class PrincipalController implements Initializable{
 	private void validerRayon() {
 		Coordonnees coordonnee = new Coordonnees(text100.getText());
 		if(coordonnee.getPos()!= null) {
+			this.remiseAZero();
 			carte.dessinerRayon(coordonnee.getPos());
 			text100.setStyle("-fx-background-color: white;");
 		}
 		else
 			text100.setStyle("-fx-background-color: #FF5F45;");
-		this.remiseAZero();
 	}
 	
 	/**
