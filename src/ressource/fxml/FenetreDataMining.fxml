@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.web.WebView?>
 
@@ -52,6 +53,11 @@
                   <Tab closable="false" text="Etats-Unis Modèle">
                      <content>
                         <WebView fx:id="etudeEtatUnisModele" prefHeight="633.0" prefWidth="824.0" />
+                     </content>
+                  </Tab>
+                  <Tab text="Prédiction">
+                     <content>
+                        <HBox prefHeight="100.0" prefWidth="200.0" />
                      </content>
                   </Tab>
                </tabs>

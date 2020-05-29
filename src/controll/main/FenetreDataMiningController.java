@@ -9,8 +9,30 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.web.WebView;
 
+/**
+ * La classe <b>FenetreDataScience</b> est la classe qui permet d'afficher les différentes études faite Data.
+ * Elle est découpé en 6 parties :
+ * 
+ * <lu>
+ * <li>Une étude statistique sur la France.</li>
+ * <li>Un modèle pour prévoir le nombre de morts en France d'ici les prochains mois</li>
+ * <li>Une étude statistique sur la Nouvelle Aquitaine</li>
+ * <li>Une étude sur statistique sur la Corée</li>
+ * <li>Un modèle pour prévoir en fonction du type de personne si on va mourir ou non</li>
+ * <li>Une étude statistique sur les Etats-Unis</li>
+ * <li>Une partie réservée aux prédictions.</li>
+ * </lu>
+ * </p>
+ * 
+ * @author Pierre Virgaux
+ * @version 1.0
+ */
+
 public class FenetreDataMiningController implements Initializable{
 	
+	/**
+	 * Les différentes WebView permettent  
+	 */
 	@FXML
 	private WebView etudeFrance;
 	@FXML
