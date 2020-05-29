@@ -13,7 +13,7 @@ Au démarage, une première fenêtre s'ouvre. Il s'agit de se connecter au serve
 
 Si vous avez déjà un compte que vous souhaitez utiliser, entrez votre nom d'utilisateur et mot de passe dans les champs de l'onglet "connexion". 
 
-<img src="imgReadMe/nouvelUtilisateur.png" lab="Création d'un utilisatuer Mysql" height="200" >
+<img src="imgReadMe/nouveauCompte.png" lab="Création d'un utilisatuer Mysql" height="200" >
 
 
 Si vous souhaitez créer un nouveau compte, entrez les nom d'utilitisateur et mot de passe souhaités ainsi que votre mot de passe root dans les champs de l'onglet "Nouveau compte". 
@@ -34,7 +34,7 @@ Si vous avez déjà lancé l'application au préalable et souhaitez seulement me
 ## LamaMap
 La première fonctionnalité est un affichage graphique des statistiques actuelles, sur une carte et sur quelques graphiques. Selectionnez le bouton de gauche "LamaMap" depuis la page d'accueil pour y accéder.
 
-<img src="imgReadMe/lamaMap0.png" lab="page d'accueil de COVID Coyote" height="400" >
+<img src="imgReadMe/LamaMap0.png" lab="page d'accueil de COVID Coyote" height="400" >
 
 
 ### Affichage des statistiques
@@ -46,8 +46,7 @@ Dans la partie droite de votre écran, vous avez plusieurs graphiques. Au charge
 En sélectionnant la région souhaitée dans le menu de gauche, vous pourrez réduire ces statistiques à cette région. Le graphique du haut change et affiche l'évolution temporelle du nombre de malades. Celui du bas est réduit aux données de la région. 
 
 ### Manipulations de la carte
-<img src="imgReadMe/lamaMapClassique.png" lab="Carte classique" height="300" >
-<img src="imgReadMe/lamaMapSatellite.png" lab="Carte satellite" height="300" >
+<img src="imgReadMe/lamaMapClassique.png" lab="Carte classique" height="300" > <img src="imgReadMe/lamaMapSatellite.png" lab="Carte satellite" height="300" >
 
 La partie centrale de la fenêtre est une carte. Vous pouvez choisir un affichage classique ou satellite grâce aux boutons dans le coin supérieur gauche de la carte. Il est possible également de déplacer la carte et zoomer/dézoomer.
 
@@ -74,7 +73,7 @@ Une fois que vous avez choisi les seuils de confinement, vous pouvez calculer un
 ## Etudes statistiques prédictives
 En haut à gauche de la fenêtre, le bouton "Back" renvoie à l'écran d'accueil de l'application. Choisissez alors "Prédis Moi Ma Vie" pour accéder aux études statistiques prédictives. 
 
-<img src="imgReadMe/statsPredictives.png" lab="Statistiques Predictives" height="400" >
+<img src="imgReadMe/etudesPredictives.png" lab="Statistiques Predictives" height="400" >
 
 Les différents onglets en bas de la fenêtre permettent de naviguer entre nos différents modèles et études statistiques. 
 
