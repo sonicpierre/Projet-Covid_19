@@ -30,7 +30,27 @@ public class Positionnement {
 	 * 
 	 */
 	private static HashMap<String,Integer> seuils;
-
+	
+	/**
+	 *  Distance totale du trajet
+	 */
+	private static double distance = 0;
+	
+	/**
+	 *  set la distance totale
+	 * @param d la distance du trajet
+	 */
+	public void setDistance(double d) {
+		distance = d;
+	}
+	
+	/** 
+	 * donne la distance totale
+	 * @return la distance du trajet
+	 */
+	public double getDistance() {
+		return distance;
+	}
 	
 	/** 
 	 * Donne une suite de villes (coordonnées) qui forment une trajectoire entre les deux villes données
@@ -135,6 +155,10 @@ public class Positionnement {
 			}
 			// quand on atteint l'arrivée
 			if (villeCourante.equals(arrivee)) {
+				// met à jour la distance totale de l'itinéraire
+				double dist = distanceMin.get(arrivee);
+				System.out.println(dist);
+				setDistance(dist);
 				return(reformerTrajectoire(predecesseur,depart,arrivee));
 			}
 
