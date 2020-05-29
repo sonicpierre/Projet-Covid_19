@@ -36,22 +36,15 @@ public class Positionnement {
 	 */
 	private static double distance = 0;
 	
-	/**
-	 *  set la distance totale
-	 * @param d la distance du trajet
-	 */
-	public void setDistance(double d) {
-		distance = d;
-	}
 	
-	/** 
-	 * donne la distance totale
-	 * @return la distance du trajet
-	 */
-	public double getDistance() {
+	public static double getDistance() {
 		return distance;
 	}
-	
+
+	public static void setDistance(double distance) {
+		Positionnement.distance = distance;
+	}
+
 	/** 
 	 * Donne une suite de villes (coordonnées) qui forment une trajectoire entre les deux villes données
 	 * 
@@ -445,5 +438,7 @@ public class Positionnement {
 	public static void setSeuils(HashMap<String, Integer> seuils) {
 		Positionnement.seuils = seuils;
 	}
+	
+	
 }
 

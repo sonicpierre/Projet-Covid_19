@@ -111,9 +111,14 @@ public class PrincipalController implements Initializable{
     @FXML
     private CheckBox checkConfine;
     
+    @FXML
+    private Label kmMarqueur;
+    
     private static HashMap<GeoPosition, Integer> hashiCheck;
     
     private boolean confineVisible, presqueVisible, nonConfineVisible;
+    
+    
     
     /**
      * Permet ici d'effectuer des opérations avant de lancer la fenêtre. On essaie d'en faire le plus possible avant de la lancer pour éviter que ça rame pour
@@ -260,28 +265,23 @@ public class PrincipalController implements Initializable{
 	@FXML
 	private void validationItineraire() {
 		//On vérifie que l'itinéraire n'est pas nul
-		Task<Void> task = new Task<Void>() {
-			@Override
-			public Void call() {
-				MenuChoixController.getSceneMap().setCursor(Cursor.WAIT);
-				List<GeoPosition> itineraire = monPos.positionnerTrajectoire(villeNum1.getText(), villeNum2.getText());
-				MenuChoixController.getSceneMap().setCursor(Cursor.DEFAULT);
-				if(itineraire != null) {
-					carte.dessinerItineraire(itineraire);
 
-					villeNum1.setStyle("-fx-background-color : white;");
-					villeNum2.setStyle("-fx-background-color : white;");
-				}
-				else {
-					//Si il est nul on color en rouge pour montrer qu'il y a une erreur.
-					villeNum1.setStyle("-fx-background-color : #FF5F45;");
-					villeNum2.setStyle("-fx-background-color : #FF5F45;");
-				}
-				return null;
-			}
-		};
-		new Thread(task).start();
+		MenuChoixController.getSceneMap().setCursor(Cursor.WAIT);
+		List<GeoPosition> itineraire = monPos.positionnerTrajectoire(villeNum1.getText(), villeNum2.getText());
+		MenuChoixController.getSceneMap().setCursor(Cursor.DEFAULT);
+		if(itineraire != null) {
+			carte.dessinerItineraire(itineraire);
 
+			villeNum1.setStyle("-fx-background-color : white;");
+			villeNum2.setStyle("-fx-background-color : white;");
+		}
+		else {
+			//Si il est nul on color en rouge pour montrer qu'il y a une erreur.
+			villeNum1.setStyle("-fx-background-color : #FF5F45;");
+			villeNum2.setStyle("-fx-background-color : #FF5F45;");
+		}
+		
+		kmMarqueur.setText(Positionnement.getDistance() + " km");
 	}
 	
 	/**

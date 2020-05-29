@@ -98,6 +98,7 @@
                                              <cursor>
                                                 <Cursor fx:constant="HAND" />
                                              </cursor></Button>
+                                          <Label fx:id="kmMarqueur" GridPane.rowIndex="2" />
                                        </children>
                                        <opaqueInsets>
                                           <Insets />

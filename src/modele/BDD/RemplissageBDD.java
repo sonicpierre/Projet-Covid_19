@@ -221,7 +221,7 @@ public class RemplissageBDD {
 				 */
 				stat.executeUpdate("CREATE TABLE IF NOT EXISTS Departement (" + "id int(10) NOT NULL,"
 						+ "code_region VARCHAR(3) NOT NULL," + "code VARCHAR(3) NOT NULL," + "nom VARCHAR(255),"
-						+ "slug VARCHAR(255)," + "CONSTRAINT pk_dept PRIMARY KEY(id),"
+						+ "slug VARCHAR(255)," + "population int(10)," + "CONSTRAINT pk_dept PRIMARY KEY(id),"
 						+ "FOREIGN KEY fk_region(code_region) REFERENCES Region (code),"
 						+ "CONSTRAINT key_code_dept UNIQUE KEY (code));");
 				List<String> lines = null;
@@ -241,6 +241,7 @@ public class RemplissageBDD {
 					String code = split[2];
 					String nom = split[3];
 					String slug = split[4];
+					int population = Integer.parseInt(split[5]);
 					/**
 					 * Nettoyage des données
 					 */
@@ -254,7 +255,7 @@ public class RemplissageBDD {
 					 * Insertion dans la table
 					 */
 					String req = "INSERT INTO Departement VALUES (" + id + ",\"" + codeRegion + "\",\"" + code + "\","
-							+ nom + "," + slug + ");";
+							+ nom + "," + slug + "," + population + ");";
 					stat.executeUpdate(req);
 				}
 				stat.close();
@@ -264,7 +265,6 @@ public class RemplissageBDD {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
