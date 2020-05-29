@@ -129,33 +129,33 @@ public class Positionnement {
 		// tant qu'on n'a pas visité toutes les villes
 		while (visites.size()!=n ) {
 			String villeCourante = villeDeDistanceMinimale(listeVilles,distanceMin,visites);
+			// si la recherche de villes adjacente minimale n'aboutit pas 
+			if (villeCourante == null) {
+				return null;
+			}
 			// quand on atteint l'arrivée
 			if (villeCourante.equals(arrivee)) {
 				return(reformerTrajectoire(predecesseur,depart,arrivee));
 			}
-			
-			if (villeCourante != null) {
-				// ajout de la ville à la liste des villes déjà visitées
-				visites.add(villeCourante);
-				// liste des villes adjacentes à villeCourante
-				List<String> adjacents = villesAdjacentesBDD(villeCourante);
-				for (int i=0;i<n;i++) {
-					String ville = listeVilles.get(i);
-					// si la ville est adjacente à la ville courante
-					if (adjacents.contains(ville)) {
-						// distance de depart à ville en passant par villeCourante
-						double dist = distanceMin.get(villeCourante)+distanceBDD(villeCourante,ville);
-						// mise à jour des valeurs si le chemin est meilleur
-						if (dist<distanceMin.get(ville)) {
-							predecesseur.replace(ville,villeCourante);
-							distanceMin.replace(ville, dist);
-						}
+
+			// ajout de la ville à la liste des villes déjà visitées
+			visites.add(villeCourante);
+			// liste des villes adjacentes à villeCourante
+			List<String> adjacents = villesAdjacentesBDD(villeCourante);
+			for (int i=0;i<n;i++) {
+				String ville = listeVilles.get(i);
+				// si la ville est adjacente à la ville courante
+				if (adjacents.contains(ville)) {
+					// distance de depart à ville en passant par villeCourante
+					double dist = distanceMin.get(villeCourante)+distanceBDD(villeCourante,ville);
+					// mise à jour des valeurs si le chemin est meilleur
+					if (dist<distanceMin.get(ville)) {
+						predecesseur.replace(ville,villeCourante);
+						distanceMin.replace(ville, dist);
 					}
 				}
-			} else {
-				// si la recherche de ville adjacente la plus proche n'a pas aboutit
-				return(null);
 			}
+
 		}
 		// cas d'erreur : aucun trajet possible
 		return(null);
