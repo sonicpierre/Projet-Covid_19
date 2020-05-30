@@ -3,7 +3,16 @@
 L'application permet dans un premier lieu de prendre connaissance de l'état actuel de l'épidémie, via une carte interractive, puis de calculer un itinéraire entre deux villes non confinée, en évitant les villes confinées.
 
 ## Mise en place
-j'avoue que je sais pas tellement quoi mettre là
+Pour utiliser notre application avec Eclipse, il vous vaudra d'abord suivre ces quelques étapes :
+<ul>
+  <li> Télécharger JDK12 en suivant ce lien : (lien) </li>
+  <li> Télécharger JavaFX en suivant ce lien : (lien) </li>
+  <li> Mettre en place JDK12 dans Eclipse (je sais pas faire) </li>
+  <li> Mettre en place une user library dans Eclipse avec JavaFX </li>
+  <li> Ajouter dans le BuildPath les éléments précédents, ainsi que les trois .jar présents dans le dossier <i>librarie externe</i> du projet </li>
+  <li> Télecharger les librairies joblib et numpy de Python </li>
+</ul>
+  
 
 ## Démarage de l'application
 Au démarage, une première fenêtre s'ouvre. Il s'agit de se connecter au serveur mysql. 
@@ -64,6 +73,10 @@ Si vous souhaitez afficher un rayon de 100km autour de votre domicile pour conna
 <img src="imgReadMe/lamaMapSeuils.png" lab="Choix des seuils de confinement" height="400" >
 
 La fonction de calcul d'itinéraire prend en compte le confinement de villes. Les villes sont confinées en fonction de 3 indicateurs d'intensité de l'épidémie : le nombre de personnes décédées, le nombre de personnes hospitalisées, et le nombre de personnes en réanimation. Vous pouvez modifier la seuils à partir desquels on considère nécessaire de confiner une ville en cliquant sur "confinement". Entrez les valeurs souhaitées, et validez. 
+
+<img src="imgReadMe/lamaMapVilles.png" lab="Carte indiquant le nombre de personnes guéries par ville" height="400" >
+
+Vous pourrez alors afficher les niveau d'épidémie dans villes de la base de données en cochant les cases en bas à gauche de la carte. Les villes en rouges sont confinées selon les seuils choisis, celles en jaune ne sont pas confinées mais sont assez atteintes par l'épidémie, et celles en vert sont les plus épargnées par l'épidémie. 
 
 <img src="imgReadMe/lamaMapTrajet.png" lab="Trajectoire entre 2 villes" height="400" >
 
