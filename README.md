@@ -5,14 +5,14 @@ L'application permet dans un premier lieu de prendre connaissance de l'état act
 ## Mise en place
 Pour utiliser notre application avec Eclipse, il vous vaudra d'abord suivre ces quelques étapes :
 <ul>
-  <li> Télécharger JDK12 en suivant ce lien : (lien) </li>
-  <li> Télécharger JavaFX en suivant ce lien : (lien) </li>
-  <li> Mettre en place JDK12 dans Eclipse (je sais pas faire) </li>
+  <li> Télécharger JDK12 en suivant ce lien : https://www.oracle.com/java/technologies/javase/jdk12-archive-downloads.html </li>
+  <li> Télécharger JavaFX en suivant ce lien : https://gluonhq.com/products/javafx/ version 14.0.1 </li>
+  <li> Mettre en place JDK12 dans Eclipse Window -> Preference -> Java -> Installed JRE -> Add -> Standart VM -> Directory </li>
   <li> Mettre en place une user library dans Eclipse avec JavaFX </li>
   <li> Ajouter dans le BuildPath les éléments précédents, ainsi que les trois .jar présents dans le dossier <i>librarie externe</i> du projet </li>
-  <li> Télecharger les librairies joblib et numpy de Python </li>
+  <li> Télecharger les librairies joblib et numpy de Python à l'aide de la commande pip3 install joblib</li>
 </ul>
-  
+  <img src="imgReadMe/BuildPath.png" lab="Build Path" height="200" >
 
 ## Démarage de l'application
 Au démarage, une première fenêtre s'ouvre. Il s'agit de se connecter au serveur mysql. 
