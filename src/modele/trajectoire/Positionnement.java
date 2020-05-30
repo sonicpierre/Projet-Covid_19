@@ -48,7 +48,7 @@ public class Positionnement {
 	 * donne la distance totale
 	 * @return la distance du trajet
 	 */
-	public double getDistance() {
+	public static double getDistance() {
 		return distance;
 	}
 	

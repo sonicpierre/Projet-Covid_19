@@ -31,7 +31,7 @@ public class ChoixSeuilController implements Serializable, Initializable{
 	private static final long serialVersionUID = 7484054558935679617L;
 	
 	//Cette variable permet de lier chacun des champs à un nombre, comme ça, il est possible de laisser un champ vide.
-	private HashMap<String, Integer> monHashi;
+	private HashMap<String, Double> monHashi;
 	
 	/**
 	 * On a les différents textes field qui permettent de rentrer les seuils. Ces attributs ne sont pas serialisables donc on est obligé de mettre transcient
@@ -93,15 +93,21 @@ public class ChoixSeuilController implements Serializable, Initializable{
 	@FXML
 	public void validationSeuil(MouseEvent event) {
 		
-		monHashi = new HashMap<String, Integer>();
+		monHashi = new HashMap<String, Double>();
 		
-		if(labelHospitalise.getText().length()!=0)
-			monHashi.put("hospitalises", Integer.parseInt(labelHospitalise.getText()));
-		if(labelReanimation.getText().length()!=0)
-			monHashi.put("reanimation", Integer.parseInt(labelReanimation.getText()));
-		if(labelMort.getText().length()!=0)
-			monHashi.put("morts", Integer.parseInt(labelMort.getText()));
-		this.sauvegarder();
+		if((labelHospitalise.getText().length()!=0)||(labelReanimation.getText().length()!=0)||(labelMort.getText().length()!=0)) {
+			monHashi.put("hospitalises", Double.parseDouble(labelHospitalise.getText()));
+			monHashi.put("reanimation", Double.parseDouble(labelReanimation.getText()));
+			monHashi.put("morts", Double.parseDouble(labelMort.getText()));
+			monHashi.put("type", 0.0);
+			this.sauvegarder();
+		} else {
+			monHashi.put("hospitalises", Double.parseDouble(labelHospitalisePourcentage.getText())/100);
+			monHashi.put("reanimation", Double.parseDouble(labelReanimationPourcentage.getText())/100);
+			monHashi.put("morts", Double.parseDouble(labelMortPourcentage.getText())/100);
+			monHashi.put("type", 1.0);
+			this.sauvegarder();
+		}
 		Positionnement.setSeuils(monHashi);
 		PrincipalController.getWindow().close();
 		PrincipalController.setHashiCheck(PrincipalController.getMonPos().positionnerVillesConfinees());
@@ -202,11 +208,11 @@ public class ChoixSeuilController implements Serializable, Initializable{
 	    return choixSeuilController;
 	}
 	
-	public HashMap<String, Integer> getMonHashi() {
+	public HashMap<String, Double> getMonHashi() {
 		return monHashi;
 	}
 
-	public void setMonHashi(HashMap<String, Integer> monHashi) {
+	public void setMonHashi(HashMap<String, Double> monHashi) {
 		this.monHashi = monHashi;
 	}
 
