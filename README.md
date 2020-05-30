@@ -49,19 +49,19 @@ La première fonctionnalité est un affichage graphique des statistiques actuell
 ### Affichage des statistiques
 Dans la partie droite de votre écran, vous avez plusieurs graphiques. Au chargement de la page, il s'agit de graphique globaux calculés sur les données de la France entière. Le premier indique le nombre de personnes touchées (hospitalisées, guéries, en réanimation et décédées) en fonction de la région. Le graphique circulaire indique la répartition des personnes touchées sur les différents états.
 
-<img src="imgReadMe/lamaMapFrance.png" lab="Statistiques sur toute la France" height="300" ><img src="imgReadMe/lamaMapRegion.png" lab="Statistiques sur une Région" height="300" >
+<img src="imgReadMe/lamaMapFrance.png" lab="Statistiques sur toute la France" height="300" >        <img src="imgReadMe/lamaMapRegion.png" lab="Statistiques sur une Région" height="300" >
 
 
 
 En sélectionnant la région souhaitée dans le menu de gauche, vous pourrez réduire ces statistiques à cette région. Le graphique du haut change et affiche l'évolution temporelle du nombre de malades. Celui du bas est réduit aux données de la région. 
 
 ### Manipulations de la carte
-<img src="imgReadMe/lamaMapClassique.png" lab="Carte classique" height="300" > <img src="imgReadMe/lamaMapSatellite.png" lab="Carte satellite" height="300" >
+<img src="imgReadMe/lamaMapClassique.png" lab="Carte classique" height="300" >  <img src="imgReadMe/lamaMapSatellite.png" lab="Carte satellite" height="300" >
 
 La partie centrale de la fenêtre est une carte. Vous pouvez choisir un affichage classique ou satellite grâce aux boutons dans le coin supérieur gauche de la carte. Il est possible également de déplacer la carte et zoomer/dézoomer.
 
 
-<img src="imgReadMe/lamaMapMorts.png" lab="Carte indiquant le nombre de personnes morts par ville" height="200" ><img src="imgReadMe/lamaMapActifs.png" lab="Carte indiquant le nombre de cas actifs par ville" height="200" ><img src="imgReadMe/lamaMapGueris.png" lab="Carte indiquant le nombre de personnes guéries par ville" height="200" >
+<img src="imgReadMe/lamaMapMorts.png" lab="Carte indiquant le nombre de personnes morts par ville" height="200" >  <img src="imgReadMe/lamaMapActifs.png" lab="Carte indiquant le nombre de cas actifs par ville" height="200" >  <img src="imgReadMe/lamaMapGueris.png" lab="Carte indiquant le nombre de personnes guéries par ville" height="200" >
 
 Le premier affichage indique des cercles rouges sur la carte, qui représente le nombre de personnes décédées du coronavirus dans les départements correspondants. Dans le coin inférieur droit de la carte, des boutons permettent d'afficher de la même manière le nombre de cas actifs ou le nombre de personnes guéries. 
 
