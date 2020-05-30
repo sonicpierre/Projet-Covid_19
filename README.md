@@ -12,7 +12,7 @@ Pour utiliser notre application avec Eclipse, il vous vaudra d'abord suivre ces 
   <li> Ajouter dans le BuildPath les éléments précédents, ainsi que les trois .jar présents dans le dossier <i>librarie externe</i> du projet </li>
   <li> Télecharger les librairies joblib et numpy de Python à l'aide de la commande pip3 install joblib</li>
 </ul>
-  <img src="imgReadMe/BuildPath.png" lab="Build Path" height="200" >
+  <img src="imgReadMe/BuidPath.png" lab="Build Path" height="200" >
 
 ## Démarage de l'application
 Au démarage, une première fenêtre s'ouvre. Il s'agit de se connecter au serveur mysql. 
