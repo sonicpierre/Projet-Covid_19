@@ -29,22 +29,29 @@ public class Positionnement {
 	/** les seuils de détermination si une ville est confinée ou non
 	 * 
 	 */
-	private static HashMap<String,Integer> seuils;
+	private static HashMap<String,Double> seuils;
 	
 	/**
 	 *  Distance totale du trajet
 	 */
 	private static double distance = 0;
 	
+	/**
+	 *  set la distance totale
+	 * @param d la distance du trajet
+	 */
+	public void setDistance(double d) {
+		distance = d;
+	}
 	
-	public static double getDistance() {
+	/** 
+	 * donne la distance totale
+	 * @return la distance du trajet
+	 */
+	public double getDistance() {
 		return distance;
 	}
-
-	public static void setDistance(double distance) {
-		Positionnement.distance = distance;
-	}
-
+	
 	/** 
 	 * Donne une suite de villes (coordonnées) qui forment une trajectoire entre les deux villes données
 	 * 
@@ -55,7 +62,7 @@ public class Positionnement {
 	public List<GeoPosition> positionnerTrajectoire(String depart, String arrivee) {
 		//Si jamais aucun seuil n'a été défini.
 		if(seuils == null)
-			seuils = new HashMap<String, Integer>();
+			seuils = new HashMap<String, Double>();
 		List<String> villesNonConfinees = villesNonConfineesBDD(seuils);
 		List<String> villes = calculerTrajectoire(depart,arrivee,villesNonConfinees);
 		if (villes != null && villes.size()!=0) {
@@ -72,7 +79,7 @@ public class Positionnement {
 	public HashMap<GeoPosition,Integer> positionnerVillesConfinees() {
 		//Si jamais aucun seuil n'a été défini.
 		if(seuils == null)
-			seuils = new HashMap<String, Integer>();
+			seuils = new HashMap<String, Double>();
 		// répartition des villes en 3 niveau d'épidémie
 		HashMap<String,Integer> repartition = repartitionVilles(seuils);
 		Set<String> villes = repartition.keySet();
@@ -317,7 +324,7 @@ public class Positionnement {
 	 * @param seuils la HashMap des seuils(indicateur,valeurSeuil)
 	 * @return la liste des noms des villes qui ne sont pas confinées à la dernière date des données de la bdd et selon les seuils donnés
 	 */
-	public List<String> villesNonConfineesBDD(HashMap<String,Integer> seuils) {
+	public List<String> villesNonConfineesBDD(HashMap<String,Double> seuils) {
 		// liste des villes non confinées
 		List<String> villesNonConfinees = new ArrayList<String>();
 		// liste totale des villes
@@ -340,7 +347,7 @@ public class Positionnement {
 	 * @return la hashMap contenant toute les villes de la bdd liées à un entier indiquant son niveau d'atteinte par l'épidémie (1 faible à 3 élevé)
 	 * si pas de données sur une ville, elle est de niveau 0
 	 */
-	public HashMap<String,Integer> repartitionVilles(HashMap<String,Integer> seuils) {
+	public HashMap<String,Integer> repartitionVilles(HashMap<String,Double> seuils) {
 		String url = "jdbc:mysql://localhost/France?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 		String user = InitialisationBDD.user;
 		String passwd = InitialisationBDD.passwd;
@@ -351,7 +358,8 @@ public class Positionnement {
 		List<String> villesBDD = listeVillesBDD();
 		
 		// HashMap des demi-seuils
-		HashMap<String,Integer> demiSeuils = new HashMap<String,Integer>();
+		HashMap<String,Double> demiSeuils = new HashMap<String,Double>();
+		demiSeuils.put("type", seuils.get("type"));
 		if (seuils.keySet().contains("morts")) {
 			demiSeuils.put("morts", seuils.get("morts")/2);
 		}
@@ -368,14 +376,19 @@ public class Positionnement {
 				// pour chaque ville, on regarde si elle est confinée
 				for (int i=0; i<villesBDD.size(); i++) {
 					String ville = villesBDD.get(i);
+					int population = 0;
+					ResultSet res = stat.executeQuery("SELECT population FROM Departement WHERE code = ((SELECT code_dept FROM Commune WHERE nom = \""+ville+"\")");
+					if (res.next()) {
+						population = res.getInt("population");
+					}
 					ResultSet result = stat.executeQuery("SELECT hospitalises,reanimation,morts,date FROM Historique WHERE departement=(SELECT code_dept FROM Commune WHERE nom = \""+ville+"\") ORDER BY date DESC;");
 					// on prend le premier
 					if (result.next()) {
 						// ville confinée = état 3 (rouge)
-						if (confiner(result.getInt("hospitalises"),result.getInt("reanimation"),result.getInt("morts"),seuils)) {
+						if (confiner(result.getInt("hospitalises"),result.getInt("reanimation"),result.getInt("morts"),seuils,population)) {
 							villesTriees.put(ville, 3);
 						// ville confinée pour le demi-seuil = état 2 (orange)
-						} else if (confiner(result.getInt("hospitalises"),result.getInt("reanimation"),result.getInt("morts"),demiSeuils)) {
+						} else if (confiner(result.getInt("hospitalises"),result.getInt("reanimation"),result.getInt("morts"),demiSeuils,population)) {
 							villesTriees.put(ville,2);
 						} else {
 							villesTriees.put(ville,1);
@@ -399,26 +412,44 @@ public class Positionnement {
 	
 	/** Determine si une ville/département doit être confiné ou non en fonction des seuils donnés
 	 * Si un des seuils est dépassé, la ville sera confinée
-	 * @param hospitalises dernière donné du nombre d'hospitalisation en 24h
-	 * @param reanimation dernière donné du nombre de personnes en réanimation en 24h
-	 * @param morts dernière donné du nombre de morts en 24h
-	 * @param seuils hashmap contenant les seuils recherchés
+	 * @param hospitalises dernière donné du nombre d'hospitalisation
+	 * @param reanimation dernière donné du nombre de personnes en réanimation 
+	 * @param morts dernière donné du nombre de morts
+	 * @param seuils hashmap contenant les seuils recherchés (en pourcentages)
+	 * @param population la population du département
 	 * @return un booléen indiquant si la ville doit être confinée ou non
 	 */
-	public boolean confiner(int hospitalises, int reanimation, int morts, HashMap<String,Integer> seuils) {
+	public boolean confiner(int hospitalises, int reanimation, int morts, HashMap<String,Double> seuils, int population) {
 		// liste des indicateurs à prendre en compte
 		Set<String> indicateurs = seuils.keySet();
 		// ville non confinée par défaut
 		boolean confine = false;
-		// si trop de personnes hospitalisés, la ville est confinée
-		if (indicateurs.contains("hospitalises")) {
-			confine = confine || (hospitalises >= seuils.get("hospitalises"));
-		}
-		if (indicateurs.contains("reanimation")) {
-			confine = confine || (reanimation >= seuils.get("reanimation"));
-		}
-		if (indicateurs.contains("morts")) {
-			confine = confine || (morts >= seuils.get("morts"));
+		// si le type n'est pas définit 
+		if (!indicateurs.contains("type"))
+			return(false);
+		// seuils donnés sous forme d'entiers
+		if (seuils.get("type")==1) {
+			// si trop de personnes hospitalisés, la ville est confinée
+			if (indicateurs.contains("hospitalises")) {
+				confine = confine || (hospitalises >= seuils.get("hospitalises"));
+			}
+			if (indicateurs.contains("reanimation")) {
+				confine = confine || (reanimation >= seuils.get("reanimation"));
+			}
+			if (indicateurs.contains("morts")) {
+				confine = confine || (morts >= seuils.get("morts"));
+			}
+		// autre cas : seuils donnés en pourcentage de population
+		} else {
+			if (indicateurs.contains("hospitalises")) {
+				confine = confine || (hospitalises/population >= seuils.get("hospitalises"));
+			}
+			if (indicateurs.contains("reanimation")) {
+				confine = confine || (reanimation/population >= seuils.get("reanimation"));
+			}
+			if (indicateurs.contains("morts")) {
+				confine = confine || (morts/population >= seuils.get("morts"));
+			}
 		}
 		return (confine);
 	}
@@ -427,7 +458,7 @@ public class Positionnement {
 	  * 
 	  * @return les seuils
 	  */
-	public static HashMap<String, Integer> getSeuils() {
+	public static HashMap<String, Double> getSeuils() {
 		return seuils;
 	}
 	
@@ -435,10 +466,7 @@ public class Positionnement {
 	 * 
 	 * @param seuils
 	 */
-	public static void setSeuils(HashMap<String, Integer> seuils) {
+	public static void setSeuils(HashMap<String, Double> seuils) {
 		Positionnement.seuils = seuils;
 	}
-	
-	
 }
-
