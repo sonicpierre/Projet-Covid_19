@@ -49,7 +49,7 @@ La première fonctionnalité est un affichage graphique des statistiques actuell
 ### Affichage des statistiques
 Dans la partie droite de votre écran, vous avez plusieurs graphiques. Au chargement de la page, il s'agit de graphique globaux calculés sur les données de la France entière. Le premier indique le nombre de personnes touchées (hospitalisées, guéries, en réanimation et décédées) en fonction de la région. Le graphique circulaire indique la répartition des personnes touchées sur les différents états.
 
-<img src="imgReadMe/lamaMapRegion.png" lab="Statistiques sur une Région" height="300" ><img src="imgReadMe/lamaMapFrance.png" lab="Statistiques sur toute la France" height="300" >
+<img src="imgReadMe/lamaMapFrance.png" lab="Statistiques sur toute la France" height="300" ><img src="imgReadMe/lamaMapRegion.png" lab="Statistiques sur une Région" height="300" >
 
 
 
@@ -61,9 +61,7 @@ En sélectionnant la région souhaitée dans le menu de gauche, vous pourrez ré
 La partie centrale de la fenêtre est une carte. Vous pouvez choisir un affichage classique ou satellite grâce aux boutons dans le coin supérieur gauche de la carte. Il est possible également de déplacer la carte et zoomer/dézoomer.
 
 
-<img src="imgReadMe/lamaMapMorts.png" lab="Carte indiquant le nombre de personnes morts par ville" height="200" >
-<img src="imgReadMe/lamaMapActifs.png" lab="Carte indiquant le nombre de cas actifs par ville" height="200" >
-<img src="imgReadMe/lamaMapGueris.png" lab="Carte indiquant le nombre de personnes guéries par ville" height="200" >
+<img src="imgReadMe/lamaMapMorts.png" lab="Carte indiquant le nombre de personnes morts par ville" height="200" ><img src="imgReadMe/lamaMapActifs.png" lab="Carte indiquant le nombre de cas actifs par ville" height="200" ><img src="imgReadMe/lamaMapGueris.png" lab="Carte indiquant le nombre de personnes guéries par ville" height="200" >
 
 Le premier affichage indique des cercles rouges sur la carte, qui représente le nombre de personnes décédées du coronavirus dans les départements correspondants. Dans le coin inférieur droit de la carte, des boutons permettent d'afficher de la même manière le nombre de cas actifs ou le nombre de personnes guéries. 
 
@@ -76,8 +74,11 @@ Si vous souhaitez afficher un rayon de 100km autour de votre domicile pour conna
 <img src="imgReadMe/lamaMapSeuils.png" lab="Choix des seuils de confinement" height="400" >
 
 La fonction de calcul d'itinéraire prend en compte le confinement de villes. Les villes sont confinées en fonction de 3 indicateurs d'intensité de l'épidémie : le nombre de personnes décédées, le nombre de personnes hospitalisées, et le nombre de personnes en réanimation. Vous pouvez modifier la seuils à partir desquels on considère nécessaire de confiner une ville en cliquant sur "confinement". Entrez les valeurs souhaitées, et validez. 
+Vous devez choisir entre des valeurs en nombre de cas dans le département, et des valeurs en pourcentage de la population. 
+Dans le premier cas, entrez des nombres entiers dans les 3 champs de gauche et validez. Par exemple 400, 40 et 300. 
+Dans le second cas, entrez les valeurs choisies en pourcentages dans les champs de droite et validez. Par exemple 0.063, 0.0063 et 0.048. 
 
-<img src="imgReadMe/lamaMapVilles.png" lab="Carte indiquant le nombre de personnes guéries par ville" height="400" >
+<img src="imgReadMe/lamaMapVilles.png" lab="Carte indiquant le niveau d'épidémie dans chaque ville de la base de données" height="400" >
 
 Vous pourrez alors afficher les niveau d'épidémie dans villes de la base de données en cochant les cases en bas à gauche de la carte. Les villes en rouges sont confinées selon les seuils choisis, celles en jaune ne sont pas confinées mais sont assez atteintes par l'épidémie, et celles en vert sont les plus épargnées par l'épidémie. 
 
@@ -95,7 +96,7 @@ Les différents onglets en bas de la fenêtre permettent de naviguer entre nos d
 
 <img src="imgReadMe/outilsPrediction.png" lab="Outil de prédiction" height="400" >
 
-L'onglet <b>prediction</b> permet d'accéder à notre outil de prédiction. Entrez le numéro de département, les valeurs de indicateurs (nombre de personnes hospitalisées, nombre de décès, nombre de personnes guéries et nombre de personnes en réanimation) ainsi que le nombre de jours écoulés depuis le début de l'épidémie. Validez, et le nombre de décès à cette date prédit par nos études s'affichera. 
+L'onglet <b>prediction</b> permet d'accéder à notre outil de prédiction. Entrez le numéro de département, les valeurs de indicateurs (nombre de personnes hospitalisées, nombre de décès, nombre de personnes guéries et nombre de personnes en réanimation) ainsi que le nombre de jours écoulés depuis le début de l'épidémie. Validez, et le nombre de décès dans votre département à ce stade de l'épidémie, prédit par nos études s'affichera. 
 
 
 
