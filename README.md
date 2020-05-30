@@ -43,7 +43,7 @@ Si vous avez déjà lancé l'application au préalable et souhaitez seulement me
 ## LamaMap
 La première fonctionnalité est un affichage graphique des statistiques actuelles, sur une carte et sur quelques graphiques. Selectionnez le bouton de gauche "LamaMap" depuis la page d'accueil pour y accéder.
 
-<img src="imgReadMe/LamaMap0.png" lab="page d'accueil de COVID Coyote" height="400" >
+<img src="imgReadMe/lamaMap0.png" lab="page d'accueil de COVID Coyote" height="400" >
 
 
 ### Affichage des statistiques
