@@ -34,8 +34,16 @@
                   </Tab>
                   <Tab closable="false" text="Prédiction">
                      <content>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="70.0" style="-fx-background-color: A8DBF1;">
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" style="-fx-background-color: A8DBF1;">
                            <children>
+                              <Label text="Predictions" textFill="#5d35e1">
+                                 <HBox.margin>
+                                    <Insets bottom="450.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font size="31.0" />
+                                 </font>
+                              </Label>
                               <GridPane prefHeight="515.0" prefWidth="917.0">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -63,7 +71,7 @@
                                           <Font size="26.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Nombre de guerris" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                                    <Label text="Nombre de guéris" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                                        <font>
                                           <Font size="26.0" />
                                        </font>
@@ -90,7 +98,7 @@
                                     </Label>
                                  </children>
                               </GridPane>
-                              <Button mnemonicParsing="false" onAction="#lancerPrediction" prefHeight="46.0" prefWidth="76.0" text="Valiser">
+                              <Button mnemonicParsing="false" onAction="#lancerPrediction" prefHeight="46.0" prefWidth="76.0" text="Valider">
                                  <HBox.margin>
                                     <Insets top="600.0" />
                                  </HBox.margin>

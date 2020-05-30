@@ -16,13 +16,13 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controll.main.SQLController">
+<AnchorPane onKeyReleased="#raccourciClavierGlobal" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controll.main.SQLController">
    <children>
       <TabPane prefHeight="281.0" prefWidth="403.0" stylesheets="@../css/FenetreSQL.css" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab id="OngletConnection" closable="false" text="Connexion">
             <content>
-              <AnchorPane id="StyleConnexion" minHeight="0.0" minWidth="0.0" prefHeight="129.0" prefWidth="329.0">
+              <AnchorPane id="StyleConnexion" minHeight="0.0" minWidth="0.0" onKeyReleased="#raccourcisClaviersCo" prefHeight="129.0" prefWidth="329.0">
                      <children>
                         <GridPane alignment="CENTER" layoutX="12.0" layoutY="53.0" prefHeight="108.0" prefWidth="380.0">
                           <columnConstraints>
@@ -67,7 +67,7 @@
           </Tab>
           <Tab id="OngletNouveauCompte" text="Nouveau compte">
             <content>
-              <AnchorPane id="PasswordStyle" minHeight="0.0" minWidth="0.0" prefHeight="291.0" prefWidth="295.0">
+              <AnchorPane id="PasswordStyle" minHeight="0.0" minWidth="0.0" onKeyReleased="#raccourcisClaviersCr" prefHeight="291.0" prefWidth="295.0">
                      <children>
                         <GridPane layoutX="43.0" layoutY="10.0" prefHeight="220.0" prefWidth="317.0">
                           <columnConstraints>

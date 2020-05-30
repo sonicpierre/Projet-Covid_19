@@ -14,7 +14,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controll.main.ChoixSeuilController">
    <children>
-      <Pane prefHeight="250.0" prefWidth="840.0" style="-fx-background-color: D30E37; -fx-opacity: 0.8;">
+      <Pane onKeyReleased="#raccourciClavier" prefHeight="250.0" prefWidth="840.0" style="-fx-background-color: D30E37; -fx-opacity: 0.8;">
          <children>
             <Button layoutX="397.0" layoutY="200.0" mnemonicParsing="false" onMouseClicked="#validationSeuil" text="Valider">
                <padding>

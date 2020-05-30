@@ -13,6 +13,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import modele.BDD.InitialisationBDD;
 
@@ -127,5 +130,26 @@ public class SQLController implements Initializable{
 		return fenetre;
 	}
 	
+	/**
+	 * Ici on a les raccourcis claviers
+	 * @param e
+	 */
 	
+	@FXML
+	protected void raccourciClavierGlobal(KeyEvent e) {
+		if(e.getCode()==KeyCode.ESCAPE)
+			this.quitterPremiereFenetre();
+	}
+	
+	@FXML
+	protected void raccourcisClaviersCo(KeyEvent e) {
+		if(e.getCode()==KeyCode.ENTER)
+			this.validerConnexion();
+	}
+	
+	@FXML
+	protected void raccourcisClaviersCr(KeyEvent e) {
+		if(e.getCode()==KeyCode.ENTER)
+			this.validerCreation();
+	}
 }

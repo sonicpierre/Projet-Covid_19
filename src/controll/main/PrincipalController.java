@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import org.jxmapviewer.viewer.GeoPosition;
@@ -26,6 +27,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -266,6 +270,8 @@ public class PrincipalController implements Initializable{
 	@SuppressWarnings("deprecation")
 	@FXML
 	private void validationItineraire() {
+		this.remiseAZero();
+		
 		//On vérifie que l'itinéraire n'est pas nul
 
 		MenuChoixController.getSceneMap().setCursor(Cursor.WAIT);
@@ -512,6 +518,32 @@ public class PrincipalController implements Initializable{
 	private void revenirEnArriere() {
 		MenuChoixController.getWindow().close();
 		SQLController.getFenetre().show();
+	}
+	
+	/**
+	 * Ici on définit les raccourcis clavier.
+	 * @param e
+	 */
+	@FXML
+	private void raccourciClavier(KeyEvent e) {
+		if(e.getCode() == KeyCode.C && e.isControlDown())
+			this.fenetreConfinement();
+		if(e.getCode() == KeyCode.S && e.isControlDown())
+			this.changerLaCarte();
+		if(e.getCode() == KeyCode.ESCAPE)
+			MenuChoixController.getWindow().close();
+	}
+	
+	@FXML
+	private void raccourciValiderItineraire(KeyEvent e) {
+		if(e.getCode() == KeyCode.ENTER)
+			this.validationItineraire();
+	}
+	
+	@FXML
+	private void raccourciValiderRayon(KeyEvent e) {
+		if(e.getCode() == KeyCode.ENTER)
+			this.validerRayon();
 	}
 
 	public boolean isPresqueVisible() {

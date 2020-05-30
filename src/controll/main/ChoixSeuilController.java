@@ -14,6 +14,8 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import modele.trajectoire.Positionnement;
 
@@ -91,26 +93,40 @@ public class ChoixSeuilController implements Serializable, Initializable{
 	 */
 	
 	@FXML
-	public void validationSeuil(MouseEvent event) {
+	public void validationSeuil() {
 		
 		monHashi = new HashMap<String, Double>();
 		
 		if((labelHospitalise.getText().length()!=0)||(labelReanimation.getText().length()!=0)||(labelMort.getText().length()!=0)) {
-			monHashi.put("hospitalises", Double.parseDouble(labelHospitalise.getText()));
-			monHashi.put("reanimation", Double.parseDouble(labelReanimation.getText()));
-			monHashi.put("morts", Double.parseDouble(labelMort.getText()));
+			if(labelHospitalise.getText().length()!=0)
+				monHashi.put("hospitalises", Double.parseDouble(labelHospitalise.getText()));
+			if(labelReanimation.getText().length()!=0)
+				monHashi.put("reanimation", Double.parseDouble(labelReanimation.getText()));
+			if(labelMort.getText().length()!=0)
+				monHashi.put("morts", Double.parseDouble(labelMort.getText()));
 			monHashi.put("type", 0.0);
 			this.sauvegarder();
-		} else {
-			monHashi.put("hospitalises", Double.parseDouble(labelHospitalisePourcentage.getText())/100);
-			monHashi.put("reanimation", Double.parseDouble(labelReanimationPourcentage.getText())/100);
-			monHashi.put("morts", Double.parseDouble(labelMortPourcentage.getText())/100);
+		} else if(((labelHospitalisePourcentage.getText().length()!=0)||(labelReanimationPourcentage.getText().length()!=0)||(labelMortPourcentage.getText().length()!=0))){
+			if(labelHospitalisePourcentage.getText().length()!=0)
+				monHashi.put("hospitalises", Double.parseDouble(labelHospitalisePourcentage.getText())/100);
+			if(labelReanimationPourcentage.getText().length()!=0)
+				monHashi.put("reanimation", Double.parseDouble(labelReanimationPourcentage.getText())/100);
+			if(labelMortPourcentage.getText().length()!=0)
+				monHashi.put("morts", Double.parseDouble(labelMortPourcentage.getText())/100);
 			monHashi.put("type", 1.0);
 			this.sauvegarder();
 		}
 		Positionnement.setSeuils(monHashi);
 		PrincipalController.getWindow().close();
 		PrincipalController.setHashiCheck(PrincipalController.getMonPos().positionnerVillesConfinees());
+	}
+	
+	@FXML
+	private void raccourciClavier(KeyEvent e) {
+		if(e.getCode() == KeyCode.ENTER)
+			this.validationSeuil();
+		if(e.getCode() == KeyCode.ESCAPE)
+			PrincipalController.getWindow().close();
 	}
 	
 	/**

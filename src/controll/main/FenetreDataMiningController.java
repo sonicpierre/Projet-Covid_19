@@ -84,6 +84,10 @@ public class FenetreDataMiningController implements Initializable{
 			url= file.toURI().toURL();
 			etudeEtatUnisStat.getEngine().load(url.toString());
 			
+			file = new File("Etudes/Prédiction_morts.html");
+			url= file.toURI().toURL();
+			etudeEtatUnisModele.getEngine().load(url.toString());
+			
 			file = new File("Etudes/Prediction_FR.html");
 			url= file.toURI().toURL();
 			modeleFrance.getEngine().load(url.toString());
