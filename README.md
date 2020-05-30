@@ -10,9 +10,9 @@ Pour utiliser notre application avec Eclipse, il vous vaudra d'abord suivre ces 
   <li> Mettre en place JDK12 dans Eclipse Window -> Preference -> Java -> Installed JRE -> Add -> Standart VM -> Directory </li>
   <li> Mettre en place une user library dans Eclipse avec JavaFX </li>
   <li> Ajouter dans le BuildPath les éléments précédents, ainsi que les trois .jar présents dans le dossier <i>librarie externe</i> du projet </li>
-  <li> Télecharger les librairies joblib et numpy de Python à l'aide de la commande pip3 install joblib</li>
+  <li> Télecharger les librairies joblib et numpy de Python à l'aide de la commande : <i>pip3 install joblib</i></li>
 </ul>
-  <img src="imgReadMe/BuidPath.png" lab="Build Path" height="200" >
+  <img src="imgReadMe/BuidPath.png" lab="Build Path" height="400" >
 
 ## Démarage de l'application
 Au démarage, une première fenêtre s'ouvre. Il s'agit de se connecter au serveur mysql. 
@@ -49,7 +49,8 @@ La première fonctionnalité est un affichage graphique des statistiques actuell
 ### Affichage des statistiques
 Dans la partie droite de votre écran, vous avez plusieurs graphiques. Au chargement de la page, il s'agit de graphique globaux calculés sur les données de la France entière. Le premier indique le nombre de personnes touchées (hospitalisées, guéries, en réanimation et décédées) en fonction de la région. Le graphique circulaire indique la répartition des personnes touchées sur les différents états.
 
-<img src="imgReadMe/lamaMapRegion.png" lab="Statistiques sur une Région" height="400" >
+<img src="imgReadMe/lamaMapRegion.png" lab="Statistiques sur une Région" height="300" ><img src="imgReadMe/lamaMapFrance.png" lab="Statistiques sur toute la France" height="300" >
+
 
 
 En sélectionnant la région souhaitée dans le menu de gauche, vous pourrez réduire ces statistiques à cette région. Le graphique du haut change et affiche l'évolution temporelle du nombre de malades. Celui du bas est réduit aux données de la région. 
@@ -60,7 +61,9 @@ En sélectionnant la région souhaitée dans le menu de gauche, vous pourrez ré
 La partie centrale de la fenêtre est une carte. Vous pouvez choisir un affichage classique ou satellite grâce aux boutons dans le coin supérieur gauche de la carte. Il est possible également de déplacer la carte et zoomer/dézoomer.
 
 
-<img src="imgReadMe/lamaMapGueris.png" lab="Carte indiquant le nombre de personnes guéries par ville" height="400" >
+<img src="imgReadMe/lamaMapMorts.png" lab="Carte indiquant le nombre de personnes morts par ville" height="200" >
+<img src="imgReadMe/lamaMapActifs.png" lab="Carte indiquant le nombre de cas actifs par ville" height="200" >
+<img src="imgReadMe/lamaMapGueris.png" lab="Carte indiquant le nombre de personnes guéries par ville" height="200" >
 
 Le premier affichage indique des cercles rouges sur la carte, qui représente le nombre de personnes décédées du coronavirus dans les départements correspondants. Dans le coin inférieur droit de la carte, des boutons permettent d'afficher de la même manière le nombre de cas actifs ou le nombre de personnes guéries. 
 
@@ -89,6 +92,10 @@ En haut à gauche de la fenêtre, le bouton "Back" renvoie à l'écran d'accueil
 <img src="imgReadMe/etudesPredictives.png" lab="Statistiques Predictives" height="400" >
 
 Les différents onglets en bas de la fenêtre permettent de naviguer entre nos différents modèles et études statistiques. 
+
+<img src="imgReadMe/outilsPrediction.png" lab="Outil de prédiction" height="400" >
+
+L'onglet <b>prediction</b> permet d'accéder à notre outil de prédiction. Entrez le numéro de département, les valeurs de indicateurs (nombre de personnes hospitalisées, nombre de décès, nombre de personnes guéries et nombre de personnes en réanimation) ainsi que le nombre de jours écoulés depuis le début de l'épidémie. Validez, et le nombre de décès à cette date prédit par nos études s'affichera. 
 
 
 
