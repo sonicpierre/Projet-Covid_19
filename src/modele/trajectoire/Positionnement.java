@@ -377,7 +377,8 @@ public class Positionnement {
 				for (int i=0; i<villesBDD.size(); i++) {
 					String ville = villesBDD.get(i);
 					int population = 0;
-					ResultSet res = stat.executeQuery("SELECT population FROM Departement WHERE code = ((SELECT code_dept FROM Commune WHERE nom = \""+ville+"\")");
+					ResultSet res = stat.executeQuery("SELECT population FROM Departement WHERE code = (SELECT code_dept FROM Commune WHERE nom = \""+ville+"\");");
+					
 					if (res.next()) {
 						population = res.getInt("population");
 					}
@@ -425,30 +426,32 @@ public class Positionnement {
 		// ville non confinée par défaut
 		boolean confine = false;
 		// si le type n'est pas définit 
-		if (!indicateurs.contains("type"))
+		if (!indicateurs.contains("type") || seuils.get("type")==null) {
 			return(false);
-		// seuils donnés sous forme d'entiers
-		if (seuils.get("type")==1) {
-			// si trop de personnes hospitalisés, la ville est confinée
-			if (indicateurs.contains("hospitalises")) {
-				confine = confine || (hospitalises >= seuils.get("hospitalises"));
-			}
-			if (indicateurs.contains("reanimation")) {
-				confine = confine || (reanimation >= seuils.get("reanimation"));
-			}
-			if (indicateurs.contains("morts")) {
-				confine = confine || (morts >= seuils.get("morts"));
-			}
-		// autre cas : seuils donnés en pourcentage de population
 		} else {
-			if (indicateurs.contains("hospitalises")) {
-				confine = confine || (hospitalises/population >= seuils.get("hospitalises"));
-			}
-			if (indicateurs.contains("reanimation")) {
-				confine = confine || (reanimation/population >= seuils.get("reanimation"));
-			}
-			if (indicateurs.contains("morts")) {
-				confine = confine || (morts/population >= seuils.get("morts"));
+			// seuils donnés sous forme d'entiers
+			if (seuils.get("type").equals(0.0)) {
+				// si trop de personnes hospitalisés, la ville est confinée
+				if (indicateurs.contains("hospitalises")) {
+					confine = confine || (hospitalises >= seuils.get("hospitalises"));
+				}
+				if (indicateurs.contains("reanimation")) {
+					confine = confine || (reanimation >= seuils.get("reanimation"));
+				}
+				if (indicateurs.contains("morts")) {
+					confine = confine || (morts >= seuils.get("morts"));
+				}
+			// autre cas : seuils donnés en pourcentage de population
+			} else {
+				if (indicateurs.contains("hospitalises")) {
+					confine = confine || ((double) hospitalises/population >= seuils.get("hospitalises"));
+				}
+				if (indicateurs.contains("reanimation")) {
+					confine = confine || ((double) reanimation/population >= seuils.get("reanimation"));
+				}
+				if (indicateurs.contains("morts")) {
+					confine = confine || ((double) morts/population >= seuils.get("morts"));
+				}
 			}
 		}
 		return (confine);
